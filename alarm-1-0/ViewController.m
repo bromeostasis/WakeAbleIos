@@ -63,6 +63,7 @@
     }
     else{
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        self.dateSet = nil;
         NSLog(@"The switch is off");
     }
 }
@@ -92,7 +93,6 @@
 
 - (void) turnOffWakeableNotifications {
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    self.dateSet = nil;
     AudioServicesDisposeSystemSoundID(soundId);
     self.SwitchOutlet.on = FALSE;
 }
@@ -104,7 +104,6 @@
 // method called whenever you have successfully connected to the BLE peripheral
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-//    TODO: verify this is actually HM-10
     if ([peripheral.name.lowercaseString isEqualToString:@"wakeable"]) {
         
         [peripheral setDelegate:self];
@@ -113,14 +112,13 @@
         NSLog(@"%@", self.connected);
         
         if (self.connected) {
+            NSLog(@"Date set: %@", self.dateSet);
             if (self.dateSet != nil) {
+                NSLog(@"Reconnected and reset the notifications");
                 for (int i=0; i<20; i++){
                     NSDate *modDate = [self.dateSet dateByAddingTimeInterval:3*(i+1)];
                     
                     [self scheduleLocalNotification:modDate];
-                    if(i == 0){
-                        NSLog(@"Reconnected and reset the notifications");
-                    }
                 }
                 self.SwitchOutlet.on = YES;
             }
@@ -238,6 +236,7 @@
         if (result == currentDate ) {
             NSLog(@"Got a one. cancelling all notifications");
             [self turnOffWakeableNotifications];
+            self.dateSet = nil;
         }
         else{
             NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");

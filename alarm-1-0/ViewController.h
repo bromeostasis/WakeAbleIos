@@ -27,7 +27,7 @@
 }
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
-@property (nonatomic, strong) NSString   *connected;
+@property BOOL connected;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
 @property (nonatomic, strong) NSString   *hm10Device;
@@ -36,7 +36,7 @@
 
 
 - (IBAction)SwitchToggled:(id)sender;
-- (void) scheduleLocalNotification: (NSDate *) fireDate;
+- (void) scheduleLocalNotification: (NSDate *)fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications;
 - (void) getStringPackage:(CBCharacteristic *)characteristic;
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification;
 - (void) turnOffWakeableNotifications;

@@ -21,6 +21,7 @@
     
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
+    self.connected = NO;
     
 //    BLUETOOTH SETUP
     
@@ -41,23 +42,21 @@
 
 - (IBAction)SwitchToggled:(id)sender {
     if(self.SwitchOutlet.on){
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-        dateFormatter.timeStyle = NSDateFormatterShortStyle;
-        dateFormatter.dateStyle = NSDateFormatterShortStyle;
-        
-        self.dateSet = dateTimePicker.date;
-        
-        
-        for (int i=0; i<20; i++){
-            NSDate *modDate = [dateTimePicker.date dateByAddingTimeInterval:3*(i+1)];
+        if (self.connected) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+            dateFormatter.timeStyle = NSDateFormatterShortStyle;
+            dateFormatter.dateStyle = NSDateFormatterShortStyle;
             
             NSString *dtString = [dateFormatter stringFromDate:dateTimePicker.date];
+            NSLog(@"The switch is on:  %@", dtString);
             
-            [self scheduleLocalNotification:modDate];
-            if(i == 0){
-                NSLog(@"The switch is on:  %@", dtString);
-            }
+            self.dateSet = dateTimePicker.date;
+            [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:20];
+        }
+        else{
+            NSLog(@"not connected. No alarm for you! Maybe..??!");
+            self.SwitchOutlet.on = NO;
         }
         
     }
@@ -68,15 +67,18 @@
     }
 }
 
-- (void) scheduleLocalNotification: (NSDate *) fireDate{
+- (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
     UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = fireDate;
 //    
-    notification.alertBody = @"Wake up, nerdasauras";
+    notification.alertBody = message;
     notification.soundName = @"alarm_beep.wav";
-//    notification.alertAction = @"Turn it off";
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    for (int i=0; i<numberOfNotifications; i++){
+        
+        NSDate *modDate = [fireDate dateByAddingTimeInterval:3*(i+1)];
+        notification.fireDate = modDate;
+        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        
+    }
     
     
 }
@@ -108,19 +110,27 @@
         
         [peripheral setDelegate:self];
         [peripheral discoverServices:nil];
-        self.connected = [NSString stringWithFormat:@"Connected: %@", peripheral.state == CBPeripheralStateConnected ? @"YES" : @"NO"];
-        NSLog(@"%@", self.connected);
+        
+        self.connected = peripheral.state == CBPeripheralStateConnected;
+        NSLog(@"Connected: %hhd", self.connected);
         
         if (self.connected) {
             NSLog(@"Date set: %@", self.dateSet);
             if (self.dateSet != nil) {
-                NSLog(@"Reconnected and reset the notifications");
-                for (int i=0; i<20; i++){
-                    NSDate *modDate = [self.dateSet dateByAddingTimeInterval:3*(i+1)];
-                    
-                    [self scheduleLocalNotification:modDate];
+                NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+                
+                NSDate * result = [currentDate earlierDate:self.dateSet];
+                if (result == currentDate ) {
+                    NSLog(@"Reconnected and reset the notifications");
+                    [self turnOffWakeableNotifications];
+                    [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:20];
+                    self.SwitchOutlet.on = YES;
                 }
-                self.SwitchOutlet.on = YES;
+                else{
+                    NSLog(@"Failsafe notifications already went off. Let's just reset");
+                    self.dateSet = nil;
+                    self.SwitchOutlet.on = NO;
+                }
             }
         }
     }
@@ -147,17 +157,14 @@
     NSLog(@"Looking for peripheral: %@", self.hm10Peripheral.name);
     if ([peripheral.name isEqualToString:self.hm10Peripheral.name]) {
         
-        self.connected = [NSString stringWithFormat:@"Connected: %@", peripheral.state == CBPeripheralStateConnected ? @"YES" : @"NO"];
-        NSLog(@"Disconnected. Cancelling all notifications. For now.. %@", self.connected);
-        
-//        UIUserNotificationSettings *notifySettings=[[UIApplication sharedApplication] currentUserNotificationSettings];
-//        if ((notifySettings.types & UIUserNotificationTypeAlert)!=0) {
-//            UILocalNotification *notification=[UILocalNotification new];
-//            notification.alertBody=@"Disconnected from wakeable device. Reconnecting.";
-//            [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-//        }
+        self.connected = peripheral.state == CBPeripheralStateConnected;
+        NSLog(@"Disconnected. Cancelling all notifications. For now.. %hhd", self.connected);
         
         [self turnOffWakeableNotifications];
+        
+        if (self.dateSet != nil) {
+            [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
+        }
         
         [self.centralManager connectPeripheral:peripheral options:nil];
     }
@@ -230,16 +237,20 @@
     NSLog([NSString stringWithFormat:@"Manufacturer: %@", manufacturerName]);    // 2
     
     if ([manufacturerName containsString:@"1"]) {
-        NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-        
-        NSDate * result = [currentDate laterDate:self.dateSet];
-        if (result == currentDate ) {
-            NSLog(@"Got a one. cancelling all notifications");
-            [self turnOffWakeableNotifications];
-            self.dateSet = nil;
+        if (self.dateSet != nil) {
+            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+            NSDate * result = [currentDate laterDate:self.dateSet];
+            if (result == currentDate ) {
+                NSLog(@"Got a one. cancelling all notifications");
+                [self turnOffWakeableNotifications];
+                self.dateSet = nil;
+            }
+            else{
+                NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
+            }
         }
         else{
-            NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
+            NSLog(@"Got a one, but there's no date set. Likely just connecting");
         }
     }
     else{

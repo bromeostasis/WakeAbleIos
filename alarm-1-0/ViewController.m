@@ -22,6 +22,7 @@
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
     self.connected = NO;
+    dateTimePicker.datePickerMode = UIDatePickerModeTime;
     
 //    BLUETOOTH SETUP
     
@@ -43,15 +44,35 @@
 - (IBAction)SwitchToggled:(id)sender {
     if(self.SwitchOutlet.on){
         if (self.connected) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-            dateFormatter.timeStyle = NSDateFormatterShortStyle;
-            dateFormatter.dateStyle = NSDateFormatterShortStyle;
-            
-            NSString *dtString = [dateFormatter stringFromDate:dateTimePicker.date];
-            NSLog(@"The switch is on:  %@", dtString);
             
             self.dateSet = dateTimePicker.date;
+            
+            NSCalendar *theCalendar = [NSCalendar currentCalendar];
+            self.dateSet = [theCalendar dateBySettingUnit:NSCalendarUnitSecond value:0 ofDate:self.dateSet options:0];
+            NSDateComponents *minuteComponent = [[NSDateComponents alloc] init];
+            minuteComponent.minute = -1;
+            self.dateSet = [theCalendar dateByAddingComponents:minuteComponent toDate:self.dateSet options:0];
+            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+            NSDate * result = [currentDate laterDate:self.dateSet];
+            if (result == currentDate ) {
+                NSLog(@"Current date is later than selected. Set for tomorrow");
+                NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+                dayComponent.day = 1;
+                
+                
+                
+                self.dateSet = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateSet options:0];
+            }
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+            dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+            dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+            
+            NSString *dtString = [dateFormatter stringFromDate:self.dateSet];
+            NSLog(@"The switch is on:  %@", dtString);
+            
+                
             [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:20];
         }
         else{
@@ -69,11 +90,13 @@
 
 - (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
     UILocalNotification *notification = [[UILocalNotification alloc] init];
-//    
     notification.alertBody = message;
+    notification.repeatInterval = NSSecondCalendarUnit;
     notification.soundName = @"alarm_beep.wav";
+//    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    
     for (int i=0; i<numberOfNotifications; i++){
-        
+
         NSDate *modDate = [fireDate dateByAddingTimeInterval:3*(i+1)];
         notification.fireDate = modDate;
         [[UIApplication sharedApplication] scheduleLocalNotification:notification];

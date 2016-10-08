@@ -35,7 +35,7 @@
                                     <action selector="SwitchToggled:" destination="BYZ-38-t0r" eventType="valueChanged" id="Abv-Rq-pcp"/>
                                 </connections>
                             </switch>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
                                 <rect key="frame" x="16" y="330" width="382" height="30"/>
                                 <state key="normal" title="Play Sound">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -44,9 +44,17 @@
                                     <action selector="PlaySound:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kcv-6p-FYl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
+                                <rect key="frame" x="171" y="461" width="73" height="30"/>
+                                <state key="normal" title="Send Logs"/>
+                                <connections>
+                                    <action selector="SendLogs:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nN8-mh-B8f"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wdS-32-W8O" firstAttribute="centerX" secondItem="fxY-Rc-Svu" secondAttribute="centerX" id="FjR-av-hX4"/>
                             <constraint firstItem="W3P-Mz-FeV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JEo-Wr-jfy"/>
                             <constraint firstItem="W3P-Mz-FeV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Vcr-vC-3ZA"/>
                             <constraint firstItem="0zd-Qp-Ai5" firstAttribute="top" secondItem="W3P-Mz-FeV" secondAttribute="bottom" constant="31" id="gb7-Yt-TXV"/>

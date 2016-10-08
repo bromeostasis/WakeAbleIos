@@ -88,6 +88,40 @@
     }
 }
 
+- (IBAction)SendLogs:(id)sender {
+    
+    if (![MFMailComposeViewController canSendMail]) {
+        NSLog(@"Mail services are not available.");
+        return;
+    }
+    
+    MFMailComposeViewController* mailComposer = [[MFMailComposeViewController alloc] init];
+
+    mailComposer.mailComposeDelegate = self;
+    [mailComposer setSubject:@"Crash Log"];
+    // Set up recipients
+    NSArray *toRecipients = [NSArray arrayWithObject:@"evan.snyder92@gmail.com"];
+    [mailComposer setToRecipients:toRecipients];
+    // Fill out the email body text
+    NSString *emailBody = @"Crash Log";
+    [mailComposer setMessageBody:emailBody isHTML:NO];
+    
+    // Attach the Crash Log..
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"wakeable-log.txt"];
+    NSData *myData = [NSData dataWithContentsOfFile:logPath];
+    [mailComposer addAttachmentData:myData mimeType:@"Text/XML" fileName:@"wakeable-log.txt"];
+    [self presentViewController:mailComposer animated:YES completion:nil];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     notification.alertBody = message;

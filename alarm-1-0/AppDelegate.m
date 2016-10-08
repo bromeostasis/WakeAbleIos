@@ -25,6 +25,7 @@
 //    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
 //    
 //    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    [self redirectLogToDocuments];
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
@@ -88,13 +89,25 @@
         }
         
         
-        AudioServicesPlaySystemSound(soundId);
+//        AudioServicesPlaySystemSound(soundId);
+        AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+            AudioServicesDisposeSystemSoundID(soundId);
+        });
 //        if (!alert.visible) {
 //            [alert show];
 //        }
 
         
     }
+}
+
+- (void)redirectLogToDocuments
+{
+    NSArray *allPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [allPaths objectAtIndex:0];
+    NSString *pathForLog = [documentsDirectory stringByAppendingPathComponent:@"wakeable-log.txt"];
+    
+    freopen([pathForLog cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 @end

@@ -14,7 +14,10 @@
 
 @implementation ViewController
 
+#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 - (void)viewDidLoad {
+    self.notificationCount=0;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -28,9 +31,6 @@
     
     
     self.hm10Peripheral = nil;
-    // Scan for all available CoreBluetooth LE devices
-//    NSLog( [CBUUID UUIDWithString:@"FFE0"]);
-//    NSArray *services = @[[CBUUID UUIDWithString:HM10_SERVICE_UUID]];
     CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager = centralManager;
     
@@ -44,7 +44,7 @@
 - (IBAction)SwitchToggled:(id)sender {
     if(self.SwitchOutlet.on){
         if (self.connected) {
-            
+        
             self.dateSet = dateTimePicker.date;
             
             NSCalendar *theCalendar = [NSCalendar currentCalendar];
@@ -79,7 +79,7 @@
             NSLog(@"not connected. No alarm for you! Maybe..??!");
             self.SwitchOutlet.on = NO;
         }
-        
+    
     }
     else{
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
@@ -123,18 +123,49 @@
 }
 
 - (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.alertBody = message;
-    notification.repeatInterval = NSSecondCalendarUnit;
-    notification.soundName = @"alarm_beep.wav";
-//    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     
-    for (int i=0; i<numberOfNotifications; i++){
-
-        NSDate *modDate = [fireDate dateByAddingTimeInterval:3*(i+1)];
-        notification.fireDate = modDate;
-        [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+//        content.title = [NSString localizedUserNotificationStringForKey:@"Elon said:" arguments:nil];
+        content.body = [NSString localizedUserNotificationStringForKey:message
+                                                             arguments:nil];
+        content.sound = [UNNotificationSound soundNamed:@"alarm_beep.wav"];
         
+        for (int i=0; i<numberOfNotifications; i++){
+            self.notificationCount = self.notificationCount + 1;
+            
+            NSDate *modDate = [fireDate dateByAddingTimeInterval:5*i];
+            NSCalendar *gregorian = [[NSCalendar alloc]
+                                     initWithCalendarIdentifier:NSGregorianCalendar];
+            NSDateComponents *dateComponents = [gregorian components:(NSSecondCalendarUnit | NSMinuteCalendarUnit |
+                                                                      NSHourCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:modDate];
+            UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dateComponents repeats:NO];
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[NSString stringWithFormat:@"notification%d", self.notificationCount]
+                                                                                  content:content trigger:trigger];
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+                if (!error) {
+                    NSLog(@"Added notification number %d!", i);
+                }
+            }];
+
+        }
+        
+    }
+    else {
+        UILocalNotification *notification = [[UILocalNotification alloc] init];
+        notification.alertBody = message;
+        //    notification.repeatInterval = NSSecondCalendarUnit;
+        notification.soundName = @"alarm_beep.wav";
+        //    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        
+        for (int i=0; i<numberOfNotifications; i++){
+            
+            NSDate *modDate = [fireDate dateByAddingTimeInterval:3*(i+1)];
+            notification.fireDate = modDate;
+            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+            
+        }
     }
     
     
@@ -142,7 +173,10 @@
 
 - (IBAction)PlaySound:(id)sender {
     
-    AudioServicesPlaySystemSound(soundId);
+    AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+        AudioServicesDisposeSystemSoundID(soundId);
+    });
+//    AudioServicesPlaySystemSound(soundId);
 //    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 //    self.SwitchOutlet.on = FALSE;
     
@@ -151,9 +185,13 @@
 
 
 - (void) turnOffWakeableNotifications {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    AudioServicesDisposeSystemSoundID(soundId);
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    [center removeAllDeliveredNotifications];
+    [center removeAllPendingNotificationRequests];
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+//    AudioServicesDisposeSystemSoundID(soundId);
     self.SwitchOutlet.on = FALSE;
+    [self dismissViewControllerAnimated:NO completion:^{}];
 }
 
 // BLUETOOTH METHODS BEGIN HERE:

@@ -8,6 +8,7 @@
 
 @import CoreBluetooth;
 @import QuartzCore;
+@import UserNotifications;
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property BOOL connected;
+@property int notificationCount;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
 @property (nonatomic, strong) NSString   *hm10Device;

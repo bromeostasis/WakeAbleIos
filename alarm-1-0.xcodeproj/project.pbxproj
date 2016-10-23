@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923211DBD2ACA00544595 /* alarm_beep.wav */; };
+		23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923231DBD2AD500544595 /* alarm_beep.wav */; };
+		23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923251DBD2AE900544595 /* alarm_beep.wav */; };
+		23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923291DBD311000544595 /* alarm_beep_long.wav */; };
 		23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C053691CBB30780074846C /* AudioToolbox.framework */; };
-		23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23C0536B1CBB31E20074846C /* alarm_beep.wav */; };
+		23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23C0536B1CBB31E20074846C /* alarm_beep.wav */; settings = {ASSET_TAGS = (New, ); }; };
 		23E986CB1CB1EC7E006CE69B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CA1CB1EC7E006CE69B /* main.m */; };
 		23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CD1CB1EC7E006CE69B /* AppDelegate.m */; };
 		23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986D01CB1EC7E006CE69B /* ViewController.m */; };
@@ -29,8 +33,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		23A923211DBD2ACA00544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
+		23A923231DBD2AD500544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
+		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
+		23A923291DBD311000544595 /* alarm_beep_long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep_long.wav; sourceTree = "<group>"; };
 		23C053691CBB30780074846C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		23C0536B1CBB31E20074846C /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
+		23C0536B1CBB31E20074846C /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alarm_beep.wav; path = "/Users/evansnyder/Documents/WakeAble/ios_alarm_1_0/alarm-1-0/alarm-1-0/alarm_beep.wav"; sourceTree = "<absolute>"; };
 		23E986C51CB1EC7E006CE69B /* alarm-1-0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alarm-1-0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E986C91CB1EC7E006CE69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23E986CA1CB1EC7E006CE69B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -65,6 +73,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23A9231E1DBD224D00544595 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				23A9231F1DBD225400544595 /* Sounds */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		23A9231F1DBD225400544595 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				23A923291DBD311000544595 /* alarm_beep_long.wav */,
+				23A923231DBD2AD500544595 /* alarm_beep.wav */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 		23E986BC1CB1EC7E006CE69B = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +112,7 @@
 		23E986C71CB1EC7E006CE69B /* alarm-1-0 */ = {
 			isa = PBXGroup;
 			children = (
+				23A9231E1DBD224D00544595 /* Library */,
 				23E986CC1CB1EC7E006CE69B /* AppDelegate.h */,
 				23E986CD1CB1EC7E006CE69B /* AppDelegate.m */,
 				23E986CF1CB1EC7E006CE69B /* ViewController.h */,
@@ -102,7 +128,8 @@
 		23E986C81CB1EC7E006CE69B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				23C0536B1CBB31E20074846C /* alarm_beep.wav */,
+				23A923251DBD2AE900544595 /* alarm_beep.wav */,
+				23A923211DBD2ACA00544595 /* alarm_beep.wav */,
 				23E986C91CB1EC7E006CE69B /* Info.plist */,
 				23E986CA1CB1EC7E006CE69B /* main.m */,
 			);
@@ -170,12 +197,16 @@
 		23E986BD1CB1EC7E006CE69B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Evan Snyder";
 				TargetAttributes = {
 					23E986C41CB1EC7E006CE69B = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 77XJDAX9D3;
+						ProvisioningStyle = Automatic;
 					};
 					23E986DD1CB1EC7E006CE69B = {
 						CreatedOnToolsVersion = 6.2;
@@ -209,8 +240,12 @@
 			files = (
 				23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */,
 				23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */,
+				23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */,
 				23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */,
+				23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */,
 				23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */,
+				23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */,
+				23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,14 +389,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Evan Snyder (RELYY2K468)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -370,13 +407,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Evan Snyder (RELYY2K468)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3588929c-a59b-4761-a985-d8bf69d255db";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

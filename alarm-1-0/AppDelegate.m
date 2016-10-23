@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface AppDelegate ()
 
@@ -14,23 +15,32 @@
 
 @implementation AppDelegate
 
+#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @synthesize notificationAlert = _notificationAlert;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.soundPlaying = NO;
     // Override point for customization after application launch.
     
-//    UIUserNotificationType types = (UIUserNotificationType) (UIUserNotificationTypeBadge |
-//                                                             UIUserNotificationTypeSound | UIUserNotificationTypeAlert);
-//    
-//    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-//    
-//    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     [self redirectLogToDocuments];
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
-        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
-    }
     // Override point for customization after application launch.
     
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
+        
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert)
+                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                                  if (!error) {
+                                      NSLog(@"request authorization succeeded!");
+                                  }
+                              }];
+    }
+    else{
+        if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+            [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+        }
+    }
     return YES;
 }
 
@@ -67,36 +77,56 @@
     NSLog(@"Received local notification");
     if ([application applicationState] == UIApplicationStateActive) {
         
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"Info"
-                              message:@"Go turn off your alarm!!"
-                              delegate:self
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
+//        UIAlertView *alert = [[UIAlertView alloc]
+//                              initWithTitle:@"Info"
+//                              message:@"Go turn off your alarm!!"
+//                              delegate:self
+//                              cancelButtonTitle:@"OK"
+//                              otherButtonTitles:nil];
+//        
+//        if (!_notificationAlert) {
+//            UIAlertController *alert = [[UIAlertView alloc] initWithTitle:nil
+//                                                            message:nil
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"Ok"
+//                                                  otherButtonTitles:nil];
+//            [self setNotificationAlert:alert];
+//        }
+        //
+        
+//        if (!alert.visible) {
+//            [alert show];
+//        }
+
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"My Alert"
+                                                                       message:@"This is an alert."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        
+        UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+
+        [vc presentViewController:alert animated:NO completion:^{}];
+//        [self presentViewController:alert animated:YES completion:nil];
+        
         if (!soundId) {
             NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
             AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
             
         }
         
-        if (!_notificationAlert) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Ok"
-                                                  otherButtonTitles:nil];
-            [self setNotificationAlert:alert];
-        }
-        
         
 //        AudioServicesPlaySystemSound(soundId);
-        AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
-            AudioServicesDisposeSystemSoundID(soundId);
-        });
-//        if (!alert.visible) {
-//            [alert show];
-//        }
-
+        if(!self.soundPlaying && soundId){
+            self.soundPlaying = YES;
+            AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+                AudioServicesDisposeSystemSoundID(soundId);
+                soundId=0;
+                self.soundPlaying=NO;
+            });
+        }
         
     }
 }

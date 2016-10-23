@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+@import UserNotifications;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     
     SystemSoundID soundId;
@@ -17,6 +19,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIAlertView *notificationAlert;
+@property BOOL soundPlaying;
 
 @end
 

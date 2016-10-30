@@ -32,6 +32,7 @@
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property BOOL connected;
 @property BOOL bluetoothCapable;
+@property BOOL alarmSet;
 @property int notificationCount;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
@@ -40,9 +41,9 @@
 @property (assign) uint16_t heartRate;
 
 
-- (IBAction)SwitchToggled:(id)sender;
 - (IBAction)SendLogs:(id)sender;
 - (IBAction)Connect:(id)sender;
+- (IBAction)SetAlarm:(id)sender;
 - (void) scheduleLocalNotification: (NSDate *)fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications;
 - (void) getStringPackage:(CBCharacteristic *)characteristic;
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification;
@@ -53,7 +54,7 @@
 
 
 - (IBAction)PlaySound:(id)sender;
-@property (weak, nonatomic) IBOutlet UISwitch *SwitchOutlet;
+@property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *ConnectButton;
 
 @end

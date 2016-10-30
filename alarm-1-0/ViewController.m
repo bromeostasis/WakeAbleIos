@@ -31,6 +31,15 @@
     [self.ConnectButton.layer setCornerRadius:3.0];
     [self.ConnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
     
+    [self.AlarmSetButton.layer setBorderWidth:2.0];
+    [self.AlarmSetButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.AlarmSetButton.layer setCornerRadius:3.0];
+    [self.AlarmSetButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    self.AlarmSetButton.titleLabel.numberOfLines = 1;
+    self.AlarmSetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.AlarmSetButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
@@ -62,8 +71,9 @@
     }
     
 }
-- (IBAction)SwitchToggled:(id)sender {
-    if(self.SwitchOutlet.on){
+
+- (IBAction)SetAlarm:(id)sender {
+    if(!self.alarmSet){
         if (self.connected) {
         
             self.dateSet = dateTimePicker.date;
@@ -95,10 +105,12 @@
             
                 
             [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:20];
+            
+            [self setAlarmButton:YES];
         }
         else{
             NSLog(@"not connected. No alarm for you! Maybe..??!");
-            self.SwitchOutlet.on = NO;
+            [self setAlarmButton:NO];
         }
     
     }
@@ -106,6 +118,7 @@
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
         self.dateSet = nil;
         NSLog(@"The switch is off");
+        [self setAlarmButton:NO];
     }
 }
 
@@ -215,6 +228,11 @@
     }
 }
 
+- (void) setAlarmButton:(bool)status{
+    self.alarmSet = status;
+    NSString *buttonText = (status) ? @"ON" : @"OFF";
+    [self.AlarmSetButton setTitle:buttonText forState:UIControlStateNormal];
+}
 
 - (void) turnOffWakeableNotifications {
     if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
@@ -226,7 +244,6 @@
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
         AudioServicesDisposeSystemSoundID(soundId);
     }
-    self.SwitchOutlet.on = FALSE;
     [self dismissViewControllerAnimated:NO completion:^{}];
 }
 
@@ -254,12 +271,11 @@
                 NSLog(@"Reconnected and reset the notifications");
                 [self turnOffWakeableNotifications];
                 [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:20];
-                self.SwitchOutlet.on = YES;
             }
             else{
                 NSLog(@"Failsafe notifications already went off. Let's just reset");
                 self.dateSet = nil;
-                self.SwitchOutlet.on = NO;
+                [self setAlarmButton:NO];
             }
         }
     }
@@ -401,6 +417,7 @@
                 NSLog(@"Got a one. cancelling all notifications");
                 [self turnOffWakeableNotifications];
                 self.dateSet = nil;
+                [self setAlarmButton:NO];
             }
             else{
                 NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");

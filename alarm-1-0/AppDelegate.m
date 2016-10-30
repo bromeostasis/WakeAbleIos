@@ -117,15 +117,18 @@
             
         }
         
-        
-//        AudioServicesPlaySystemSound(soundId);
-        if(!self.soundPlaying && soundId){
-            self.soundPlaying = YES;
-            AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
-                AudioServicesDisposeSystemSoundID(soundId);
-                soundId=0;
-                self.soundPlaying=NO;
-            });
+        if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+            if(!self.soundPlaying && soundId){
+                self.soundPlaying = YES;
+                AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+                    AudioServicesDisposeSystemSoundID(soundId);
+                    soundId=0;
+                    self.soundPlaying=NO;
+                });
+            }
+        }
+        else{
+            AudioServicesPlaySystemSound(soundId);
         }
         
     }

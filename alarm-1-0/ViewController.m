@@ -16,8 +16,20 @@
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
+- (id) initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle {
+    self = [super initWithNibName:aNibName bundle:aBundle]; // The UIViewController's version of init
+    if (self) {
+        _bluetoothCapable = NO;
+        _notificationCount = 0;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
-    self.notificationCount=0;
+    [self.ConnectButton.layer setBorderWidth:2.0];
+    [self.ConnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.ConnectButton.layer setCornerRadius:3.0];
+    [self.ConnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -41,6 +53,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)Connect:(id)sender {
+    NSLog(@"Connection string hititttt");
+    
+    if (self.bluetoothCapable) {
+        NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
+        [self.centralManager scanForPeripheralsWithServices:services options:nil];
+    }
+    
+}
 - (IBAction)SwitchToggled:(id)sender {
     if(self.SwitchOutlet.on){
         if (self.connected) {
@@ -172,24 +193,39 @@
 }
 
 - (IBAction)PlaySound:(id)sender {
-    
-    AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
-        AudioServicesDisposeSystemSoundID(soundId);
-    });
-//    AudioServicesPlaySystemSound(soundId);
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-//    self.SwitchOutlet.on = FALSE;
-    
-    
+    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+        AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+            AudioServicesDisposeSystemSoundID(soundId);
+        });
+    }
+    else{
+        AudioServicesPlaySystemSound(soundId);
+    }
+}
+
+- (void) setConnectionButton {
+    if(self.connected){
+        [self.ConnectButton setEnabled:NO];
+        [self.ConnectButton setTitle:@"WakeAble is connected" forState:UIControlStateDisabled];
+    }
+    else{
+        [self.ConnectButton setEnabled:YES];
+        [self.ConnectButton setTitle:@"Connect to WakeAble" forState:UIControlStateNormal];
+        
+    }
 }
 
 
 - (void) turnOffWakeableNotifications {
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    [center removeAllDeliveredNotifications];
-    [center removeAllPendingNotificationRequests];
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-//    AudioServicesDisposeSystemSoundID(soundId);
+    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center removeAllDeliveredNotifications];
+        [center removeAllPendingNotificationRequests];
+    }
+    else{
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        AudioServicesDisposeSystemSoundID(soundId);
+    }
     self.SwitchOutlet.on = FALSE;
     [self dismissViewControllerAnimated:NO completion:^{}];
 }
@@ -201,34 +237,38 @@
 // method called whenever you have successfully connected to the BLE peripheral
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    if ([peripheral.name.lowercaseString isEqualToString:@"wakeable"]) {
-        
-        [peripheral setDelegate:self];
-        [peripheral discoverServices:nil];
-        
-        self.connected = peripheral.state == CBPeripheralStateConnected;
-        NSLog(@"Connected: %hhd", self.connected);
-        
-        if (self.connected) {
-            NSLog(@"Date set: %@", self.dateSet);
-            if (self.dateSet != nil) {
-                NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-                
-                NSDate * result = [currentDate earlierDate:self.dateSet];
-                if (result == currentDate ) {
-                    NSLog(@"Reconnected and reset the notifications");
-                    [self turnOffWakeableNotifications];
-                    [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:20];
-                    self.SwitchOutlet.on = YES;
-                }
-                else{
-                    NSLog(@"Failsafe notifications already went off. Let's just reset");
-                    self.dateSet = nil;
-                    self.SwitchOutlet.on = NO;
-                }
+    [peripheral setDelegate:self];
+    [peripheral discoverServices:nil];
+    
+    self.connected = peripheral.state == CBPeripheralStateConnected;
+    NSLog(@"Connected: %hhd", self.connected);
+    [self setConnectionButton];
+    
+    if (self.connected) {
+        NSLog(@"Date set: %@", self.dateSet);
+        if (self.dateSet != nil) {
+            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+            
+            NSDate * result = [currentDate earlierDate:self.dateSet];
+            if (result == currentDate ) {
+                NSLog(@"Reconnected and reset the notifications");
+                [self turnOffWakeableNotifications];
+                [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:20];
+                self.SwitchOutlet.on = YES;
+            }
+            else{
+                NSLog(@"Failsafe notifications already went off. Let's just reset");
+                self.dateSet = nil;
+                self.SwitchOutlet.on = NO;
             }
         }
     }
+}
+
+- (void) handleWakeableConnection:(CBPeripheral *) peripheral{
+    self.hm10Peripheral = peripheral;
+    peripheral.delegate = self;
+    [self.centralManager connectPeripheral:peripheral options:nil];
 }
 
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
@@ -237,10 +277,32 @@
     NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
     if ([localName length] > 0) {
         NSLog(@"Found the HM 10!: %@", localName);
-        [self.centralManager stopScan];
-        self.hm10Peripheral = peripheral;
-        peripheral.delegate = self;
-        [self.centralManager connectPeripheral:peripheral options:nil];
+        if ([[localName lowercaseString] isEqualToString:@"wakeable"]) {
+            [self.centralManager stopScan];
+            
+            UIAlertController* alert = [UIAlertController
+                                        alertControllerWithTitle:@"My Alert"
+                                        message: [NSString stringWithFormat:@"Found a WakeAble with identifier %@, want to connect?", [peripheral.identifier UUIDString]]
+                                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [self handleWakeableConnection:peripheral];
+                                                                  }];
+            [alert addAction:defaultAction];
+            
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No thanks" style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {}];
+            [alert addAction:cancelAction];
+            
+            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            
+            [vc presentViewController:alert animated:NO completion:^{}];
+        }
+        else{
+            NSLog(@"Found a device with non-wakeable name");
+        }
     }
     else{
         NSLog(@"Found device with name of length less than 0");
@@ -249,10 +311,10 @@
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error{
     NSLog(@"Disconnected from peripheral: %@",  peripheral.name);
-    NSLog(@"Looking for peripheral: %@", self.hm10Peripheral.name);
     if ([peripheral.name isEqualToString:self.hm10Peripheral.name]) {
         
         self.connected = peripheral.state == CBPeripheralStateConnected;
+        [self setConnectionButton];
         NSLog(@"Disconnected. Cancelling all notifications. For now.. %hhd", self.connected);
         
         [self turnOffWakeableNotifications];
@@ -261,6 +323,7 @@
             [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
         }
         
+        NSLog(@"Looking for peripheral: %@", self.hm10Peripheral.name);
         [self.centralManager connectPeripheral:peripheral options:nil];
     }
     
@@ -275,8 +338,7 @@
     }
     else if ([central state] == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
-        NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-        [self.centralManager scanForPeripheralsWithServices:services options:nil];
+        self.bluetoothCapable = YES;
     }
     else if ([central state] == CBCentralManagerStateUnauthorized) {
         NSLog(@"CoreBluetooth BLE state is unauthorized");

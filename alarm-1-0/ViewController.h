@@ -9,6 +9,7 @@
 @import CoreBluetooth;
 @import QuartzCore;
 @import UserNotifications;
+@import AVFoundation;
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property BOOL connected;
+@property BOOL bluetoothCapable;
 @property int notificationCount;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
@@ -40,6 +42,7 @@
 
 - (IBAction)SwitchToggled:(id)sender;
 - (IBAction)SendLogs:(id)sender;
+- (IBAction)Connect:(id)sender;
 - (void) scheduleLocalNotification: (NSDate *)fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications;
 - (void) getStringPackage:(CBCharacteristic *)characteristic;
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification;
@@ -51,5 +54,6 @@
 
 - (IBAction)PlaySound:(id)sender;
 @property (weak, nonatomic) IBOutlet UISwitch *SwitchOutlet;
+@property (weak, nonatomic) IBOutlet UIButton *ConnectButton;
 
 @end

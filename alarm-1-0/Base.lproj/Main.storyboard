@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,14 +16,28 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="W3P-Mz-FeV">
-                                <frame key="frameInset" minY="20" width="414" height="162"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0zd-Qp-Ai5">
+                                <connections>
+                                    <action selector="SwitchToggled:" destination="BYZ-38-t0r" eventType="valueChanged" id="Abv-Rq-pcp"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your alarm is: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAv-te-e4b">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfz-KI-PQW">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C22-c2-hqC">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="W3P-Mz-FeV">
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="414" id="5df-lB-LP2"/>
-                                    <constraint firstAttribute="width" constant="414" id="u00-2P-J2v"/>
+                                    <constraint firstAttribute="width" constant="414" id="qJt-v6-SHh"/>
                                 </constraints>
                                 <date key="date" timeIntervalSinceReferenceDate="481422603.25142699">
                                     <!--2016-04-04 00:30:03 +0000-->
@@ -34,49 +49,80 @@
                                     <!--2037-12-31 11:00:00 +0000-->
                                 </date>
                             </datePicker>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0zd-Qp-Ai5">
-                                <frame key="frameInset" minX="183" minY="210" width="51" height="31"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N00-6B-h2x">
+                                <state key="normal" title="Connect to WakeAble">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="5"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderColor" value="White"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="SwitchToggled:" destination="BYZ-38-t0r" eventType="valueChanged" id="Abv-Rq-pcp"/>
+                                    <action selector="Connect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FPj-FG-SEq"/>
                                 </connections>
-                            </switch>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
-                                <frame key="frameInset" minX="16" minY="330" width="382" height="30"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Send Logs">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="SendLogs:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nN8-mh-B8f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
                                 <state key="normal" title="Play Sound">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="PlaySound:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kcv-6p-FYl"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
-                                <frame key="frameInset" minX="171" minY="461" width="73" height="30"/>
-                                <state key="normal" title="Send Logs"/>
-                                <connections>
-                                    <action selector="SendLogs:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nN8-mh-B8f"/>
-                                </connections>
-                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.52156862745098043" green="0.82745098039215681" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wdS-32-W8O" firstAttribute="centerX" secondItem="fxY-Rc-Svu" secondAttribute="centerX" id="FjR-av-hX4"/>
-                            <constraint firstItem="W3P-Mz-FeV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JEo-Wr-jfy"/>
-                            <constraint firstItem="W3P-Mz-FeV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Vcr-vC-3ZA"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wdS-32-W8O" secondAttribute="bottom" constant="176" id="ck5-3Z-6GF"/>
-                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="top" secondItem="W3P-Mz-FeV" secondAttribute="bottom" constant="31" id="gb7-Yt-TXV"/>
-                            <constraint firstAttribute="trailing" secondItem="W3P-Mz-FeV" secondAttribute="trailing" id="o0c-ka-Yav"/>
-                            <constraint firstItem="fxY-Rc-Svu" firstAttribute="top" secondItem="0zd-Qp-Ai5" secondAttribute="bottom" constant="89" id="pbS-IW-knx"/>
-                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="centerX" secondItem="W3P-Mz-FeV" secondAttribute="centerX" id="ycP-Yw-eOy"/>
+                            <constraint firstItem="N00-6B-h2x" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6a0-0U-jWc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="C22-c2-hqC" secondAttribute="trailing" id="9qm-BP-Shf"/>
+                            <constraint firstItem="N00-6B-h2x" firstAttribute="top" secondItem="W3P-Mz-FeV" secondAttribute="bottom" constant="14" id="Cf4-zF-gmU"/>
+                            <constraint firstItem="fxY-Rc-Svu" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="bottom" constant="19" id="HZY-F1-vR7"/>
+                            <constraint firstItem="C22-c2-hqC" firstAttribute="top" secondItem="0zd-Qp-Ai5" secondAttribute="top" id="Jcf-z3-SGp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="W3P-Mz-FeV" secondAttribute="trailing" constant="-20" id="LMj-nm-0bT"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="wdS-32-W8O" secondAttribute="leading" id="MxS-3b-qo9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fxY-Rc-Svu" secondAttribute="trailing" id="RUr-6q-7PY"/>
+                            <constraint firstItem="W3P-Mz-FeV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="SxK-48-8a7"/>
+                            <constraint firstItem="fxY-Rc-Svu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="UQK-ew-9bu"/>
+                            <constraint firstItem="rfz-KI-PQW" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="top" id="UUf-vL-77r"/>
+                            <constraint firstItem="rfz-KI-PQW" firstAttribute="bottom" secondItem="kAv-te-e4b" secondAttribute="bottom" id="Yh3-m3-OfA"/>
+                            <constraint firstItem="kAv-te-e4b" firstAttribute="height" secondItem="0zd-Qp-Ai5" secondAttribute="height" id="a3U-Lp-y6m"/>
+                            <constraint firstItem="C22-c2-hqC" firstAttribute="bottom" secondItem="0zd-Qp-Ai5" secondAttribute="bottom" id="bQ6-62-73e"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="N00-6B-h2x" secondAttribute="leading" id="chv-Z7-z75"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="N00-6B-h2x" secondAttribute="trailing" id="cuQ-r3-9La"/>
+                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="fUe-RE-qaT"/>
+                            <constraint firstItem="C22-c2-hqC" firstAttribute="leading" secondItem="0zd-Qp-Ai5" secondAttribute="trailing" constant="8" symbolic="YES" id="hP5-4h-rrf"/>
+                            <constraint firstItem="C22-c2-hqC" firstAttribute="width" secondItem="rfz-KI-PQW" secondAttribute="width" id="jFT-rh-9FS"/>
+                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="leading" secondItem="kAv-te-e4b" secondAttribute="trailing" constant="10" id="lY9-ls-K6s"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wdS-32-W8O" secondAttribute="bottom" constant="20" id="md5-E0-G9B"/>
+                            <constraint firstItem="W3P-Mz-FeV" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="bottom" constant="8" symbolic="YES" id="qEB-vb-24z"/>
+                            <constraint firstItem="kAv-te-e4b" firstAttribute="leading" secondItem="rfz-KI-PQW" secondAttribute="trailing" constant="8" symbolic="YES" id="rjJ-F4-8Fe"/>
+                            <constraint firstItem="kAv-te-e4b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="wIN-7K-9Bk"/>
+                            <constraint firstItem="rfz-KI-PQW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="zSW-pu-hoh"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="ConnectButton" destination="N00-6B-h2x" id="nK9-Wl-ByH"/>
                         <outlet property="SwitchOutlet" destination="0zd-Qp-Ai5" id="ttF-Lc-dge"/>
                         <outlet property="dateTimePicker" destination="W3P-Mz-FeV" id="pKr-du-N0b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="94" y="241"/>
+            <point key="canvasLocation" x="108.69565217391305" y="242.93478260869568"/>
         </scene>
     </scenes>
 </document>

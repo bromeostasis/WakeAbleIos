@@ -206,7 +206,7 @@
 					23E986C41CB1EC7E006CE69B = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 77XJDAX9D3;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					23E986DD1CB1EC7E006CE69B = {
 						CreatedOnToolsVersion = 6.2;
@@ -390,15 +390,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Evan Snyder (RELYY2K468)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Evan Snyder (RELYY2K468)";
 				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3588929c-a59b-4761-a985-d8bf69d255db";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Development";
 			};
 			name = Debug;
 		};
@@ -406,16 +406,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Evan Snyder (77XJDAX9D3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Evan Snyder (77XJDAX9D3)";
+				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "b34ef13d-70dd-4227-8c9f-bd5566ddabe7";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc";
 			};
 			name = Release;
 		};

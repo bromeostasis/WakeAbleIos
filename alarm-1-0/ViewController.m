@@ -21,11 +21,24 @@
     if (self) {
         _bluetoothCapable = NO;
         _notificationCount = 0;
+        _hm10Peripheral = nil;
     }
     return self;
 }
 
+- (void)viewDidLayoutSubviews {
+    if (self.hm10Peripheral == nil ) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
+        setupController.delegate = self;
+        [self presentViewController:setupController animated:YES completion:NULL];
+    }
+    
+}
+
 - (void)viewDidLoad {
+    
+    
     [self.ConnectButton.layer setBorderWidth:2.0];
     [self.ConnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
     [self.ConnectButton.layer setCornerRadius:3.0];
@@ -51,7 +64,6 @@
 //    BLUETOOTH SETUP
     
     
-    self.hm10Peripheral = nil;
     CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager = centralManager;
     
@@ -433,5 +445,10 @@
     return;
 }
 
+- (void)addPeripheralViewController:(SetupViewController *)controller foundPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"This was returned from Setup %@", peripheral.name);
+    self.hm10Peripheral = peripheral;
+}
 
 @end

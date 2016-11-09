@@ -16,14 +16,9 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0zd-Qp-Ai5">
-                                <connections>
-                                    <action selector="SwitchToggled:" destination="BYZ-38-t0r" eventType="valueChanged" id="Abv-Rq-pcp"/>
-                                </connections>
-                            </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your alarm is: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAv-te-e4b">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -101,7 +96,6 @@
                             <constraint firstItem="N00-6B-h2x" firstAttribute="top" secondItem="W3P-Mz-FeV" secondAttribute="bottom" constant="14" id="Cf4-zF-gmU"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="leading" secondItem="kAv-te-e4b" secondAttribute="trailing" constant="10" id="HJc-rf-fKJ"/>
                             <constraint firstItem="fxY-Rc-Svu" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="bottom" constant="19" id="HZY-F1-vR7"/>
-                            <constraint firstItem="C22-c2-hqC" firstAttribute="top" secondItem="0zd-Qp-Ai5" secondAttribute="top" id="Jcf-z3-SGp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W3P-Mz-FeV" secondAttribute="trailing" constant="-20" id="LMj-nm-0bT"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="top" secondItem="C22-c2-hqC" secondAttribute="top" id="LgG-KR-O6m"/>
                             <constraint firstAttribute="leadingMargin" secondItem="wdS-32-W8O" secondAttribute="leading" id="MxS-3b-qo9"/>
@@ -111,16 +105,11 @@
                             <constraint firstItem="fxY-Rc-Svu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="UQK-ew-9bu"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="top" id="UUf-vL-77r"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="bottom" secondItem="kAv-te-e4b" secondAttribute="bottom" id="Yh3-m3-OfA"/>
-                            <constraint firstItem="kAv-te-e4b" firstAttribute="height" secondItem="0zd-Qp-Ai5" secondAttribute="height" id="a3U-Lp-y6m"/>
-                            <constraint firstItem="C22-c2-hqC" firstAttribute="bottom" secondItem="0zd-Qp-Ai5" secondAttribute="bottom" id="bQ6-62-73e"/>
                             <constraint firstAttribute="leadingMargin" secondItem="N00-6B-h2x" secondAttribute="leading" id="chv-Z7-z75"/>
                             <constraint firstAttribute="trailingMargin" secondItem="N00-6B-h2x" secondAttribute="trailing" id="cuQ-r3-9La"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="eRh-Nj-awE"/>
-                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="fUe-RE-qaT"/>
-                            <constraint firstItem="C22-c2-hqC" firstAttribute="leading" secondItem="0zd-Qp-Ai5" secondAttribute="trailing" constant="8" symbolic="YES" id="hP5-4h-rrf"/>
                             <constraint firstItem="C22-c2-hqC" firstAttribute="width" secondItem="rfz-KI-PQW" secondAttribute="width" id="jFT-rh-9FS"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="height" secondItem="kAv-te-e4b" secondAttribute="height" id="lPo-aO-Knh"/>
-                            <constraint firstItem="0zd-Qp-Ai5" firstAttribute="leading" secondItem="kAv-te-e4b" secondAttribute="trailing" constant="10" id="lY9-ls-K6s"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wdS-32-W8O" secondAttribute="bottom" constant="20" id="md5-E0-G9B"/>
                             <constraint firstItem="W3P-Mz-FeV" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="bottom" constant="8" symbolic="YES" id="qEB-vb-24z"/>
                             <constraint firstItem="kAv-te-e4b" firstAttribute="leading" secondItem="rfz-KI-PQW" secondAttribute="trailing" constant="8" symbolic="YES" id="rjJ-F4-8Fe"/>
@@ -132,13 +121,47 @@
                     <connections>
                         <outlet property="AlarmSetButton" destination="5Lb-oJ-PM8" id="4BQ-l8-qmL"/>
                         <outlet property="ConnectButton" destination="N00-6B-h2x" id="nK9-Wl-ByH"/>
-                        <outlet property="SwitchOutlet" destination="0zd-Qp-Ai5" id="ttF-Lc-dge"/>
                         <outlet property="dateTimePicker" destination="W3P-Mz-FeV" id="pKr-du-N0b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="160.80000000000001" y="250.52473763118442"/>
+        </scene>
+        <!--Setup View Controller-->
+        <scene sceneID="cwd-Gp-bsG">
+            <objects>
+                <viewController storyboardIdentifier="SetupViewController" id="gsQ-96-CdM" customClass="SetupViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iOP-a8-T96"/>
+                        <viewControllerLayoutGuide type="bottom" id="sz1-4A-vqM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d4o-0C-ik9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to Wakeable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyi-mK-adX">
+                                <frame key="frameInset" minX="120" minY="111" width="170" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-Xl-vsm">
+                                <frame key="frameInset" minX="142" minY="500" width="91" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Dismiss View"/>
+                                <connections>
+                                    <action selector="DismissView:" destination="gsQ-96-CdM" eventType="touchUpInside" id="jYt-oS-u8u"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rcP-88-Cbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="839.20000000000005" y="250.52473763118442"/>
         </scene>
     </scenes>
 </document>

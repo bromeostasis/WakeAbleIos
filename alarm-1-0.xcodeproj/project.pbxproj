@@ -13,6 +13,7 @@
 		23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923291DBD311000544595 /* alarm_beep_long.wav */; };
 		23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C053691CBB30780074846C /* AudioToolbox.framework */; };
 		23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23C0536B1CBB31E20074846C /* alarm_beep.wav */; settings = {ASSET_TAGS = (New, ); }; };
+		23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E5EDF81DD2A16B00A62610 /* SetupViewController.m */; };
 		23E986CB1CB1EC7E006CE69B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CA1CB1EC7E006CE69B /* main.m */; };
 		23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CD1CB1EC7E006CE69B /* AppDelegate.m */; };
 		23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986D01CB1EC7E006CE69B /* ViewController.m */; };
@@ -39,6 +40,8 @@
 		23A923291DBD311000544595 /* alarm_beep_long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep_long.wav; sourceTree = "<group>"; };
 		23C053691CBB30780074846C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		23C0536B1CBB31E20074846C /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alarm_beep.wav; path = "/Users/evansnyder/Documents/WakeAble/ios_alarm_1_0/alarm-1-0/alarm-1-0/alarm_beep.wav"; sourceTree = "<absolute>"; };
+		23E5EDF71DD2A16B00A62610 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
+		23E5EDF81DD2A16B00A62610 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		23E986C51CB1EC7E006CE69B /* alarm-1-0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alarm-1-0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E986C91CB1EC7E006CE69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23E986CA1CB1EC7E006CE69B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				23E986CD1CB1EC7E006CE69B /* AppDelegate.m */,
 				23E986CF1CB1EC7E006CE69B /* ViewController.h */,
 				23E986D01CB1EC7E006CE69B /* ViewController.m */,
+				23E5EDF71DD2A16B00A62610 /* SetupViewController.h */,
+				23E5EDF81DD2A16B00A62610 /* SetupViewController.m */,
 				23E986D21CB1EC7E006CE69B /* Main.storyboard */,
 				23E986D51CB1EC7E006CE69B /* Images.xcassets */,
 				23E986D71CB1EC7E006CE69B /* LaunchScreen.xib */,
@@ -263,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */,
 				23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */,
 				23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */,
 				23E986CB1CB1EC7E006CE69B /* main.m in Sources */,
@@ -397,7 +403,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3588929c-a59b-4761-a985-d8bf69d255db";
 				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Development";
 			};
 			name = Debug;

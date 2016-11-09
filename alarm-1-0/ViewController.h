@@ -14,6 +14,7 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "SetupViewController.h"
 
 #define HM10_SERVICE_UUID @"FFE0";
 #define HM10_CHAR_UUID @"FFE1";
@@ -22,7 +23,7 @@
 
 @import CoreBluetooth;
 
-@interface ViewController : UIViewController<CBCentralManagerDelegate, CBPeripheralDelegate, MFMailComposeViewControllerDelegate>
+@interface ViewController : UIViewController<CBCentralManagerDelegate, CBPeripheralDelegate, MFMailComposeViewControllerDelegate, SetupViewControllerDelegate>
 {
     
     IBOutlet UIDatePicker *dateTimePicker;

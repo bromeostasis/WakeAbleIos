@@ -34,7 +34,9 @@
 @property BOOL connected;
 @property BOOL bluetoothCapable;
 @property BOOL alarmSet;
+@property BOOL first;
 @property int notificationCount;
+@property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
 @property (nonatomic, strong) NSString   *hm10Device;

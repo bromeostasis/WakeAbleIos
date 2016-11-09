@@ -27,11 +27,23 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    if (self.hm10Peripheral == nil ) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.address = [defaults objectForKey:@"address"];
+    if (self.address == nil ) {
+        NSLog(@"View's loading, it's null");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
         setupController.delegate = self;
         [self presentViewController:setupController animated:YES completion:NULL];
+    }
+    else{
+        NSLog(@"View's loading, it's what up? %@", self.address);
+        
+        if (self.bluetoothCapable && self.hm10Peripheral == nil) {
+            NSLog(@"Ok we're staring up the search");
+            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
+            [self.centralManager scanForPeripheralsWithServices:services options:nil];
+        }
     }
     
 }
@@ -66,6 +78,7 @@
     
     CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager = centralManager;
+
     
 }
 
@@ -293,47 +306,18 @@
     }
 }
 
-- (void) handleWakeableConnection:(CBPeripheral *) peripheral{
-    self.hm10Peripheral = peripheral;
-    peripheral.delegate = self;
-    [self.centralManager connectPeripheral:peripheral options:nil];
-}
-
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
-    if ([localName length] > 0) {
-        NSLog(@"Found the HM 10!: %@", localName);
-        if ([[localName lowercaseString] isEqualToString:@"wakeable"]) {
-            [self.centralManager stopScan];
-            
-            UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"My Alert"
-                                        message: [NSString stringWithFormat:@"Found a WakeAble with identifier %@, want to connect?", [peripheral.identifier UUIDString]]
-                                        preferredStyle:UIAlertControllerStyleAlert];
-            
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      [self handleWakeableConnection:peripheral];
-                                                                  }];
-            [alert addAction:defaultAction];
-            
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No thanks" style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * action) {}];
-            [alert addAction:cancelAction];
-            
-            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-            
-            [vc presentViewController:alert animated:NO completion:^{}];
-        }
-        else{
-            NSLog(@"Found a device with non-wakeable name");
-        }
+    
+    if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
+        [self.centralManager stopScan];
+        self.hm10Peripheral = peripheral;
+        peripheral.delegate = self;
+        [self.centralManager connectPeripheral:peripheral options:nil];
     }
     else{
-        NSLog(@"Found device with name of length less than 0");
+        NSLog(@"Found a device with non-wakeable name");
     }
 }
 
@@ -367,6 +351,11 @@
     else if ([central state] == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
         self.bluetoothCapable = YES;
+        if (self.address != nil && self.hm10Peripheral == nil) {
+            NSLog(@"Ok we're staring up the search");
+            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
+            [self.centralManager scanForPeripheralsWithServices:services options:nil];
+        }
     }
     else if ([central state] == CBCentralManagerStateUnauthorized) {
         NSLog(@"CoreBluetooth BLE state is unauthorized");
@@ -449,6 +438,9 @@
 {
     NSLog(@"This was returned from Setup %@", peripheral.name);
     self.hm10Peripheral = peripheral;
+    self.connected = peripheral.state == CBPeripheralStateConnected;
+    NSLog(@"Connected: %hhd", self.connected);
+    [self setConnectionButton];
 }
 
 @end

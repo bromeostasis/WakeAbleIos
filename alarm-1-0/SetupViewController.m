@@ -74,7 +74,12 @@
     
     if (connected) {
         NSLog(@"Connected to the HM10. Maybe redirect here or pass some data letting ViewController know we're all set");
-        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
+        [defaults synchronize];
+
+//        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
         [self dismissViewControllerAnimated:YES completion:NULL];
     }
 }

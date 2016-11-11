@@ -29,6 +29,6 @@
 @property (nonatomic, assign) id <SetupViewControllerDelegate> delegate;
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
-
+@property BOOL foundDevice;
 
 @end

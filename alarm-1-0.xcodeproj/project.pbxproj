@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		231B23C31DD5786D00D53273 /* wakeable_ios_v6_GRAPHIC_logo_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 231B23C21DD5786C00D53273 /* wakeable_ios_v6_GRAPHIC_logo_large.png */; };
 		23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923211DBD2ACA00544595 /* alarm_beep.wav */; };
 		23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923231DBD2AD500544595 /* alarm_beep.wav */; };
 		23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923251DBD2AE900544595 /* alarm_beep.wav */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		231B23C21DD5786C00D53273 /* wakeable_ios_v6_GRAPHIC_logo_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakeable_ios_v6_GRAPHIC_logo_large.png; sourceTree = "<group>"; };
 		23A923211DBD2ACA00544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923231DBD2AD500544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		23E986C81CB1EC7E006CE69B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				231B23C21DD5786C00D53273 /* wakeable_ios_v6_GRAPHIC_logo_large.png */,
 				23A923251DBD2AE900544595 /* alarm_beep.wav */,
 				23A923211DBD2ACA00544595 /* alarm_beep.wav */,
 				23E986C91CB1EC7E006CE69B /* Info.plist */,
@@ -250,6 +253,7 @@
 				23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */,
 				23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */,
 				23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */,
+				231B23C31DD5786D00D53273 /* wakeable_ios_v6_GRAPHIC_logo_large.png in Resources */,
 				23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

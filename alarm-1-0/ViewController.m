@@ -48,13 +48,18 @@
     
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    NSLog(@"Testing bluetooth");
+    CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
+    [testBluetooth state];
+}
+
 - (void)viewDidLoad {
-    
-    
-    [self.ConnectButton.layer setBorderWidth:2.0];
-    [self.ConnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [self.ConnectButton.layer setCornerRadius:3.0];
-    [self.ConnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    [self.StatusButton setEnabled:NO];
+    [self.StatusButton.layer setBorderWidth:2.0];
+    [self.StatusButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.StatusButton.layer setCornerRadius:3.0];
+    [self.StatusButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
     
     [self.AlarmSetButton.layer setBorderWidth:2.0];
     [self.AlarmSetButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
@@ -63,6 +68,14 @@
     self.AlarmSetButton.titleLabel.numberOfLines = 1;
     self.AlarmSetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.AlarmSetButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    
+    [self.ReconnectButton setHidden:YES];
+    [self.ReconnectButton.layer setBorderWidth:2.0];
+    [self.ReconnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.ReconnectButton.layer setCornerRadius:3.0];
+    [self.ReconnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    self.ReconnectButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.ReconnectButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
     
     [super viewDidLoad];
@@ -79,6 +92,7 @@
     CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager = centralManager;
 
+    [self setConnectionButton];
     
 }
 
@@ -87,8 +101,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)Connect:(id)sender {
-    NSLog(@"Connection string hititttt");
+- (IBAction)Reconnect:(id)sender {
+    NSLog(@"Reconnecting");
+    
+    CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
+    [testBluetooth state];
     
     if (self.bluetoothCapable) {
         NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
@@ -99,43 +116,62 @@
 
 - (IBAction)SetAlarm:(id)sender {
     if(!self.alarmSet){
+        
+        self.dateSet = dateTimePicker.date;
+        
+        NSCalendar *theCalendar = [NSCalendar currentCalendar];
+        self.dateSet = [theCalendar dateBySettingUnit:NSCalendarUnitSecond value:0 ofDate:self.dateSet options:0];
+        NSDateComponents *minuteComponent = [[NSDateComponents alloc] init];
+        minuteComponent.minute = -1;
+        self.dateSet = [theCalendar dateByAddingComponents:minuteComponent toDate:self.dateSet options:0];
+        NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSDate * result = [currentDate laterDate:self.dateSet];
+        if (result == currentDate ) {
+            NSLog(@"Current date is later than selected. Set for tomorrow");
+            NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+            dayComponent.day = 1;
+            
+            self.dateSet = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateSet options:0];
+        }
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+        dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        
+        NSString *dtString = [dateFormatter stringFromDate:self.dateSet];
         if (self.connected) {
         
-            self.dateSet = dateTimePicker.date;
-            
-            NSCalendar *theCalendar = [NSCalendar currentCalendar];
-            self.dateSet = [theCalendar dateBySettingUnit:NSCalendarUnitSecond value:0 ofDate:self.dateSet options:0];
-            NSDateComponents *minuteComponent = [[NSDateComponents alloc] init];
-            minuteComponent.minute = -1;
-            self.dateSet = [theCalendar dateByAddingComponents:minuteComponent toDate:self.dateSet options:0];
-            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-            NSDate * result = [currentDate laterDate:self.dateSet];
-            if (result == currentDate ) {
-                NSLog(@"Current date is later than selected. Set for tomorrow");
-                NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
-                dayComponent.day = 1;
-                
-                
-                
-                self.dateSet = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateSet options:0];
-            }
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-            dateFormatter.timeStyle = NSDateFormatterMediumStyle;
-            dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-            
-            NSString *dtString = [dateFormatter stringFromDate:self.dateSet];
             NSLog(@"The switch is on:  %@", dtString);
-            
-                
             [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:20];
             
             [self setAlarmButton:YES];
         }
         else{
-            NSLog(@"not connected. No alarm for you! Maybe..??!");
-            [self setAlarmButton:NO];
+            UIAlertController* alert = [UIAlertController
+                                        alertControllerWithTitle:@"Head's up!"
+                                        message: @"you're not connected to wakeable, but you just turned on your alarm."
+                                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"got it, I will try to reconnect first" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [self setAlarmButton:NO];
+                                                                      self.dateSet = nil;
+                                                                      
+                                                                  }];
+            [alert addAction:defaultAction];
+            
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
+                                                                     [self setAlarmButton:YES];
+                                                                 }];
+            [alert addAction:cancelAction];
+            
+            //            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            //
+            [self presentViewController:alert animated:NO completion:^{}];
         }
     
     }
@@ -231,6 +267,9 @@
 }
 
 - (IBAction)PlaySound:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"address"];
+    [defaults synchronize];
     if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
         AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
             AudioServicesDisposeSystemSoundID(soundId);
@@ -242,13 +281,15 @@
 }
 
 - (void) setConnectionButton {
+    NSLog(@"Setting connection button: %hhd", self.connected);
     if(self.connected){
-        [self.ConnectButton setEnabled:NO];
-        [self.ConnectButton setTitle:@"WakeAble is connected" forState:UIControlStateDisabled];
+        [self.ReconnectButton setHidden:YES];
+//        [self.StatusButton setEnabled:NO];
+        [self.StatusButton setTitle:@"you're good to go" forState:UIControlStateDisabled];
     }
     else{
-        [self.ConnectButton setEnabled:YES];
-        [self.ConnectButton setTitle:@"Connect to WakeAble" forState:UIControlStateNormal];
+        [self.StatusButton setTitle:@"houston, we have a problem" forState:UIControlStateDisabled];
+        [self.ReconnectButton setHidden:NO];
         
     }
 }

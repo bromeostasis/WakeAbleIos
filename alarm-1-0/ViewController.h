@@ -43,7 +43,7 @@
 @property (nonatomic, strong) NSDate *dateSet;
 @property (assign) uint16_t heartRate;
 
-
+- (IBAction)Reconnect:(id)sender;
 - (IBAction)SendLogs:(id)sender;
 - (IBAction)Connect:(id)sender;
 - (IBAction)SetAlarm:(id)sender;
@@ -58,6 +58,7 @@
 
 - (IBAction)PlaySound:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
-@property (weak, nonatomic) IBOutlet UIButton *ConnectButton;
+@property (weak, nonatomic) IBOutlet UIButton *StatusButton;
+@property (weak, nonatomic) IBOutlet UIButton *ReconnectButton;
 
 @end

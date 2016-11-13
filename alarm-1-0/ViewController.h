@@ -10,11 +10,13 @@
 @import QuartzCore;
 @import UserNotifications;
 @import AVFoundation;
+@import MediaPlayer;
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "SetupViewController.h"
+#import "MuteChecker.h"
 
 #define HM10_SERVICE_UUID @"FFE0";
 #define HM10_CHAR_UUID @"FFE1";
@@ -29,6 +31,8 @@
     IBOutlet UIDatePicker *dateTimePicker;
     SystemSoundID soundId;
 }
+
+@property (nonatomic, strong) MuteChecker *muteChecker;
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property BOOL connected;
@@ -60,5 +64,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *StatusButton;
 @property (weak, nonatomic) IBOutlet UIButton *ReconnectButton;
+@property (weak, nonatomic) IBOutlet UIView *mpVolumeViewParentView;
 
 @end

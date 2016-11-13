@@ -24,6 +24,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.OneLabel.layer setBorderWidth:5.0];
+    [self.OneLabel.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.OneLabel.layer setCornerRadius:3.0];
+    
+    [self.TwoLabel.layer setBorderWidth:5.0];
+    [self.TwoLabel.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.TwoLabel.layer setCornerRadius:3.0];
+    
+    [self.ConnectButton.layer setBorderWidth:2.0];
+    [self.ConnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.ConnectButton.layer setCornerRadius:3.0];
+    [self.ConnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    self.ConnectButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.ConnectButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
     //    BLUETOOTH SETUP
     

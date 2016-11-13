@@ -81,6 +81,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    self.muteChecker = [[MuteChecker alloc] initWithCompletionBlk:^(NSTimeInterval lapse, BOOL muted) {
+        NSLog(@"lapsed: %f", lapse);
+        NSLog(@"muted: %d", muted);
+        
+        if(muted){
+            UIAlertController* alert = [UIAlertController
+                                        alertControllerWithTitle:@"Silenced!!"
+                                        message: @"Please turn off your slience switch to hear notifications in the morning."
+                                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"thanks!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+            [alert addAction:defaultAction];
+            
+            [self presentViewController:alert animated:NO completion:^{}];
+        }
+    }];
+    [_muteChecker check];
+    
+    self.mpVolumeViewParentView.backgroundColor = [UIColor clearColor];
+    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: self.mpVolumeViewParentView.bounds];
+    [self.mpVolumeViewParentView addSubview: myVolumeView];
+//    [myVolumeView release];
+    
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
     self.connected = NO;
@@ -115,7 +139,9 @@
 }
 
 - (IBAction)SetAlarm:(id)sender {
+    
     if(!self.alarmSet){
+        [_muteChecker check];
         
         self.dateSet = dateTimePicker.date;
         
@@ -165,6 +191,7 @@
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction * action) {
                                                                      [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
+                                                                     [_muteChecker check];
                                                                      [self setAlarmButton:YES];
                                                                  }];
             [alert addAction:cancelAction];

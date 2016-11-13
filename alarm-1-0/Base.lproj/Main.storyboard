@@ -16,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your alarm is: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAv-te-e4b">
@@ -99,6 +99,11 @@
                                     <action selector="Reconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nRy-Rq-fCc"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8X-4F-56k">
+                                <frame key="frameInset" minX="16" minY="432" width="288" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.52156862745098043" green="0.82745098039215681" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -139,11 +144,12 @@
                         <outlet property="ReconnectButton" destination="YIW-tw-Ucr" id="Rgv-aF-zLq"/>
                         <outlet property="StatusButton" destination="N00-6B-h2x" id="kry-0j-kwF"/>
                         <outlet property="dateTimePicker" destination="W3P-Mz-FeV" id="pKr-du-N0b"/>
+                        <outlet property="mpVolumeViewParentView" destination="n8X-4F-56k" id="nRf-qX-Mgw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="160.80000000000001" y="250.52473763118442"/>
+            <point key="canvasLocation" x="159.375" y="250.35211267605635"/>
         </scene>
         <!--Setup View Controller-->
         <scene sceneID="cwd-Gp-bsG">
@@ -153,39 +159,108 @@
                         <viewControllerLayoutGuide type="top" id="iOP-a8-T96"/>
                         <viewControllerLayoutGuide type="bottom" id="sz1-4A-vqM"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="d4o-0C-ik9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="d4o-0C-ik9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-Xl-vsm">
-                                <frame key="frameInset" minX="142" minY="500" width="91" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Dismiss View"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wakaeable_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="2rb-JA-23l">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="NPm-Qi-Dyz"/>
+                                    <constraint firstAttribute="height" constant="200" id="VpS-CO-VFs"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Wakeable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyi-mK-adX">
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5GP-9V-ZIo">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="xhL-BO-YWh"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FVn-sR-ddo">
+                                <color key="backgroundColor" red="1" green="0.92941176469999998" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="8UN-5K-AL0"/>
+                                    <constraint firstAttribute="width" constant="20" id="CZX-aa-XGC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="plug in the wakeable to a power source" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFX-1E-f1n">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sync this app with your wakeable; click below" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dU6-Ip-BIR">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3E-m5-tcV">
+                                <color key="backgroundColor" red="1" green="0.92941176469999998" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="9pE-Ef-Joa"/>
+                                    <constraint firstAttribute="width" constant="20" id="pz1-dc-CzL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMy-Xl-vsm">
+                                <color key="backgroundColor" red="1" green="0.92941176469999998" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="9SH-zl-9pe"/>
+                                    <constraint firstAttribute="height" constant="50" id="zal-zW-AUE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="no more snoozing!">
+                                    <color key="titleColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="DismissView:" destination="gsQ-96-CdM" eventType="touchUpInside" id="jYt-oS-u8u"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="wakeable_ios_v6_GRAPHIC_logo_large.png" translatesAutoresizingMaskIntoConstraints="NO" id="2rb-JA-23l">
-                                <frame key="frameInset" minX="67" minY="42" width="240" height="255"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome to Wakeable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyi-mK-adX">
-                                <frame key="frameInset" minX="102" minY="313" width="170" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.52156862749999999" green="0.82352941180000006" blue="0.89019607840000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="sz1-4A-vqM" firstAttribute="top" secondItem="CMy-Xl-vsm" secondAttribute="bottom" constant="20" id="68Z-bP-fd7"/>
+                            <constraint firstItem="2rb-JA-23l" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="CFS-XY-USq"/>
+                            <constraint firstItem="2rb-JA-23l" firstAttribute="top" secondItem="iOP-a8-T96" secondAttribute="bottom" constant="8" symbolic="YES" id="G8G-3j-vVX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sFX-1E-f1n" secondAttribute="trailing" id="H6X-ey-HXE"/>
+                            <constraint firstItem="FVn-sR-ddo" firstAttribute="top" secondItem="5GP-9V-ZIo" secondAttribute="bottom" constant="8" symbolic="YES" id="Ipe-M1-2vo"/>
+                            <constraint firstItem="o3E-m5-tcV" firstAttribute="top" secondItem="sFX-1E-f1n" secondAttribute="bottom" constant="8" symbolic="YES" id="JVX-3x-vxk"/>
+                            <constraint firstItem="5GP-9V-ZIo" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="KtT-5y-eP3"/>
+                            <constraint firstItem="Eyi-mK-adX" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="V93-I2-F7I"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5GP-9V-ZIo" secondAttribute="trailing" id="WEM-ts-zUU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dU6-Ip-BIR" secondAttribute="trailing" id="YHV-Ac-Elu"/>
+                            <constraint firstItem="dU6-Ip-BIR" firstAttribute="top" secondItem="o3E-m5-tcV" secondAttribute="bottom" constant="4" id="c4u-Fe-lie"/>
+                            <constraint firstItem="o3E-m5-tcV" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="eTO-VJ-gYQ"/>
+                            <constraint firstItem="sFX-1E-f1n" firstAttribute="top" secondItem="FVn-sR-ddo" secondAttribute="bottom" constant="8" symbolic="YES" id="f75-mH-FpQ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="5GP-9V-ZIo" secondAttribute="leading" id="kz0-1X-a8C"/>
+                            <constraint firstItem="CMy-Xl-vsm" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="ldM-6L-gv1"/>
+                            <constraint firstItem="sFX-1E-f1n" firstAttribute="leading" secondItem="d4o-0C-ik9" secondAttribute="leadingMargin" id="le5-kx-8u8"/>
+                            <constraint firstItem="5GP-9V-ZIo" firstAttribute="top" secondItem="Eyi-mK-adX" secondAttribute="bottom" constant="8" symbolic="YES" id="mxG-yA-lL3"/>
+                            <constraint firstItem="dU6-Ip-BIR" firstAttribute="leading" secondItem="d4o-0C-ik9" secondAttribute="leadingMargin" id="nsX-au-gvb"/>
+                            <constraint firstItem="Eyi-mK-adX" firstAttribute="top" secondItem="2rb-JA-23l" secondAttribute="bottom" constant="8" symbolic="YES" id="pRB-LI-bvC"/>
+                            <constraint firstItem="FVn-sR-ddo" firstAttribute="centerX" secondItem="d4o-0C-ik9" secondAttribute="centerX" id="xvF-gl-cIu"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="ConnectButton" destination="CMy-Xl-vsm" id="6po-sK-frY"/>
+                        <outlet property="OneLabel" destination="o3E-m5-tcV" id="Lox-1D-zLf"/>
+                        <outlet property="TwoLabel" destination="o3E-m5-tcV" id="B3y-Bm-Azw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rcP-88-Cbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="839.20000000000005" y="250.52473763118442"/>
+            <point key="canvasLocation" x="838.125" y="249.29577464788733"/>
         </scene>
     </scenes>
     <resources>
-        <image name="wakeable_ios_v6_GRAPHIC_logo_large.png" width="3062" height="3062"/>
+        <image name="wakaeable_small.png" width="3062" height="3062"/>
     </resources>
 </document>

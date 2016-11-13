@@ -26,6 +26,9 @@
 
 - (IBAction)DismissView:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UILabel *TwoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *OneLabel;
+@property (weak, nonatomic) IBOutlet UIButton *ConnectButton;
 @property (nonatomic, assign) id <SetupViewControllerDelegate> delegate;
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;

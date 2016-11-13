@@ -41,6 +41,9 @@
 @property BOOL first;
 @property BOOL foundDevice;
 @property int notificationCount;
+@property int failsafeNotificationNumber;
+@property int standardNotificationNumber;
+@property int notificationInterval;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
@@ -59,6 +62,7 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error;
+- (void) appComesToForeground: (NSNotification*) sender;
 
 
 - (IBAction)PlaySound:(id)sender;

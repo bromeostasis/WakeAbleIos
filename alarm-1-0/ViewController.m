@@ -30,22 +30,19 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.address = [defaults objectForKey:@"address"];
     if (self.address == nil ) {
-        NSLog(@"View's loading, it's null");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
         setupController.delegate = self;
         [self presentViewController:setupController animated:YES completion:NULL];
     }
     else{
-        NSLog(@"View's loading, it's what up? %@", self.address);
-        
         if (self.bluetoothCapable && self.hm10Peripheral == nil) {
             NSLog(@"Ok we're staring up the search");
             NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
             [self.centralManager scanForPeripheralsWithServices:services options:nil];
         }
     }
-    
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -55,6 +52,17 @@
 }
 
 - (void)viewDidLoad {
+    self.notificationInterval = 5;
+    self.standardNotificationNumber = 20;
+    self.failsafeNotificationNumber = 5;
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(foregroundBiz)
+     name:UIApplicationWillEnterForegroundNotification
+     object:nil];
+    
+    
     [self.StatusButton setEnabled:NO];
     [self.StatusButton.layer setBorderWidth:2.0];
     [self.StatusButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
@@ -172,7 +180,7 @@
         if (self.connected) {
         
             NSLog(@"The switch is on:  %@", dtString);
-            [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:20];
+            [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:self.standardNotificationNumber];
             
             [self setAlarmButton:YES];
         }
@@ -193,7 +201,9 @@
             
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction * action) {
-                                                                     [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
+                                                                     NSLog(@"Apparently shit is fucked: %d", self.failsafeNotificationNumber);
+                                                                     [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:self.failsafeNotificationNumber];
+                                                                     NSLog(@"The switch is on:  %@", dtString);
                                                                      [_muteChecker check];
                                                                      [self setAlarmButton:YES];
                                                                  }];
@@ -259,7 +269,7 @@
         for (int i=0; i<numberOfNotifications; i++){
             self.notificationCount = self.notificationCount + 1;
             
-            NSDate *modDate = [fireDate dateByAddingTimeInterval:5*i];
+            NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*i];
             NSCalendar *gregorian = [[NSCalendar alloc]
                                      initWithCalendarIdentifier:NSGregorianCalendar];
             NSDateComponents *dateComponents = [gregorian components:(NSSecondCalendarUnit | NSMinuteCalendarUnit |
@@ -286,7 +296,9 @@
         
         for (int i=0; i<numberOfNotifications; i++){
             
-            NSDate *modDate = [fireDate dateByAddingTimeInterval:3*(i+1)];
+            NSLog(@"Mod date shit: %d", self.notificationInterval*(i+1));
+            
+            NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*(i+1)];
             notification.fireDate = modDate;
             [[UIApplication sharedApplication] scheduleLocalNotification:notification];
             
@@ -366,7 +378,7 @@
             if (result == currentDate ) {
                 NSLog(@"Reconnected and reset the notifications");
                 [self turnOffWakeableNotifications];
-                [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:20];
+                [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:self.standardNotificationNumber];
             }
             else{
                 NSLog(@"Failsafe notifications already went off. Let's just reset");
@@ -506,16 +518,52 @@
     return;
 }
 
+// Non-BT helper functions
+
 - (void)addPeripheralViewController:(SetupViewController *)controller foundPeripheral:(CBPeripheral *)peripheral
 {
     NSLog(@"This was returned from Setup %@", peripheral.name);
-    self.hm10Peripheral = peripheral;
+//    self.hm10Peripheral = peripheral;
     self.connected = peripheral.state == CBPeripheralStateConnected;
     NSLog(@"Connected: %hhd", self.connected);
     [self setConnectionButton];
+//    peripheral.delegate = self;
+    
+    NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
+    [self.centralManager scanForPeripheralsWithServices:services options:nil];
 }
 
-// Helper functions
+- (void) foregroundBiz {
+    NSLog(@"Any reason this owrks in the foreground?");
+    
+    
+    if (self.dateSet != nil && !self.connected) {
+        NSDateComponents *secondComponent = [[NSDateComponents alloc] init];
+        secondComponent.second = self.notificationInterval * self.failsafeNotificationNumber;
+        
+        NSCalendar *theCalendar = [NSCalendar currentCalendar];
+        NSDate *failsafeDate = [theCalendar dateByAddingComponents:secondComponent toDate:self.dateSet options:0];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+        dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        
+        NSString *dtString = [dateFormatter stringFromDate:failsafeDate];
+        
+        NSLog(@"Looking for this date as failsafe: %@", dtString);
+        
+        NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSDate * result = [currentDate laterDate:failsafeDate];
+        if (result == currentDate ) {
+            NSLog(@"Failsafe should have gone off. Setting button off");
+            self.dateSet = nil;
+            [self setAlarmButton:NO];
+        }
+        
+    }
+    
+}
 
 - (void) alertNoDevices {
     [self.centralManager stopScan];

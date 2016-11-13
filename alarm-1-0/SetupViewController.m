@@ -119,7 +119,7 @@
         [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
         [defaults synchronize];
 
-//        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
+        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
         [self dismissViewControllerAnimated:YES completion:NULL];
     }
 }

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <UIKit/UIKit.h>
 
 typedef void (^MuteCheckCompletionHandler)(NSTimeInterval lapse, BOOL muted);
 

@@ -39,6 +39,7 @@
 @property BOOL bluetoothCapable;
 @property BOOL alarmSet;
 @property BOOL first;
+@property BOOL foundDevice;
 @property int notificationCount;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString   *bodyData;

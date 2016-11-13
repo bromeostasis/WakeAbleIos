@@ -136,6 +136,9 @@
         [self.centralManager scanForPeripheralsWithServices:services options:nil];
     }
     
+    self.foundDevice = NO;
+    NSLog(@"In reconnect: %hhd", self.foundDevice);
+    [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
 }
 
 - (IBAction)SetAlarm:(id)sender {
@@ -379,6 +382,7 @@
 {
     
     if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
+        self.foundDevice = YES;
         [self.centralManager stopScan];
         self.hm10Peripheral = peripheral;
         peripheral.delegate = self;
@@ -509,6 +513,31 @@
     self.connected = peripheral.state == CBPeripheralStateConnected;
     NSLog(@"Connected: %hhd", self.connected);
     [self setConnectionButton];
+}
+
+// Helper functions
+
+- (void) alertNoDevices {
+    [self.centralManager stopScan];
+    NSLog(@"In alert devices: %hhd", self.foundDevice);
+    if (!self.foundDevice) {
+        UIAlertController* alert = [UIAlertController
+                                    alertControllerWithTitle:@"Oh dear"
+                                    message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. try moving closer to the device and confirm that the bluetooth on your phone is on."]
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        
+        //            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+        //
+        [self presentViewController:alert animated:NO completion:^{}];
+        
+        
+    }
+    
+    self.foundDevice = NO;
 }
 
 @end

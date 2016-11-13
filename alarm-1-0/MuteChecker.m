@@ -17,9 +17,18 @@ void MuteCheckCompletionProc(SystemSoundID ssID, void* clientData){
 
 @implementation MuteChecker
 
+#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 -(void)playMuteSound{
 	self.startTime = [NSDate date];
-	AudioServicesPlaySystemSound(self.soundId);
+    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+        AudioServicesPlaySystemSoundWithCompletion(self.soundId, ^{
+            AudioServicesDisposeSystemSoundID(self.soundId);
+        });
+    }
+    else{
+        AudioServicesPlaySystemSound(self.soundId);
+    }
 }
 
 -(void)completed{
@@ -62,8 +71,10 @@ void MuteCheckCompletionProc(SystemSoundID ssID, void* clientData){
 - (void)dealloc
 {
 	if (self.soundId != -1){
-        AudioServicesRemoveSystemSoundCompletion(self.soundId);
-        AudioServicesDisposeSystemSoundID(self.soundId);
+        if(!SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+            AudioServicesRemoveSystemSoundCompletion(self.soundId);
+            AudioServicesDisposeSystemSoundID(self.soundId);
+        }
     }
 }
 

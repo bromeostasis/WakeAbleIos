@@ -74,6 +74,7 @@
 - (void) alertNoDevices {
     NSLog(@"In alert devices: %hhd", self.foundDevice);
     if (!self.foundDevice) {
+        [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
                                     message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. try moving closer to the device and confirm that the bluetooth on your phone is on."]

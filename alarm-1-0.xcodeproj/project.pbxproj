@@ -11,6 +11,9 @@
 		237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530E1DD805040053AC81 /* wakaeable_small.png */; };
 		237D53171DD8DC880053AC81 /* MuteChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D53161DD8DC880053AC81 /* MuteChecker.m */; };
 		237D53191DD8DD400053AC81 /* MuteChecker.caf in Resources */ = {isa = PBXBuildFile; fileRef = 237D53181DD8DD400053AC81 /* MuteChecker.caf */; };
+		237D531C1DD95FB80053AC81 /* 1circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531A1DD95FB80053AC81 /* 1circle.png */; };
+		237D531D1DD95FB80053AC81 /* 2circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531B1DD95FB80053AC81 /* 2circle.png */; };
+		237D531F1DD962320053AC81 /* exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531E1DD962320053AC81 /* exclamation.png */; };
 		23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923211DBD2ACA00544595 /* alarm_beep.wav */; };
 		23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923231DBD2AD500544595 /* alarm_beep.wav */; };
 		23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923251DBD2AE900544595 /* alarm_beep.wav */; };
@@ -43,6 +46,9 @@
 		237D53151DD8DC880053AC81 /* MuteChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuteChecker.h; sourceTree = "<group>"; };
 		237D53161DD8DC880053AC81 /* MuteChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MuteChecker.m; sourceTree = "<group>"; };
 		237D53181DD8DD400053AC81 /* MuteChecker.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MuteChecker.caf; sourceTree = "<group>"; };
+		237D531A1DD95FB80053AC81 /* 1circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1circle.png; sourceTree = "<group>"; };
+		237D531B1DD95FB80053AC81 /* 2circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2circle.png; sourceTree = "<group>"; };
+		237D531E1DD962320053AC81 /* exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation.png; sourceTree = "<group>"; };
 		23A923211DBD2ACA00544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923231DBD2AD500544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
@@ -144,6 +150,9 @@
 		23E986C81CB1EC7E006CE69B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				237D531A1DD95FB80053AC81 /* 1circle.png */,
+				237D531B1DD95FB80053AC81 /* 2circle.png */,
+				237D531E1DD962320053AC81 /* exclamation.png */,
 				237D53181DD8DD400053AC81 /* MuteChecker.caf */,
 				23A923251DBD2AE900544595 /* alarm_beep.wav */,
 				237D530E1DD805040053AC81 /* wakaeable_small.png */,
@@ -258,13 +267,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */,
+				237D531C1DD95FB80053AC81 /* 1circle.png in Resources */,
 				237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */,
 				23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */,
 				23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */,
+				237D531F1DD962320053AC81 /* exclamation.png in Resources */,
 				23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */,
 				23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */,
 				23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */,
 				23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */,
+				237D531D1DD95FB80053AC81 /* 2circle.png in Resources */,
 				237D53191DD8DD400053AC81 /* MuteChecker.caf in Resources */,
 				237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */,
 				23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */,

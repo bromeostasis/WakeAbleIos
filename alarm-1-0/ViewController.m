@@ -73,9 +73,12 @@
     [self.AlarmSetButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
     [self.AlarmSetButton.layer setCornerRadius:3.0];
     [self.AlarmSetButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    [self.AlarmSetButton.titleLabel setBaselineAdjustment:UIBaselineAdjustmentAlignCenters];
     self.AlarmSetButton.titleLabel.numberOfLines = 1;
     self.AlarmSetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.AlarmSetButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
+    
+
     
     [self.ReconnectButton setHidden:YES];
     [self.ReconnectButton.layer setBorderWidth:2.0];
@@ -107,7 +110,7 @@
         }
     }];
     [_muteChecker check];
-    
+
     self.mpVolumeViewParentView.backgroundColor = [UIColor clearColor];
     MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: self.mpVolumeViewParentView.bounds];
     [self.mpVolumeViewParentView addSubview: myVolumeView];

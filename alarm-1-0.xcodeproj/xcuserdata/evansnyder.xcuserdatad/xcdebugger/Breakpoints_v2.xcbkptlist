@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "461"
-            endingLineNumber = "461"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
             landmarkName = "-centralManagerDidUpdateState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
             landmarkName = "-centralManagerDidUpdateState:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
             landmarkName = "-centralManager:didConnectPeripheral:"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "-SetAlarm:"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-SetAlarm:"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "-SetAlarm:"
             landmarkType = "7">
          </BreakpointContent>
@@ -150,17 +150,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "468"
-            endingLineNumber = "468"
-            landmarkName = "@implementation ViewController"
-            landmarkType = "3">
+            startingLineNumber = "456"
+            endingLineNumber = "456"
+            landmarkName = "-centralManagerDidUpdateState:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500779293.757676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "-scheduleLocalNotification:forMessage:howMany:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500750593.752482"
+            timestampString = "500783782.467098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "492"
-            endingLineNumber = "492"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -232,13 +232,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "alarm-1-0/ViewController.m"
-            timestampString = "500760284.644338"
+            timestampString = "500779293.757676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alarm-1-0/ViewController.m"
+            timestampString = "500784252.885745"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alarm-1-0/ViewController.m"
+            timestampString = "500784328.52997"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "-SetAlarm:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "alarm-1-0/MuteChecker.m"
+            timestampString = "500784416.205355"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "MuteCheckCompletionProc()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

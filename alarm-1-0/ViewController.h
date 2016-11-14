@@ -62,7 +62,6 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error;
-- (void) appComesToForeground: (NSNotification*) sender;
 
 
 - (IBAction)PlaySound:(id)sender;

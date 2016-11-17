@@ -56,6 +56,8 @@
     self.notificationInterval = 5;
     self.standardNotificationNumber = 20;
     self.failsafeNotificationNumber = 5;
+    self.btImage = [UIImage imageNamed:@"Bluetooth.png"];
+    self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -339,12 +341,10 @@
         [self.ReconnectButton setHidden:YES];
 //        [self.StatusButton setEnabled:NO];
         [self.StatusButton setTitle:@"you're good to go" forState:UIControlStateDisabled];
-        UIImage *img = [UIImage imageNamed:@"Bluetooth.png"];
-        [self.StatusImage setImage:img];
+        [self.StatusImage setImage:self.btImage];
     }
     else{
-        UIImage *img = [UIImage imageNamed:@"exclamation.png"];
-        [self.StatusImage setImage:img];
+        [self.StatusImage setImage:self.exclamationImage];
         [self.StatusButton setTitle:@"houston, we have a problem" forState:UIControlStateDisabled];
         [self.ReconnectButton setHidden:NO];
         

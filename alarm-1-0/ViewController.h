@@ -35,11 +35,15 @@
 @property (nonatomic, strong) MuteChecker *muteChecker;
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
+@property (nonatomic, strong) UIImage *btImage;
+@property (nonatomic, strong) UIImage *exclamationImage;
+@property (nonatomic, strong) NSString *notificationText;
 @property BOOL connected;
 @property BOOL bluetoothCapable;
 @property BOOL alarmSet;
 @property BOOL first;
 @property BOOL foundDevice;
+@property BOOL soundPlaying;
 @property int notificationCount;
 @property int failsafeNotificationNumber;
 @property int standardNotificationNumber;
@@ -65,9 +69,9 @@
 
 
 - (IBAction)PlaySound:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *StatusImage;
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *StatusButton;
 @property (weak, nonatomic) IBOutlet UIButton *ReconnectButton;
-@property (weak, nonatomic) IBOutlet UIView *mpVolumeViewParentView;
 
 @end

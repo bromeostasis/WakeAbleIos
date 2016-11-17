@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		231747771DDD544A00F976F8 /* Bluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = 231747761DDD544A00F976F8 /* Bluetooth.png */; };
 		237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */; };
 		237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530E1DD805040053AC81 /* wakaeable_small.png */; };
 		237D53171DD8DC880053AC81 /* MuteChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D53161DD8DC880053AC81 /* MuteChecker.m */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		231747761DDD544A00F976F8 /* Bluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bluetooth.png; sourceTree = "<group>"; };
 		237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakeable_logo_large_edit1_GRAPHIC_logo_large.png; sourceTree = "<group>"; };
 		237D530E1DD805040053AC81 /* wakaeable_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakaeable_small.png; sourceTree = "<group>"; };
 		237D53151DD8DC880053AC81 /* MuteChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuteChecker.h; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				237D531A1DD95FB80053AC81 /* 1circle.png */,
 				237D531B1DD95FB80053AC81 /* 2circle.png */,
 				237D531E1DD962320053AC81 /* exclamation.png */,
+				231747761DDD544A00F976F8 /* Bluetooth.png */,
 				237D53181DD8DD400053AC81 /* MuteChecker.caf */,
 				23A923251DBD2AE900544595 /* alarm_beep.wav */,
 				237D530E1DD805040053AC81 /* wakaeable_small.png */,
@@ -268,6 +271,7 @@
 			files = (
 				23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */,
 				237D531C1DD95FB80053AC81 /* 1circle.png in Resources */,
+				231747771DDD544A00F976F8 /* Bluetooth.png in Resources */,
 				237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */,
 				23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */,
 				23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */,

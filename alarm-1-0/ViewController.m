@@ -22,6 +22,7 @@
         _bluetoothCapable = NO;
         _notificationCount = 0;
         _hm10Peripheral = nil;
+        _soundPlaying = NO;
     }
     return self;
 }
@@ -62,12 +63,19 @@
      name:UIApplicationWillEnterForegroundNotification
      object:nil];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(foregroundNotification)
+     name:@"ForegroundNotification"
+     object:nil];
     
     [self.StatusButton setEnabled:NO];
     [self.StatusButton.layer setBorderWidth:2.0];
     [self.StatusButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
     [self.StatusButton.layer setCornerRadius:3.0];
     [self.StatusButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    self.StatusButton.titleLabel.numberOfLines = 1;
+    self.StatusButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     [self.AlarmSetButton.layer setBorderWidth:2.0];
     [self.AlarmSetButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
@@ -111,10 +119,6 @@
     }];
     [_muteChecker check];
 
-    self.mpVolumeViewParentView.backgroundColor = [UIColor clearColor];
-    MPVolumeView *myVolumeView = [[MPVolumeView alloc] initWithFrame: self.mpVolumeViewParentView.bounds];
-    [self.mpVolumeViewParentView addSubview: myVolumeView];
-//    [myVolumeView release];
     
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
@@ -135,6 +139,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 - (IBAction)Reconnect:(id)sender {
     NSLog(@"Reconnecting");
@@ -261,6 +267,7 @@
 }
 
 - (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
+    self.notificationText = message;
     
     if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
@@ -328,11 +335,16 @@
 - (void) setConnectionButton {
     NSLog(@"Setting connection button: %hhd", self.connected);
     if(self.connected){
+        
         [self.ReconnectButton setHidden:YES];
 //        [self.StatusButton setEnabled:NO];
         [self.StatusButton setTitle:@"you're good to go" forState:UIControlStateDisabled];
+        UIImage *img = [UIImage imageNamed:@"Bluetooth.png"];
+        [self.StatusImage setImage:img];
     }
     else{
+        UIImage *img = [UIImage imageNamed:@"exclamation.png"];
+        [self.StatusImage setImage:img];
         [self.StatusButton setTitle:@"houston, we have a problem" forState:UIControlStateDisabled];
         [self.ReconnectButton setHidden:NO];
         
@@ -434,6 +446,9 @@
     // Determine the state of the peripheral
     if ([central state] == CBCentralManagerStatePoweredOff) {
         NSLog(@"CoreBluetooth BLE hardware is powered off");
+        self.bluetoothCapable = NO;
+        self.connected = NO;
+        [self setConnectionButton];
     }
     else if ([central state] == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
@@ -566,6 +581,42 @@
         
     }
     
+}
+
+- (void) foregroundNotification {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Time to wake up!"
+                                                                   message:self.notificationText
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    [alert addAction:defaultAction];
+    
+    UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    
+    [vc presentViewController:alert animated:NO completion:^{}];
+    //        [self presentViewController:alert animated:YES completion:nil];
+    
+    if (!soundId) {
+        NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
+        
+    }
+    
+    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
+        if(!self.soundPlaying && soundId){
+            self.soundPlaying = YES;
+            AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
+                AudioServicesDisposeSystemSoundID(soundId);
+                soundId=0;
+                self.soundPlaying=NO;
+            });
+        }
+    }
+    else{
+        AudioServicesPlaySystemSound(soundId);
+    }
+
 }
 
 - (void) alertNoDevices {

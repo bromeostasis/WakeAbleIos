@@ -17,11 +17,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your alarm is: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAv-te-e4b">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -42,7 +42,7 @@
                                     <!--2037-12-31 11:00:00 +0000-->
                                 </date>
                             </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title="Send Logs">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,11 +67,6 @@
                                     <action selector="SetAlarm:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JRy-Cl-Q8H"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8X-4F-56k">
-                                <frame key="frameInset" minX="36" minY="307" width="346" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N00-6B-h2x">
                                 <accessibility key="accessibilityConfiguration">
                                     <bool key="isElement" value="NO"/>
@@ -79,6 +74,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="HCM-yh-q3K"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="you're good to go!">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -95,8 +91,8 @@
                                 <color key="backgroundColor" red="1" green="0.92941176469999998" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="eQl-dg-RTG"/>
-                                    <constraint firstAttribute="height" constant="40" id="yL8-aR-E3k"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="reconnect">
                                     <color key="titleColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -109,7 +105,7 @@
                                     <constraint firstAttribute="width" secondItem="Q8i-xT-d1Y" secondAttribute="height" multiplier="1:1" id="W6F-2s-HBC"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxY-Rc-Svu">
                                 <state key="normal" title="Play Sound">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -118,10 +114,16 @@
                                     <action selector="PlaySound:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kcv-6p-FYl"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember to turn up your volume to hear your alarm" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZ4-s5-iEu">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.52156862745098043" green="0.82745098039215681" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="hZ4-s5-iEu" secondAttribute="leading" id="6e4-kk-1GU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C22-c2-hqC" secondAttribute="trailing" id="9qm-BP-Shf"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="leading" secondItem="kAv-te-e4b" secondAttribute="trailing" constant="10" id="HJc-rf-fKJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W3P-Mz-FeV" secondAttribute="trailing" id="LMj-nm-0bT"/>
@@ -133,6 +135,7 @@
                             <constraint firstItem="W3P-Mz-FeV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="SxK-48-8a7"/>
                             <constraint firstItem="fxY-Rc-Svu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="UQK-ew-9bu"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="top" id="UUf-vL-77r"/>
+                            <constraint firstItem="hZ4-s5-iEu" firstAttribute="top" secondItem="W3P-Mz-FeV" secondAttribute="bottom" constant="8" symbolic="YES" id="XHd-go-mLI"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Y2N-Ce-tuN"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="bottom" secondItem="kAv-te-e4b" secondAttribute="bottom" id="Yh3-m3-OfA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="N00-6B-h2x" secondAttribute="trailing" id="cuQ-r3-9La"/>
@@ -144,11 +147,13 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wdS-32-W8O" secondAttribute="bottom" constant="20" id="md5-E0-G9B"/>
                             <constraint firstItem="W3P-Mz-FeV" firstAttribute="top" secondItem="kAv-te-e4b" secondAttribute="bottom" constant="8" symbolic="YES" id="qEB-vb-24z"/>
                             <constraint firstItem="kAv-te-e4b" firstAttribute="leading" secondItem="rfz-KI-PQW" secondAttribute="trailing" constant="8" symbolic="YES" id="rjJ-F4-8Fe"/>
+                            <constraint firstItem="N00-6B-h2x" firstAttribute="height" secondItem="YIW-tw-Ucr" secondAttribute="height" id="suf-Ns-DLD"/>
                             <constraint firstItem="C22-c2-hqC" firstAttribute="leading" secondItem="5Lb-oJ-PM8" secondAttribute="trailing" constant="8" symbolic="YES" id="t8x-F6-xAH"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="height" secondItem="N00-6B-h2x" secondAttribute="height" id="v9C-kG-APl"/>
                             <constraint firstItem="kAv-te-e4b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="wIN-7K-9Bk"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="bottom" secondItem="N00-6B-h2x" secondAttribute="bottom" id="wIX-eZ-j87"/>
-                            <constraint firstItem="YIW-tw-Ucr" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="bottom" constant="8" symbolic="YES" id="wg7-yY-00T"/>
+                            <constraint firstItem="YIW-tw-Ucr" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="bottom" constant="20" id="wg7-yY-00T"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hZ4-s5-iEu" secondAttribute="trailing" id="xIT-m2-p4F"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YIW-tw-Ucr" secondAttribute="bottom" constant="30" id="ygV-fe-pEZ"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="top" id="zMy-xf-6xp"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="zSW-pu-hoh"/>
@@ -158,8 +163,8 @@
                         <outlet property="AlarmSetButton" destination="5Lb-oJ-PM8" id="4BQ-l8-qmL"/>
                         <outlet property="ReconnectButton" destination="YIW-tw-Ucr" id="Rgv-aF-zLq"/>
                         <outlet property="StatusButton" destination="N00-6B-h2x" id="kry-0j-kwF"/>
+                        <outlet property="StatusImage" destination="Q8i-xT-d1Y" id="w55-fF-Zgw"/>
                         <outlet property="dateTimePicker" destination="W3P-Mz-FeV" id="pKr-du-N0b"/>
-                        <outlet property="mpVolumeViewParentView" destination="n8X-4F-56k" id="nRf-qX-Mgw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -175,7 +180,7 @@
                         <viewControllerLayoutGuide type="bottom" id="sz1-4A-vqM"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="d4o-0C-ik9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wakaeable_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="2rb-JA-23l">

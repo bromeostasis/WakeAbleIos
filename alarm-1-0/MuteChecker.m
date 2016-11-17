@@ -23,6 +23,7 @@ void MuteCheckCompletionProc(SystemSoundID ssID, void* clientData){
 	self.startTime = [NSDate date];
     if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
         AudioServicesPlaySystemSoundWithCompletion(self.soundId, ^{
+            [self completed];
             AudioServicesDisposeSystemSoundID(self.soundId);
         });
     }

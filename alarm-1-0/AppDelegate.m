@@ -76,60 +76,7 @@
     
     NSLog(@"Received local notification");
     if ([application applicationState] == UIApplicationStateActive) {
-        
-//        UIAlertView *alert = [[UIAlertView alloc]
-//                              initWithTitle:@"Info"
-//                              message:@"Go turn off your alarm!!"
-//                              delegate:self
-//                              cancelButtonTitle:@"OK"
-//                              otherButtonTitles:nil];
-//        
-//        if (!_notificationAlert) {
-//            UIAlertController *alert = [[UIAlertView alloc] initWithTitle:nil
-//                                                            message:nil
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"Ok"
-//                                                  otherButtonTitles:nil];
-//            [self setNotificationAlert:alert];
-//        }
-        //
-        
-//        if (!alert.visible) {
-//            [alert show];
-//        }
-
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"My Alert"
-                                                                       message:@"This is an alert."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        [alert addAction:defaultAction];
-        
-        UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-
-        [vc presentViewController:alert animated:NO completion:^{}];
-//        [self presentViewController:alert animated:YES completion:nil];
-        
-        if (!soundId) {
-            NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
-            
-        }
-        
-        if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
-            if(!self.soundPlaying && soundId){
-                self.soundPlaying = YES;
-                AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
-                    AudioServicesDisposeSystemSoundID(soundId);
-                    soundId=0;
-                    self.soundPlaying=NO;
-                });
-            }
-        }
-        else{
-            AudioServicesPlaySystemSound(soundId);
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ForegroundNotification" object:self];
         
     }
 }

@@ -135,8 +135,8 @@
             self.foundDevice = YES;
             
             UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"My Alert"
-                                        message: [NSString stringWithFormat:@"Found a WakeAble with identifier %@, want to connect?", [peripheral.identifier UUIDString]]
+                                        alertControllerWithTitle:@"Wakeable Found"
+                                        message: [NSString stringWithFormat:@"Found a Wakeable with identifier %@, want to connect?", [peripheral.identifier UUIDString]]
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             

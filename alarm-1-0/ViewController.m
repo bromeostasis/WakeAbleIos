@@ -54,10 +54,20 @@
 
 - (void)viewDidLoad {
     self.notificationInterval = 5;
-    self.standardNotificationNumber = 20;
-    self.failsafeNotificationNumber = 5;
-    self.btImage = [UIImage imageNamed:@"Bluetooth.png"];
+    self.standardNotificationNumber = 60;
+    self.failsafeNotificationNumber = 12;
+    self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after three minutes!";
+    self.failsafeTitle = @"Disconnected!";
+    self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
+    
+    self.alarmMessages = @[
+                        @[@"Good morning!", @"Looking good today"],
+                        @[@"You got this!", @"Seriously, you really do."],
+                        @[@"It's a lovely day!", @"There's so much to do."],
+                        @[@"Benjamin Franklin:", @"The early morning has gold in its mouth."],
+                        @[@"Richard Whately:", @"Lose an hour in the morning, and you will be all day hunting for it."],
+                        ];
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -88,7 +98,12 @@
     self.AlarmSetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.AlarmSetButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
-
+    [self.LogButton.layer setBorderWidth:2.0];
+    [self.LogButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [self.LogButton.layer setCornerRadius:3.0];
+    [self.LogButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    self.LogButton.titleLabel.numberOfLines = 1;
+    self.LogButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     [self.ReconnectButton setHidden:YES];
     [self.ReconnectButton.layer setBorderWidth:2.0];
@@ -191,14 +206,14 @@
         if (self.connected) {
         
             NSLog(@"The switch is on:  %@", dtString);
-            [self scheduleLocalNotification:self.dateSet forMessage:@"Wake up time!" howMany:self.standardNotificationNumber];
+            [self scheduleLocalNotification:self.dateSet];
             
             [self setAlarmButton:YES];
         }
         else{
             UIAlertController* alert = [UIAlertController
                                         alertControllerWithTitle:@"Head's up!"
-                                        message: @"you're not connected to wakeable, but you just turned on your alarm."
+                                        message: @"You're not connected to wakeable, but you just turned on your alarm."
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             
@@ -212,8 +227,7 @@
             
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction * action) {
-                                                                     NSLog(@"Apparently shit is fucked: %d", self.failsafeNotificationNumber);
-                                                                     [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:self.failsafeNotificationNumber];
+                                                                     [self scheduleLocalNotification:self.dateSet];
                                                                      NSLog(@"The switch is on:  %@", dtString);
                                                                      [_muteChecker check];
                                                                      [self setAlarmButton:YES];
@@ -244,12 +258,12 @@
     MFMailComposeViewController* mailComposer = [[MFMailComposeViewController alloc] init];
 
     mailComposer.mailComposeDelegate = self;
-    [mailComposer setSubject:@"Crash Log"];
+    [mailComposer setSubject:@"This thing didn't work!"];
     // Set up recipients
     NSArray *toRecipients = [NSArray arrayWithObject:@"evan.snyder92@gmail.com"];
     [mailComposer setToRecipients:toRecipients];
     // Fill out the email body text
-    NSString *emailBody = @"Crash Log";
+    NSString *emailBody = @"We love feedback! Please include below: a short description of the problem your facing along with the approximate time of failure if possible. We'll look into the problem and get back to you as soon as possible.";
     [mailComposer setMessageBody:emailBody isHTML:NO];
     
     // Attach the Crash Log..
@@ -268,13 +282,25 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) scheduleLocalNotification: (NSDate *) fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications{
-    self.notificationText = message;
+- (void) scheduleLocalNotification: (NSDate *) fireDate{
+    int numberOfNotifications = 0;
+    if (self.connected) {
+        int randomChoice = arc4random_uniform([self.alarmMessages count]);
+        self.notificationText = self.alarmMessages[randomChoice][1];
+        self.notificationTitle = self.alarmMessages[randomChoice][0];
+        numberOfNotifications = self.standardNotificationNumber;
+    }
+    else{
+        self.notificationText = self.failsafeMessage;
+        self.notificationTitle = self.failsafeTitle;
+        numberOfNotifications = self.failsafeNotificationNumber;
+        
+    }
     
     if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-//        content.title = [NSString localizedUserNotificationStringForKey:@"Elon said:" arguments:nil];
-        content.body = [NSString localizedUserNotificationStringForKey:message
+        content.title = [NSString localizedUserNotificationStringForKey:self.notificationTitle arguments:nil];
+        content.body = [NSString localizedUserNotificationStringForKey:self.notificationText
                                                              arguments:nil];
         content.sound = [UNNotificationSound soundNamed:@"alarm_beep.wav"];
         
@@ -290,21 +316,16 @@
             UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[NSString stringWithFormat:@"notification%d", self.notificationCount]
                                                                                   content:content trigger:trigger];
             UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
-                if (!error) {
-                    NSLog(@"Added notification number %d!", i);
-                }
-            }];
+            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {}];
 
         }
         
     }
     else {
         UILocalNotification *notification = [[UILocalNotification alloc] init];
-        notification.alertBody = message;
-        //    notification.repeatInterval = NSSecondCalendarUnit;
+        notification.alertBody = self.notificationText;
+        notification.alertTitle = self.notificationTitle;
         notification.soundName = @"alarm_beep.wav";
-        //    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
         
         for (int i=0; i<numberOfNotifications; i++){
             
@@ -393,7 +414,7 @@
             if (result == currentDate ) {
                 NSLog(@"Reconnected and reset the notifications");
                 [self turnOffWakeableNotifications];
-                [self scheduleLocalNotification:self.dateSet forMessage:@"Time to wake up!" howMany:self.standardNotificationNumber];
+                [self scheduleLocalNotification:self.dateSet];
             }
             else{
                 NSLog(@"Failsafe notifications already went off. Let's just reset");
@@ -431,7 +452,7 @@
         [self turnOffWakeableNotifications];
         
         if (self.dateSet != nil) {
-            [self scheduleLocalNotification:self.dateSet forMessage:@"You're disconnected from your WakeAble device. We'll shut off the alarm for you after three minutes!" howMany:5];
+            [self scheduleLocalNotification:self.dateSet];
         }
         
         NSLog(@"Looking for peripheral: %@", self.hm10Peripheral.name);
@@ -625,7 +646,7 @@
     if (!self.foundDevice) {
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
-                                    message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. try moving closer to the device and confirm that the bluetooth on your phone is on."]
+                                    message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."]
                                     preferredStyle:UIAlertControllerStyleAlert];
         
         

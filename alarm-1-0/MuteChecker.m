@@ -24,7 +24,7 @@ void MuteCheckCompletionProc(SystemSoundID ssID, void* clientData){
     if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
         AudioServicesPlaySystemSoundWithCompletion(self.soundId, ^{
             [self completed];
-            AudioServicesDisposeSystemSoundID(self.soundId);
+//            AudioServicesDisposeSystemSoundID(self.soundId);
         });
     }
     else{
@@ -54,13 +54,13 @@ void MuteCheckCompletionProc(SystemSoundID ssID, void* clientData){
 
 -(instancetype)initWithCompletionBlk:(MuteCheckCompletionHandler)completionBlk{
 	self = [self init];
-	if (self) {
+    if (self) {
+        self.completionBlk = completionBlk;
 		NSURL* url = [[NSBundle mainBundle] URLForResource:@"MuteChecker" withExtension:@"caf"];
 		if (AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &_soundId) == kAudioServicesNoError){
 			AudioServicesAddSystemSoundCompletion(self.soundId, CFRunLoopGetMain(), kCFRunLoopDefaultMode, MuteCheckCompletionProc,(__bridge void *)(self));
 			UInt32 yes = 1;
 			AudioServicesSetProperty(kAudioServicesPropertyIsUISound, sizeof(_soundId),&_soundId,sizeof(yes), &yes);
-			self.completionBlk = completionBlk;
 		} else {
 			NSLog(@"error setting up Sound ID");
 		}

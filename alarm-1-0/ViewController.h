@@ -37,7 +37,6 @@
 @property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property (nonatomic, strong) UIImage *btImage;
 @property (nonatomic, strong) UIImage *exclamationImage;
-@property (nonatomic, strong) NSString *notificationText;
 @property BOOL connected;
 @property BOOL bluetoothCapable;
 @property BOOL alarmSet;
@@ -52,6 +51,12 @@
 @property (nonatomic, strong) NSString   *bodyData;
 @property (nonatomic, strong) NSString   *manufacturer;
 @property (nonatomic, strong) NSString   *hm10Device;
+@property (nonatomic, strong) NSString   *failsafeMessage;
+@property (nonatomic, strong) NSString   *failsafeTitle;
+@property (nonatomic, strong) NSString *notificationText;
+@property (nonatomic, strong) NSString *notificationTitle;
+@property (nonatomic, strong) NSArray   *alarmMessages;
+
 @property (nonatomic, strong) NSDate *dateSet;
 @property (assign) uint16_t heartRate;
 
@@ -73,5 +78,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *StatusButton;
 @property (weak, nonatomic) IBOutlet UIButton *ReconnectButton;
+@property (weak, nonatomic) IBOutlet UIButton *LogButton;
 
 @end

@@ -42,10 +42,10 @@
                                     <!--2037-12-31 11:00:00 +0000-->
                                 </date>
                             </datePicker>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <state key="normal" title="Send Logs">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdS-32-W8O">
+                                <color key="backgroundColor" red="1" green="0.92941176469999998" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="report a problem">
+                                    <color key="titleColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
@@ -76,7 +76,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="you're good to go!">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="5"/>
@@ -114,16 +114,17 @@
                                     <action selector="PlaySound:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kcv-6p-FYl"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remember to turn up your volume to hear your alarm" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZ4-s5-iEu">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ps: don't forget to turn up your volume to hear your alarm" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZ4-s5-iEu">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.36470588240000001" green="0.37254901959999998" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.52156862745098043" green="0.82745098039215681" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="leadingMargin" secondItem="hZ4-s5-iEu" secondAttribute="leading" id="6e4-kk-1GU"/>
+                            <constraint firstItem="wdS-32-W8O" firstAttribute="top" secondItem="YIW-tw-Ucr" secondAttribute="bottom" constant="20" id="2WM-h3-0qD"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="hZ4-s5-iEu" secondAttribute="leading" constant="-50" id="6e4-kk-1GU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C22-c2-hqC" secondAttribute="trailing" id="9qm-BP-Shf"/>
                             <constraint firstItem="5Lb-oJ-PM8" firstAttribute="leading" secondItem="kAv-te-e4b" secondAttribute="trailing" constant="10" id="HJc-rf-fKJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W3P-Mz-FeV" secondAttribute="trailing" id="LMj-nm-0bT"/>
@@ -153,14 +154,14 @@
                             <constraint firstItem="kAv-te-e4b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="wIN-7K-9Bk"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="bottom" secondItem="N00-6B-h2x" secondAttribute="bottom" id="wIX-eZ-j87"/>
                             <constraint firstItem="YIW-tw-Ucr" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="bottom" constant="20" id="wg7-yY-00T"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hZ4-s5-iEu" secondAttribute="trailing" id="xIT-m2-p4F"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YIW-tw-Ucr" secondAttribute="bottom" constant="30" id="ygV-fe-pEZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hZ4-s5-iEu" secondAttribute="trailing" constant="50" id="xIT-m2-p4F"/>
                             <constraint firstItem="Q8i-xT-d1Y" firstAttribute="top" secondItem="N00-6B-h2x" secondAttribute="top" id="zMy-xf-6xp"/>
                             <constraint firstItem="rfz-KI-PQW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="zSW-pu-hoh"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="AlarmSetButton" destination="5Lb-oJ-PM8" id="4BQ-l8-qmL"/>
+                        <outlet property="LogButton" destination="wdS-32-W8O" id="YHF-Xa-gWf"/>
                         <outlet property="ReconnectButton" destination="YIW-tw-Ucr" id="Rgv-aF-zLq"/>
                         <outlet property="StatusButton" destination="N00-6B-h2x" id="kry-0j-kwF"/>
                         <outlet property="StatusImage" destination="Q8i-xT-d1Y" id="w55-fF-Zgw"/>

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		231747771DDD544A00F976F8 /* Bluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = 231747761DDD544A00F976F8 /* Bluetooth.png */; };
 		237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */; };
 		237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530E1DD805040053AC81 /* wakaeable_small.png */; };
 		237D53171DD8DC880053AC81 /* MuteChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D53161DD8DC880053AC81 /* MuteChecker.m */; };
@@ -21,6 +20,7 @@
 		23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923291DBD311000544595 /* alarm_beep_long.wav */; };
 		23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C053691CBB30780074846C /* AudioToolbox.framework */; };
 		23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23C0536B1CBB31E20074846C /* alarm_beep.wav */; settings = {ASSET_TAGS = (New, ); }; };
+		23D9A7D41DE5E1900005C5EA /* bluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = 23D9A7D31DE5E1900005C5EA /* bluetooth.png */; };
 		23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E5EDF81DD2A16B00A62610 /* SetupViewController.m */; };
 		23E986CB1CB1EC7E006CE69B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CA1CB1EC7E006CE69B /* main.m */; };
 		23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CD1CB1EC7E006CE69B /* AppDelegate.m */; };
@@ -42,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		231747761DDD544A00F976F8 /* Bluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bluetooth.png; sourceTree = "<group>"; };
 		237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakeable_logo_large_edit1_GRAPHIC_logo_large.png; sourceTree = "<group>"; };
 		237D530E1DD805040053AC81 /* wakaeable_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakaeable_small.png; sourceTree = "<group>"; };
 		237D53151DD8DC880053AC81 /* MuteChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuteChecker.h; sourceTree = "<group>"; };
@@ -57,6 +56,8 @@
 		23A923291DBD311000544595 /* alarm_beep_long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep_long.wav; sourceTree = "<group>"; };
 		23C053691CBB30780074846C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		23C0536B1CBB31E20074846C /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alarm_beep.wav; path = "/Users/evansnyder/Documents/WakeAble/ios_alarm_1_0/alarm-1-0/alarm-1-0/alarm_beep.wav"; sourceTree = "<absolute>"; };
+		23C39C151DE606000001AC7B /* MuteLonger.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MuteLonger.caf; sourceTree = "<group>"; };
+		23D9A7D31DE5E1900005C5EA /* bluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluetooth.png; sourceTree = "<group>"; };
 		23E5EDF71DD2A16B00A62610 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		23E5EDF81DD2A16B00A62610 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		23E986C51CB1EC7E006CE69B /* alarm-1-0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alarm-1-0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,9 +154,10 @@
 			isa = PBXGroup;
 			children = (
 				237D531A1DD95FB80053AC81 /* 1circle.png */,
+				23D9A7D31DE5E1900005C5EA /* bluetooth.png */,
 				237D531B1DD95FB80053AC81 /* 2circle.png */,
 				237D531E1DD962320053AC81 /* exclamation.png */,
-				231747761DDD544A00F976F8 /* Bluetooth.png */,
+				23C39C151DE606000001AC7B /* MuteLonger.caf */,
 				237D53181DD8DD400053AC81 /* MuteChecker.caf */,
 				23A923251DBD2AE900544595 /* alarm_beep.wav */,
 				237D530E1DD805040053AC81 /* wakaeable_small.png */,
@@ -271,7 +273,6 @@
 			files = (
 				23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */,
 				237D531C1DD95FB80053AC81 /* 1circle.png in Resources */,
-				231747771DDD544A00F976F8 /* Bluetooth.png in Resources */,
 				237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */,
 				23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */,
 				23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */,
@@ -284,6 +285,7 @@
 				237D53191DD8DD400053AC81 /* MuteChecker.caf in Resources */,
 				237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */,
 				23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */,
+				23D9A7D41DE5E1900005C5EA /* bluetooth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -56,7 +56,7 @@
     self.notificationInterval = 5;
     self.standardNotificationNumber = 60;
     self.failsafeNotificationNumber = 12;
-    self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after three minutes!";
+    self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
     self.failsafeTitle = @"Disconnected!";
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
@@ -260,7 +260,7 @@
     mailComposer.mailComposeDelegate = self;
     [mailComposer setSubject:@"This thing didn't work!"];
     // Set up recipients
-    NSArray *toRecipients = [NSArray arrayWithObject:@"evan.snyder92@gmail.com"];
+    NSArray *toRecipients = [NSArray arrayWithObject:@"wakeable.team@gmail.com"];
     [mailComposer setToRecipients:toRecipients];
     // Fill out the email body text
     NSString *emailBody = @"We love feedback! Please include below: a short description of the problem your facing along with the approximate time of failure if possible. We'll look into the problem and get back to you as soon as possible.";

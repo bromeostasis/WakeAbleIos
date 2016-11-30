@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:alarm-1-0.xcodeproj">
+      location = "self:/Users/evansnyder/Documents/WakeAble/ios_alarm_1_0/alarm-1-0/Wakeable.xcodeproj">
    </FileRef>
 </Workspace>

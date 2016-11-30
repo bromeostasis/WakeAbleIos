@@ -14,12 +14,9 @@
 		237D531C1DD95FB80053AC81 /* 1circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531A1DD95FB80053AC81 /* 1circle.png */; };
 		237D531D1DD95FB80053AC81 /* 2circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531B1DD95FB80053AC81 /* 2circle.png */; };
 		237D531F1DD962320053AC81 /* exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531E1DD962320053AC81 /* exclamation.png */; };
-		23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923211DBD2ACA00544595 /* alarm_beep.wav */; };
 		23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923231DBD2AD500544595 /* alarm_beep.wav */; };
-		23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923251DBD2AE900544595 /* alarm_beep.wav */; };
 		23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923291DBD311000544595 /* alarm_beep_long.wav */; };
 		23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C053691CBB30780074846C /* AudioToolbox.framework */; };
-		23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23C0536B1CBB31E20074846C /* alarm_beep.wav */; settings = {ASSET_TAGS = (New, ); }; };
 		23D9A7D41DE5E1900005C5EA /* bluetooth.png in Resources */ = {isa = PBXBuildFile; fileRef = 23D9A7D31DE5E1900005C5EA /* bluetooth.png */; };
 		23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E5EDF81DD2A16B00A62610 /* SetupViewController.m */; };
 		23E986CB1CB1EC7E006CE69B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986CA1CB1EC7E006CE69B /* main.m */; };
@@ -27,7 +24,6 @@
 		23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986D01CB1EC7E006CE69B /* ViewController.m */; };
 		23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23E986D21CB1EC7E006CE69B /* Main.storyboard */; };
 		23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23E986D51CB1EC7E006CE69B /* Images.xcassets */; };
-		23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23E986D71CB1EC7E006CE69B /* LaunchScreen.xib */; };
 		23E986E51CB1EC7E006CE69B /* alarm_1_0Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986E41CB1EC7E006CE69B /* alarm_1_0Tests.m */; };
 /* End PBXBuildFile section */
 
@@ -55,12 +51,11 @@
 		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923291DBD311000544595 /* alarm_beep_long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep_long.wav; sourceTree = "<group>"; };
 		23C053691CBB30780074846C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		23C0536B1CBB31E20074846C /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alarm_beep.wav; path = "/Users/evansnyder/Documents/WakeAble/ios_alarm_1_0/alarm-1-0/alarm-1-0/alarm_beep.wav"; sourceTree = "<absolute>"; };
 		23C39C151DE606000001AC7B /* MuteLonger.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MuteLonger.caf; sourceTree = "<group>"; };
 		23D9A7D31DE5E1900005C5EA /* bluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluetooth.png; sourceTree = "<group>"; };
 		23E5EDF71DD2A16B00A62610 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		23E5EDF81DD2A16B00A62610 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
-		23E986C51CB1EC7E006CE69B /* alarm-1-0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "alarm-1-0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23E986C51CB1EC7E006CE69B /* Wakeable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakeable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E986C91CB1EC7E006CE69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23E986CA1CB1EC7E006CE69B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		23E986CC1CB1EC7E006CE69B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -69,8 +64,7 @@
 		23E986D01CB1EC7E006CE69B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		23E986D31CB1EC7E006CE69B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		23E986D51CB1EC7E006CE69B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		23E986D81CB1EC7E006CE69B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		23E986DE1CB1EC7E006CE69B /* alarm-1-0Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "alarm-1-0Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23E986DE1CB1EC7E006CE69B /* WakeableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E986E31CB1EC7E006CE69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23E986E41CB1EC7E006CE69B /* alarm_1_0Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = alarm_1_0Tests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,8 +118,8 @@
 		23E986C61CB1EC7E006CE69B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				23E986C51CB1EC7E006CE69B /* alarm-1-0.app */,
-				23E986DE1CB1EC7E006CE69B /* alarm-1-0Tests.xctest */,
+				23E986C51CB1EC7E006CE69B /* Wakeable.app */,
+				23E986DE1CB1EC7E006CE69B /* WakeableTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,7 +138,6 @@
 				237D53161DD8DC880053AC81 /* MuteChecker.m */,
 				23E986D21CB1EC7E006CE69B /* Main.storyboard */,
 				23E986D51CB1EC7E006CE69B /* Images.xcassets */,
-				23E986D71CB1EC7E006CE69B /* LaunchScreen.xib */,
 				23E986C81CB1EC7E006CE69B /* Supporting Files */,
 			);
 			path = "alarm-1-0";
@@ -189,9 +182,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		23E986C41CB1EC7E006CE69B /* alarm-1-0 */ = {
+		23E986C41CB1EC7E006CE69B /* Wakeable */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 23E986E81CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "alarm-1-0" */;
+			buildConfigurationList = 23E986E81CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "Wakeable" */;
 			buildPhases = (
 				23E986C11CB1EC7E006CE69B /* Sources */,
 				23E986C21CB1EC7E006CE69B /* Frameworks */,
@@ -201,14 +194,14 @@
 			);
 			dependencies = (
 			);
-			name = "alarm-1-0";
+			name = Wakeable;
 			productName = "alarm-1-0";
-			productReference = 23E986C51CB1EC7E006CE69B /* alarm-1-0.app */;
+			productReference = 23E986C51CB1EC7E006CE69B /* Wakeable.app */;
 			productType = "com.apple.product-type.application";
 		};
-		23E986DD1CB1EC7E006CE69B /* alarm-1-0Tests */ = {
+		23E986DD1CB1EC7E006CE69B /* WakeableTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 23E986EB1CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "alarm-1-0Tests" */;
+			buildConfigurationList = 23E986EB1CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "WakeableTests" */;
 			buildPhases = (
 				23E986DA1CB1EC7E006CE69B /* Sources */,
 				23E986DB1CB1EC7E006CE69B /* Frameworks */,
@@ -219,9 +212,9 @@
 			dependencies = (
 				23E986E01CB1EC7E006CE69B /* PBXTargetDependency */,
 			);
-			name = "alarm-1-0Tests";
+			name = WakeableTests;
 			productName = "alarm-1-0Tests";
-			productReference = 23E986DE1CB1EC7E006CE69B /* alarm-1-0Tests.xctest */;
+			productReference = 23E986DE1CB1EC7E006CE69B /* WakeableTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -233,7 +226,7 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Evan Snyder";
 				TargetAttributes = {
 					23E986C41CB1EC7E006CE69B = {
@@ -247,7 +240,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 23E986C01CB1EC7E006CE69B /* Build configuration list for PBXProject "alarm-1-0" */;
+			buildConfigurationList = 23E986C01CB1EC7E006CE69B /* Build configuration list for PBXProject "Wakeable" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -260,8 +253,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				23E986C41CB1EC7E006CE69B /* alarm-1-0 */,
-				23E986DD1CB1EC7E006CE69B /* alarm-1-0Tests */,
+				23E986C41CB1EC7E006CE69B /* Wakeable */,
+				23E986DD1CB1EC7E006CE69B /* WakeableTests */,
 			);
 		};
 /* End PBXProject section */
@@ -274,17 +267,13 @@
 				23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */,
 				237D531C1DD95FB80053AC81 /* 1circle.png in Resources */,
 				237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */,
-				23E986D91CB1EC7E006CE69B /* LaunchScreen.xib in Resources */,
 				23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */,
 				237D531F1DD962320053AC81 /* exclamation.png in Resources */,
-				23C0536C1CBB31E20074846C /* alarm_beep.wav in Resources */,
-				23A923221DBD2ACA00544595 /* alarm_beep.wav in Resources */,
 				23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */,
 				23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */,
 				237D531D1DD95FB80053AC81 /* 2circle.png in Resources */,
 				237D53191DD8DD400053AC81 /* MuteChecker.caf in Resources */,
 				237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */,
-				23A923261DBD2AE900544595 /* alarm_beep.wav in Resources */,
 				23D9A7D41DE5E1900005C5EA /* bluetooth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,7 +313,7 @@
 /* Begin PBXTargetDependency section */
 		23E986E01CB1EC7E006CE69B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 23E986C41CB1EC7E006CE69B /* alarm-1-0 */;
+			target = 23E986C41CB1EC7E006CE69B /* Wakeable */;
 			targetProxy = 23E986DF1CB1EC7E006CE69B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -336,14 +325,6 @@
 				23E986D31CB1EC7E006CE69B /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		23E986D71CB1EC7E006CE69B /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				23E986D81CB1EC7E006CE69B /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -362,15 +343,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -404,8 +389,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -413,6 +400,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -431,15 +419,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Evan Snyder (RELYY2K468)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Evan Snyder (RELYY2K468)";
 				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Development";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -447,16 +437,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Evan Snyder (77XJDAX9D3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Evan Snyder (77XJDAX9D3)";
 				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b34ef13d-70dd-4227-8c9f-bd5566ddabe7";
 				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -474,8 +466,9 @@
 				);
 				INFOPLIST_FILE = "alarm-1-0Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.avengers.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/alarm-1-0.app/alarm-1-0";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wakeable.app/Wakeable";
 			};
 			name = Debug;
 		};
@@ -489,15 +482,16 @@
 				);
 				INFOPLIST_FILE = "alarm-1-0Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.avengers.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/alarm-1-0.app/alarm-1-0";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wakeable.app/Wakeable";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		23E986C01CB1EC7E006CE69B /* Build configuration list for PBXProject "alarm-1-0" */ = {
+		23E986C01CB1EC7E006CE69B /* Build configuration list for PBXProject "Wakeable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				23E986E61CB1EC7E006CE69B /* Debug */,
@@ -506,7 +500,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		23E986E81CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "alarm-1-0" */ = {
+		23E986E81CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "Wakeable" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				23E986E91CB1EC7E006CE69B /* Debug */,
@@ -515,7 +509,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		23E986EB1CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "alarm-1-0Tests" */ = {
+		23E986EB1CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "WakeableTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				23E986EC1CB1EC7E006CE69B /* Debug */,

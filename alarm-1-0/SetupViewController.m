@@ -66,13 +66,13 @@
     NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
     [self.centralManager scanForPeripheralsWithServices:services options:nil];
     
-    NSLog(@"In dismissview: %hhd", self.foundDevice);
+    NSLog(@"In dismissview: %d", self.foundDevice);
     [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
     
 }
 
 - (void) alertNoDevices {
-    NSLog(@"In alert devices: %hhd", self.foundDevice);
+    NSLog(@"In alert devices: %d", self.foundDevice);
     if (!self.foundDevice) {
         [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
@@ -110,7 +110,7 @@
 //    [peripheral discoverServices:nil];
     
     bool connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %hhd", connected);
+    NSLog(@"Connected: %d", connected);
     
     if (connected) {
         NSLog(@"Connected to the HM10. Maybe redirect here or pass some data letting ViewController know we're all set");

@@ -40,7 +40,6 @@
 @property BOOL connected;
 @property BOOL bluetoothCapable;
 @property BOOL alarmSet;
-@property BOOL first;
 @property BOOL foundDevice;
 @property BOOL soundPlaying;
 @property int notificationCount;
@@ -53,20 +52,19 @@
 @property (nonatomic, strong) NSString   *hm10Device;
 @property (nonatomic, strong) NSString   *failsafeMessage;
 @property (nonatomic, strong) NSString   *failsafeTitle;
+@property (nonatomic, strong) NSString   *standardMessage;
+@property (nonatomic, strong) NSString   *standardTitle;
 @property (nonatomic, strong) NSString *notificationText;
 @property (nonatomic, strong) NSString *notificationTitle;
-@property (nonatomic, strong) NSArray   *alarmMessages;
 
 @property (nonatomic, strong) NSDate *dateSet;
 @property (assign) uint16_t heartRate;
 
 - (IBAction)Reconnect:(id)sender;
 - (IBAction)SendLogs:(id)sender;
-- (IBAction)Connect:(id)sender;
 - (IBAction)SetAlarm:(id)sender;
-- (void) scheduleLocalNotification: (NSDate *)fireDate forMessage:(NSString*)message howMany:(int)numberOfNotifications;
+- (void) scheduleLocalNotification: (NSDate *)fireDate;
 - (void) getStringPackage:(CBCharacteristic *)characteristic;
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification;
 - (void) turnOffWakeableNotifications;
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result

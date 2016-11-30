@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0620"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "23E986C41CB1EC7E006CE69B"
-               BuildableName = "alarm-1-0.app"
-               BlueprintName = "alarm-1-0"
-               ReferencedContainer = "container:alarm-1-0.xcodeproj">
+               BuildableName = "Wakeable.app"
+               BlueprintName = "Wakeable"
+               ReferencedContainer = "container:Wakeable.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "23E986DD1CB1EC7E006CE69B"
-               BuildableName = "alarm-1-0Tests.xctest"
-               BlueprintName = "alarm-1-0Tests"
-               ReferencedContainer = "container:alarm-1-0.xcodeproj">
+               BuildableName = "WakeableTests.xctest"
+               BlueprintName = "WakeableTests"
+               ReferencedContainer = "container:Wakeable.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "23E986DD1CB1EC7E006CE69B"
-               BuildableName = "alarm-1-0Tests.xctest"
-               BlueprintName = "alarm-1-0Tests"
-               ReferencedContainer = "container:alarm-1-0.xcodeproj">
+               BuildableName = "WakeableTests.xctest"
+               BlueprintName = "WakeableTests"
+               ReferencedContainer = "container:Wakeable.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23E986C41CB1EC7E006CE69B"
-            BuildableName = "alarm-1-0.app"
-            BlueprintName = "alarm-1-0"
-            ReferencedContainer = "container:alarm-1-0.xcodeproj">
+            BuildableName = "Wakeable.app"
+            BlueprintName = "Wakeable"
+            ReferencedContainer = "container:Wakeable.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,18 +80,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23E986C41CB1EC7E006CE69B"
-            BuildableName = "alarm-1-0.app"
-            BlueprintName = "alarm-1-0"
-            ReferencedContainer = "container:alarm-1-0.xcodeproj">
+            BuildableName = "Wakeable.app"
+            BlueprintName = "Wakeable"
+            ReferencedContainer = "container:Wakeable.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = ""
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption
             key = "NSZombieEnabled"
@@ -111,9 +104,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "23E986C41CB1EC7E006CE69B"
-            BuildableName = "alarm-1-0.app"
-            BlueprintName = "alarm-1-0"
-            ReferencedContainer = "container:alarm-1-0.xcodeproj">
+            BuildableName = "Wakeable.app"
+            BlueprintName = "Wakeable"
+            ReferencedContainer = "container:Wakeable.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -58,16 +58,10 @@
     self.failsafeNotificationNumber = 12;
     self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
     self.failsafeTitle = @"Disconnected!";
+    self.standardMessage = @"GO wake up!";
+    self.standardTitle = @"Wake up time";
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
-    
-    self.alarmMessages = @[
-                        @[@"Good morning!", @"Looking good today"],
-                        @[@"You got this!", @"Seriously, you really do."],
-                        @[@"It's a lovely day!", @"There's so much to do."],
-                        @[@"Benjamin Franklin:", @"The early morning has gold in its mouth."],
-                        @[@"Richard Whately:", @"Lose an hour in the morning, and you will be all day hunting for it."],
-                        ];
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -171,7 +165,7 @@
     }
     
     self.foundDevice = NO;
-    NSLog(@"In reconnect: %hhd", self.foundDevice);
+    NSLog(@"In reconnect: %d", self.foundDevice);
     [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
 }
 
@@ -285,9 +279,8 @@
 - (void) scheduleLocalNotification: (NSDate *) fireDate{
     int numberOfNotifications = 0;
     if (self.connected) {
-        int randomChoice = arc4random_uniform([self.alarmMessages count]);
-        self.notificationText = self.alarmMessages[randomChoice][1];
-        self.notificationTitle = self.alarmMessages[randomChoice][0];
+        self.notificationText = self.standardMessage;
+        self.notificationTitle = self.standardTitle;
         numberOfNotifications = self.standardNotificationNumber;
     }
     else{
@@ -309,9 +302,9 @@
             
             NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*i];
             NSCalendar *gregorian = [[NSCalendar alloc]
-                                     initWithCalendarIdentifier:NSGregorianCalendar];
-            NSDateComponents *dateComponents = [gregorian components:(NSSecondCalendarUnit | NSMinuteCalendarUnit |
-                                                                      NSHourCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:modDate];
+                                     initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSDateComponents *dateComponents = [gregorian components:(NSCalendarUnitSecond | NSCalendarUnitMinute |
+                                                                      NSCalendarUnitHour| NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:modDate];
             UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dateComponents repeats:NO];
             UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[NSString stringWithFormat:@"notification%d", self.notificationCount]
                                                                                   content:content trigger:trigger];
@@ -356,7 +349,7 @@
 }
 
 - (void) setConnectionButton {
-    NSLog(@"Setting connection button: %hhd", self.connected);
+    NSLog(@"Setting connection button: %d", self.connected);
     if(self.connected){
         
         [self.ReconnectButton setHidden:YES];
@@ -402,7 +395,7 @@
     [peripheral discoverServices:nil];
     
     self.connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %hhd", self.connected);
+    NSLog(@"Connected: %d", self.connected);
     [self setConnectionButton];
     
     if (self.connected) {
@@ -447,7 +440,7 @@
         
         self.connected = peripheral.state == CBPeripheralStateConnected;
         [self setConnectionButton];
-        NSLog(@"Disconnected. Cancelling all notifications. For now.. %hhd", self.connected);
+        NSLog(@"Disconnected. Cancelling all notifications. For now.. %d", self.connected);
         
         [self turnOffWakeableNotifications];
         
@@ -530,10 +523,10 @@
 // Instance method to get the string from the device
 - (void) getStringPackage:(CBCharacteristic *)characteristic
 {
-    NSString *manufacturerName = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];  // 1
-    NSLog([NSString stringWithFormat:@"Manufacturer: %@", manufacturerName]);    // 2
+    NSString *packageContents = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];  // 1
+    NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);    // 2
     
-    if ([manufacturerName containsString:@"1"]) {
+    if ([packageContents containsString:@"1"]) {
         if (self.dateSet != nil) {
             NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
             NSDate * result = [currentDate laterDate:self.dateSet];
@@ -552,7 +545,7 @@
         }
     }
     else{
-        NSLog(manufacturerName);
+        NSLog(@"Package did not contain a one: %@", packageContents);
     }
     return;
 }
@@ -562,19 +555,14 @@
 - (void)addPeripheralViewController:(SetupViewController *)controller foundPeripheral:(CBPeripheral *)peripheral
 {
     NSLog(@"This was returned from Setup %@", peripheral.name);
-//    self.hm10Peripheral = peripheral;
     self.connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %hhd", self.connected);
+    NSLog(@"Connected: %d", self.connected);
     [self setConnectionButton];
-//    peripheral.delegate = self;
-    
     NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
     [self.centralManager scanForPeripheralsWithServices:services options:nil];
 }
 
 - (void) foregroundBiz {
-    NSLog(@"Any reason this owrks in the foreground?");
-    
     
     if (self.dateSet != nil && !self.connected) {
         NSDateComponents *secondComponent = [[NSDateComponents alloc] init];
@@ -598,6 +586,7 @@
             NSLog(@"Failsafe should have gone off. Setting button off");
             self.dateSet = nil;
             [self setAlarmButton:NO];
+            [self turnOffWakeableNotifications];
         }
         
     }
@@ -642,7 +631,7 @@
 
 - (void) alertNoDevices {
     [self.centralManager stopScan];
-    NSLog(@"In alert devices: %hhd", self.foundDevice);
+    NSLog(@"In alert devices: %d", self.foundDevice);
     if (!self.foundDevice) {
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"

@@ -23,6 +23,7 @@
         _notificationCount = 0;
         _hm10Peripheral = nil;
         _soundPlaying = NO;
+        _connected = NO;
     }
     return self;
 }
@@ -53,6 +54,9 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    
     self.notificationInterval = 5;
     self.standardNotificationNumber = 60;
     self.failsafeNotificationNumber = 12;
@@ -65,7 +69,7 @@
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(foregroundBiz)
+     selector:@selector(checkForFailsafe)
      name:UIApplicationWillEnterForegroundNotification
      object:nil];
     
@@ -107,38 +111,30 @@
     self.ReconnectButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.ReconnectButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
-    
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
     self.muteChecker = [[MuteChecker alloc] initWithCompletionBlk:^(NSTimeInterval lapse, BOOL muted) {
-        NSLog(@"lapsed: %f", lapse);
-        NSLog(@"muted: %d", muted);
         
         if(muted){
             UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"Silenced!!"
-                                        message: @"Please turn off your slience switch to hear notifications in the morning."
+                                        alertControllerWithTitle:@"Your phone is silenced!"
+                                        message: @"Please turn off the slience switch to hear notifications in the morning."
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"thanks!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Thanks!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
             [alert addAction:defaultAction];
             
             [self presentViewController:alert animated:NO completion:^{}];
         }
     }];
+    // Get the first one out of the way.
     [_muteChecker check];
 
     
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
-    self.connected = NO;
     dateTimePicker.datePickerMode = UIDatePickerModeTime;
     
 //    BLUETOOTH SETUP
-    
-    
     CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager = centralManager;
 
@@ -154,7 +150,6 @@
 
 
 - (IBAction)Reconnect:(id)sender {
-    NSLog(@"Reconnecting");
     
     CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
     [testBluetooth state];
@@ -165,7 +160,6 @@
     }
     
     self.foundDevice = NO;
-    NSLog(@"In reconnect: %d", self.foundDevice);
     [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
 }
 
@@ -211,7 +205,7 @@
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"got it, I will try to reconnect first" style:UIAlertActionStyleDefault
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Got it, I will try to reconnect first" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {
                                                                       [self setAlarmButton:NO];
                                                                       self.dateSet = nil;
@@ -219,7 +213,7 @@
                                                                   }];
             [alert addAction:defaultAction];
             
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction * action) {
                                                                      [self scheduleLocalNotification:self.dateSet];
                                                                      NSLog(@"The switch is on:  %@", dtString);
@@ -228,8 +222,6 @@
                                                                  }];
             [alert addAction:cancelAction];
             
-            //            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-            //
             [self presentViewController:alert animated:NO completion:^{}];
         }
     
@@ -253,10 +245,8 @@
 
     mailComposer.mailComposeDelegate = self;
     [mailComposer setSubject:@"This thing didn't work!"];
-    // Set up recipients
     NSArray *toRecipients = [NSArray arrayWithObject:@"wakeable.team@gmail.com"];
     [mailComposer setToRecipients:toRecipients];
-    // Fill out the email body text
     NSString *emailBody = @"We love feedback! Please include below: a short description of the problem your facing along with the approximate time of failure if possible. We'll look into the problem and get back to you as soon as possible.";
     [mailComposer setMessageBody:emailBody isHTML:NO];
     
@@ -321,9 +311,6 @@
         notification.soundName = @"alarm_beep.wav";
         
         for (int i=0; i<numberOfNotifications; i++){
-            
-            NSLog(@"Mod date shit: %d", self.notificationInterval*(i+1));
-            
             NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*(i+1)];
             notification.fireDate = modDate;
             [[UIApplication sharedApplication] scheduleLocalNotification:notification];
@@ -353,7 +340,6 @@
     if(self.connected){
         
         [self.ReconnectButton setHidden:YES];
-//        [self.StatusButton setEnabled:NO];
         [self.StatusButton setTitle:@"you're good to go" forState:UIControlStateDisabled];
         [self.StatusImage setImage:self.btImage];
     }
@@ -500,7 +486,7 @@
 {
     
     // Retrieve Device Information Services for the Manufacturer Name
-    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"FFE0"]])  { // 4
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"FFE0"]])  {
         for (CBCharacteristic *aChar in service.characteristics)
         {
             if ([aChar.UUID isEqual:[CBUUID UUIDWithString:@"FFE1"]]) {
@@ -523,8 +509,8 @@
 // Instance method to get the string from the device
 - (void) getStringPackage:(CBCharacteristic *)characteristic
 {
-    NSString *packageContents = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];  // 1
-    NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);    // 2
+    NSString *packageContents = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);
     
     if ([packageContents containsString:@"1"]) {
         if (self.dateSet != nil) {
@@ -541,6 +527,8 @@
             }
         }
         else{
+            // Turn off notifications in case of a kill/reconnect situation..
+            [self turnOffWakeableNotifications];
             NSLog(@"Got a one, but there's no date set. Likely just connecting");
         }
     }
@@ -556,13 +544,12 @@
 {
     NSLog(@"This was returned from Setup %@", peripheral.name);
     self.connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %d", self.connected);
     [self setConnectionButton];
     NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
     [self.centralManager scanForPeripheralsWithServices:services options:nil];
 }
 
-- (void) foregroundBiz {
+- (void) checkForFailsafe {
     
     if (self.dateSet != nil && !self.connected) {
         NSDateComponents *secondComponent = [[NSDateComponents alloc] init];
@@ -602,10 +589,7 @@
                                                           handler:^(UIAlertAction * action) {}];
     [alert addAction:defaultAction];
     
-    UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-    
-    [vc presentViewController:alert animated:NO completion:^{}];
-    //        [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:nil];
     
     if (!soundId) {
         NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
@@ -642,8 +626,6 @@
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
         [alert addAction:defaultAction];
         
-        //            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        //
         [self presentViewController:alert animated:NO completion:^{}];
         
         

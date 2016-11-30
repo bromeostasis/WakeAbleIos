@@ -56,9 +56,7 @@
 @property (nonatomic, strong) NSString   *standardTitle;
 @property (nonatomic, strong) NSString *notificationText;
 @property (nonatomic, strong) NSString *notificationTitle;
-
 @property (nonatomic, strong) NSDate *dateSet;
-@property (assign) uint16_t heartRate;
 
 - (IBAction)Reconnect:(id)sender;
 - (IBAction)SendLogs:(id)sender;
@@ -69,9 +67,8 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error;
-
-
 - (IBAction)PlaySound:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIImageView *StatusImage;
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;
 @property (weak, nonatomic) IBOutlet UIButton *StatusButton;

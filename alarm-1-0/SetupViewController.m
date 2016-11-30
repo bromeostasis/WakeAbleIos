@@ -106,14 +106,11 @@
 // method called whenever you have successfully connected to the BLE peripheral
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-//    [peripheral setDelegate:self];
-//    [peripheral discoverServices:nil];
-    
     bool connected = peripheral.state == CBPeripheralStateConnected;
     NSLog(@"Connected: %d", connected);
     
     if (connected) {
-        NSLog(@"Connected to the HM10. Maybe redirect here or pass some data letting ViewController know we're all set");
+        NSLog(@"Connected to the HM10. Redirect here.");
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
@@ -150,8 +147,6 @@
                                                                  handler:^(UIAlertAction * action) {}];
             [alert addAction:cancelAction];
             
-//            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-//            
             [self presentViewController:alert animated:NO completion:^{}];
         }
         else{

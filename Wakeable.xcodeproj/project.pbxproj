@@ -51,7 +51,6 @@
 		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923291DBD311000544595 /* alarm_beep_long.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep_long.wav; sourceTree = "<group>"; };
 		23C053691CBB30780074846C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		23C39C151DE606000001AC7B /* MuteLonger.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MuteLonger.caf; sourceTree = "<group>"; };
 		23D9A7D31DE5E1900005C5EA /* bluetooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluetooth.png; sourceTree = "<group>"; };
 		23E5EDF71DD2A16B00A62610 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		23E5EDF81DD2A16B00A62610 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
@@ -150,7 +149,6 @@
 				23D9A7D31DE5E1900005C5EA /* bluetooth.png */,
 				237D531B1DD95FB80053AC81 /* 2circle.png */,
 				237D531E1DD962320053AC81 /* exclamation.png */,
-				23C39C151DE606000001AC7B /* MuteLonger.caf */,
 				237D53181DD8DD400053AC81 /* MuteChecker.caf */,
 				23A923251DBD2AE900544595 /* alarm_beep.wav */,
 				237D530E1DD805040053AC81 /* wakaeable_small.png */,

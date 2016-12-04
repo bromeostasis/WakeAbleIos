@@ -108,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				23C053691CBB30780074846C /* AudioToolbox.framework */,
-				23E986C71CB1EC7E006CE69B /* alarm-1-0 */,
+				23E986C71CB1EC7E006CE69B /* Wakeable */,
 				23E986E11CB1EC7E006CE69B /* alarm-1-0Tests */,
 				23E986C61CB1EC7E006CE69B /* Products */,
 			);
@@ -123,7 +123,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		23E986C71CB1EC7E006CE69B /* alarm-1-0 */ = {
+		23E986C71CB1EC7E006CE69B /* Wakeable */ = {
 			isa = PBXGroup;
 			children = (
 				23A9231E1DBD224D00544595 /* Library */,
@@ -139,6 +139,7 @@
 				23E986D51CB1EC7E006CE69B /* Images.xcassets */,
 				23E986C81CB1EC7E006CE69B /* Supporting Files */,
 			);
+			name = Wakeable;
 			path = "alarm-1-0";
 			sourceTree = "<group>";
 		};

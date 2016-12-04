@@ -8,6 +8,9 @@
 
 #import "SetupViewController.h"
 
+#define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+
 @interface SetupViewController ()
 
 @end
@@ -22,6 +25,20 @@
 }
 
 - (void)viewDidLoad {
+    
+    
+    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
+        
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert)
+                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
+                                  if (!error) {
+                                      NSLog(@"request authorization succeeded!");
+                                  }
+                              }];
+    }
+    
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.OneLabel.layer setBorderWidth:5.0];
@@ -66,13 +83,11 @@
     NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
     [self.centralManager scanForPeripheralsWithServices:services options:nil];
     
-    NSLog(@"In dismissview: %d", self.foundDevice);
     [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
     
 }
 
 - (void) alertNoDevices {
-    NSLog(@"In alert devices: %d", self.foundDevice);
     if (!self.foundDevice) {
         [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
@@ -107,10 +122,9 @@
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     bool connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %d", connected);
     
     if (connected) {
-        NSLog(@"Connected to the HM10. Redirect here.");
+        NSLog(@"Connected to the HM10. Redirect to main view.");
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
@@ -150,7 +164,7 @@
             [self presentViewController:alert animated:NO completion:^{}];
         }
         else{
-            NSLog(@"Found a device with non-wakeable name");
+            NSLog(@"Found a device with non-wakeable name: %@", localName);
         }
     }
     else{

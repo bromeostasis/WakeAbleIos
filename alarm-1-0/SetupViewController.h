@@ -11,6 +11,9 @@
 @import CoreBluetooth;
 @import QuartzCore;
 
+@import UserNotifications;
+
+
 #define HM10_SERVICE_UUID @"FFE0";
 #define HM10_CHAR_UUID @"FFE1";
 

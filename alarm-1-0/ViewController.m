@@ -35,11 +35,11 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
         setupController.delegate = self;
-        [self presentViewController:setupController animated:YES completion:NULL];
+        [self presentViewController:setupController animated:NO completion:NULL];
     }
     else{
         if (self.bluetoothCapable && self.hm10Peripheral == nil) {
-            NSLog(@"Ok we're staring up the search");
+            NSLog(@"We have an address, bluetooth is on, and we're not currently connected. Let's scan for devices.");
             NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
             [self.centralManager scanForPeripheralsWithServices:services options:nil];
         }
@@ -48,7 +48,6 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    NSLog(@"Testing bluetooth");
     CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
     [testBluetooth state];
 }
@@ -62,8 +61,8 @@
     self.failsafeNotificationNumber = 12;
     self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
     self.failsafeTitle = @"Disconnected!";
-    self.standardMessage = @"GO wake up!";
-    self.standardTitle = @"Wake up time";
+    self.standardMessage = @"Time to get up!";
+    self.standardTitle = @"Press the physical Wakeable button to turn off your alarm.";
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
     
@@ -336,7 +335,6 @@
 }
 
 - (void) setConnectionButton {
-    NSLog(@"Setting connection button: %d", self.connected);
     if(self.connected){
         
         [self.ReconnectButton setHidden:YES];
@@ -381,17 +379,17 @@
     [peripheral discoverServices:nil];
     
     self.connected = peripheral.state == CBPeripheralStateConnected;
-    NSLog(@"Connected: %d", self.connected);
     [self setConnectionButton];
     
     if (self.connected) {
-        NSLog(@"Date set: %@", self.dateSet);
+        self.foundDevice = YES;
+        NSLog(@"Connected to a peripheral. Current date set: %@", self.dateSet);
         if (self.dateSet != nil) {
             NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
             
             NSDate * result = [currentDate earlierDate:self.dateSet];
             if (result == currentDate ) {
-                NSLog(@"Reconnected and reset the notifications");
+                NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
                 [self turnOffWakeableNotifications];
                 [self scheduleLocalNotification:self.dateSet];
             }
@@ -409,7 +407,6 @@
 {
     
     if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
-        self.foundDevice = YES;
         [self.centralManager stopScan];
         self.hm10Peripheral = peripheral;
         peripheral.delegate = self;
@@ -421,20 +418,18 @@
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error{
-    NSLog(@"Disconnected from peripheral: %@",  peripheral.name);
-    if ([peripheral.name isEqualToString:self.hm10Peripheral.name]) {
+    if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
         
         self.connected = peripheral.state == CBPeripheralStateConnected;
         [self setConnectionButton];
-        NSLog(@"Disconnected. Cancelling all notifications. For now.. %d", self.connected);
+        NSLog(@"Disconnected from our wakeable.");
         
         [self turnOffWakeableNotifications];
         
         if (self.dateSet != nil) {
+            NSLog(@"We had a date set, cancelling all notifications.");
             [self scheduleLocalNotification:self.dateSet];
         }
-        
-        NSLog(@"Looking for peripheral: %@", self.hm10Peripheral.name);
         [self.centralManager connectPeripheral:peripheral options:nil];
     }
     
@@ -454,7 +449,7 @@
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
         self.bluetoothCapable = YES;
         if (self.address != nil && self.hm10Peripheral == nil) {
-            NSLog(@"Ok we're staring up the search");
+            NSLog(@"We have an address stored, but we're not connected. Let's scan for our device.");
             NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
             [self.centralManager scanForPeripheralsWithServices:services options:nil];
         }
@@ -476,7 +471,6 @@
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
     for (CBService *service in peripheral.services) {
-        NSLog(@"Discovered service: %@", service.UUID);
         [peripheral discoverCharacteristics:nil forService:service];
     }
 }
@@ -491,7 +485,6 @@
         {
             if ([aChar.UUID isEqual:[CBUUID UUIDWithString:@"FFE1"]]) {
                 [self.hm10Peripheral readValueForCharacteristic:aChar];
-                NSLog(@"Found the serial characteristic");
                 [self.hm10Peripheral setNotifyValue:YES forCharacteristic:aChar];
             }
         }
@@ -570,7 +563,7 @@
         NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
         NSDate * result = [currentDate laterDate:failsafeDate];
         if (result == currentDate ) {
-            NSLog(@"Failsafe should have gone off. Setting button off");
+            NSLog(@"Failsafe should have gone off. Turning button off.");
             self.dateSet = nil;
             [self setAlarmButton:NO];
             [self turnOffWakeableNotifications];
@@ -615,7 +608,6 @@
 
 - (void) alertNoDevices {
     [self.centralManager stopScan];
-    NSLog(@"In alert devices: %d", self.foundDevice);
     if (!self.foundDevice) {
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"

@@ -26,17 +26,7 @@
     [self redirectLogToDocuments];
     // Override point for customization after application launch.
     
-    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
-        
-        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert)
-                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                                  if (!error) {
-                                      NSLog(@"request authorization succeeded!");
-                                  }
-                              }];
-    }
-    else{
+    if (!SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
         if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
             [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
         }
@@ -73,8 +63,6 @@
 
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    
-    NSLog(@"Received local notification");
     if ([application applicationState] == UIApplicationStateActive) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ForegroundNotification" object:self];
         

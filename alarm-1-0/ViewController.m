@@ -61,8 +61,8 @@
     self.failsafeNotificationNumber = 12;
     self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
     self.failsafeTitle = @"Disconnected!";
-    self.standardMessage = @"Time to get up!";
-    self.standardTitle = @"Press the physical Wakeable button to turn off your alarm.";
+    self.standardTitle = @"Time to get up!";
+    self.standardMessage = @"Press the physical Wakeable button to turn off your alarm.";
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
     

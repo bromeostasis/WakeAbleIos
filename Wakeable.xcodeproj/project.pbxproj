@@ -427,6 +427,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d84efec3-0bb4-41f8-8ce3-b82c981a9b97";
 				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Development";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -445,8 +446,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b34ef13d-70dd-4227-8c9f-bd5566ddabe7";
-				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc";
+				PROVISIONING_PROFILE = "64a7fc36-68ad-462f-aa73-a9aefbbd2d86";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Distribution 2016";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

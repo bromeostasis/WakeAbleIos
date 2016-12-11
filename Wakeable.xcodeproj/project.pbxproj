@@ -446,8 +446,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "64a7fc36-68ad-462f-aa73-a9aefbbd2d86";
-				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Distribution 2016";
+				PROVISIONING_PROFILE = "2c7f3c62-352f-4687-a5b5-c1bbceb43d04";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

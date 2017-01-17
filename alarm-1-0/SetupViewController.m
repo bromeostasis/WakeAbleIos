@@ -92,7 +92,7 @@
         [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
-                                    message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. try moving closer to the device and confirm that the bluetooth on your phone is on."]
+                                    message: [NSString stringWithFormat:@"It looks like Wakeable had a problem connecting. try moving closer to the device and confirming that the bluetooth on your phone is on."]
                                     preferredStyle:UIAlertControllerStyleAlert];
         
         

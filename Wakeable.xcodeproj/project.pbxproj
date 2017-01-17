@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		230920D11E2ABDAC0033BC4B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230920D01E2ABDAC0033BC4B /* AVFoundation.framework */; };
 		237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */; };
 		237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530E1DD805040053AC81 /* wakaeable_small.png */; };
 		237D53171DD8DC880053AC81 /* MuteChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 237D53161DD8DC880053AC81 /* MuteChecker.m */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		230920D01E2ABDAC0033BC4B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakeable_logo_large_edit1_GRAPHIC_logo_large.png; sourceTree = "<group>"; };
 		237D530E1DD805040053AC81 /* wakaeable_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakaeable_small.png; sourceTree = "<group>"; };
 		237D53151DD8DC880053AC81 /* MuteChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuteChecker.h; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				230920D11E2ABDAC0033BC4B /* AVFoundation.framework in Frameworks */,
 				23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		230920CF1E2ABDAB0033BC4B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				230920D01E2ABDAC0033BC4B /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		23A9231E1DBD224D00544595 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +122,7 @@
 				23E986C71CB1EC7E006CE69B /* Wakeable */,
 				23E986E11CB1EC7E006CE69B /* alarm-1-0Tests */,
 				23E986C61CB1EC7E006CE69B /* Products */,
+				230920CF1E2ABDAB0033BC4B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

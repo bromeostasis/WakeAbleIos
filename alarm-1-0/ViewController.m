@@ -10,6 +10,7 @@
 
 @interface ViewController ()
 
+
 @end
 
 @implementation ViewController
@@ -115,7 +116,7 @@
         if(muted){
             UIAlertController* alert = [UIAlertController
                                         alertControllerWithTitle:@"Your phone is silenced!"
-                                        message: @"Please turn off the slience switch to hear notifications in the morning."
+                                        message: @"Please turn off the silence switch to hear notifications in the morning."
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             
@@ -127,6 +128,7 @@
     }];
     // Get the first one out of the way.
     [_muteChecker check];
+    
 
     
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
@@ -200,7 +202,7 @@
         else{
             UIAlertController* alert = [UIAlertController
                                         alertControllerWithTitle:@"Head's up!"
-                                        message: @"You're not connected to wakeable, but you just turned on your alarm."
+                                        message: @"You're not connected to Wakeable, but you just turned on your alarm."
                                         preferredStyle:UIAlertControllerStyleAlert];
             
             
@@ -611,7 +613,7 @@
     if (!self.foundDevice) {
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
-                                    message: [NSString stringWithFormat:@"It looks like wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."]
+                                    message: [NSString stringWithFormat:@"It looks like Wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."]
                                     preferredStyle:UIAlertControllerStyleAlert];
         
         

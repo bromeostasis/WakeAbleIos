@@ -169,14 +169,23 @@
     if(!self.alarmSet){
         [_muteChecker check];
         
+        // Get the minute/hour components
         self.dateSet = dateTimePicker.date;
         
         NSCalendar *theCalendar = [NSCalendar currentCalendar];
-        self.dateSet = [theCalendar dateBySettingUnit:NSCalendarUnitSecond value:0 ofDate:self.dateSet options:0];
-        NSDateComponents *minuteComponent = [[NSDateComponents alloc] init];
-        minuteComponent.minute = -1;
-        self.dateSet = [theCalendar dateByAddingComponents:minuteComponent toDate:self.dateSet options:0];
         NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+        
+        
+        // Base things off the current date just to be sure..
+        NSDateComponents *currentComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:self.dateSet];
+        
+        [currentComponents setHour:[components hour]];
+        [currentComponents setMinute:[components minute]];
+        [currentComponents setSecond:0];
+        
+        self.dateSet = [theCalendar dateFromComponents:currentComponents];
+        
         NSDate * result = [currentDate laterDate:self.dateSet];
         if (result == currentDate ) {
             NSLog(@"Current date is later than selected. Set for tomorrow");

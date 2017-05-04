@@ -168,7 +168,6 @@
     
     if(!self.alarmSet){
         [_muteChecker check];
-        
         // Get the minute/hour components
         self.dateSet = dateTimePicker.date;
         

@@ -15,6 +15,7 @@
 		237D531C1DD95FB80053AC81 /* 1circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531A1DD95FB80053AC81 /* 1circle.png */; };
 		237D531D1DD95FB80053AC81 /* 2circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531B1DD95FB80053AC81 /* 2circle.png */; };
 		237D531F1DD962320053AC81 /* exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D531E1DD962320053AC81 /* exclamation.png */; };
+		23A2C59E1F2FF78300333DD3 /* BluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A2C59D1F2FF78300333DD3 /* BluetoothManager.m */; };
 		23A923241DBD2AD500544595 /* alarm_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923231DBD2AD500544595 /* alarm_beep.wav */; };
 		23A9232A1DBD311000544595 /* alarm_beep_long.wav in Resources */ = {isa = PBXBuildFile; fileRef = 23A923291DBD311000544595 /* alarm_beep_long.wav */; };
 		23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C053691CBB30780074846C /* AudioToolbox.framework */; };
@@ -48,6 +49,8 @@
 		237D531A1DD95FB80053AC81 /* 1circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1circle.png; sourceTree = "<group>"; };
 		237D531B1DD95FB80053AC81 /* 2circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2circle.png; sourceTree = "<group>"; };
 		237D531E1DD962320053AC81 /* exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exclamation.png; sourceTree = "<group>"; };
+		23A2C59C1F2FF65700333DD3 /* BluetoothManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothManager.h; sourceTree = "<group>"; };
+		23A2C59D1F2FF78300333DD3 /* BluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothManager.m; sourceTree = "<group>"; };
 		23A923211DBD2ACA00544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923231DBD2AD500544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
 		23A923251DBD2AE900544595 /* alarm_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alarm_beep.wav; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				23E5EDF81DD2A16B00A62610 /* SetupViewController.m */,
 				237D53151DD8DC880053AC81 /* MuteChecker.h */,
 				237D53161DD8DC880053AC81 /* MuteChecker.m */,
+				23A2C59C1F2FF65700333DD3 /* BluetoothManager.h */,
+				23A2C59D1F2FF78300333DD3 /* BluetoothManager.m */,
 				23E986D21CB1EC7E006CE69B /* Main.storyboard */,
 				23E986D51CB1EC7E006CE69B /* Images.xcassets */,
 				23E986C81CB1EC7E006CE69B /* Supporting Files */,
@@ -307,6 +312,7 @@
 				23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */,
 				23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */,
 				23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */,
+				23A2C59E1F2FF78300333DD3 /* BluetoothManager.m in Sources */,
 				23E986CB1CB1EC7E006CE69B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

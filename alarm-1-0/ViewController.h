@@ -33,12 +33,12 @@
 }
 
 @property (nonatomic, strong) MuteChecker *muteChecker;
-@property (nonatomic, strong) CBCentralManager *centralManager;
-@property (nonatomic, strong) CBPeripheral *hm10Peripheral;
+//@property (nonatomic, strong) CBCentralManager *centralManager;
+//@property (nonatomic, strong) CBPeripheral *hm10Peripheral;
 @property (nonatomic, strong) UIImage *btImage;
 @property (nonatomic, strong) UIImage *exclamationImage;
-@property BOOL connected;
-@property BOOL bluetoothCapable;
+//@property BOOL connected;
+//@property BOOL bluetoothCapable;
 @property BOOL alarmSet;
 @property BOOL foundDevice;
 @property BOOL soundPlaying;
@@ -47,9 +47,9 @@
 @property int standardNotificationNumber;
 @property int notificationInterval;
 @property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSString   *bodyData;
-@property (nonatomic, strong) NSString   *manufacturer;
-@property (nonatomic, strong) NSString   *hm10Device;
+//@property (nonatomic, strong) NSString   *bodyData;
+//@property (nonatomic, strong) NSString   *manufacturer;
+//@property (nonatomic, strong) NSString   *hm10Device;
 @property (nonatomic, strong) NSString   *failsafeMessage;
 @property (nonatomic, strong) NSString   *failsafeTitle;
 @property (nonatomic, strong) NSString   *standardMessage;

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BluetoothManager.h"
+#import "ViewController.h"
 
 static CBCentralManager *centralManager;
 static CBPeripheral *hm10Peripheral;
@@ -17,6 +18,8 @@ static NSString *address;
 static NSString   *bodyData;
 static NSString   *manufacturer;
 static NSString   *hm10Device;
+// Possible??
+//static ViewController *viewController = [getViewControllerInstance];
 
 @implementation BluetoothManager
 
@@ -30,8 +33,8 @@ static NSString   *hm10Device;
 + (void) createManagerIfNecessary
 {
     if (centralManager == nil) {
-        CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-        centralManager = centralManager;
+        CBCentralManager *newCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+        centralManager = newCentralManager;
     }
 }
 
@@ -51,84 +54,104 @@ static NSString   *hm10Device;
 
 + (BOOL) hasPeripheral
 {
-    return hm10Peripheral == nil;
+    return hm10Peripheral != nil;
 }
 
 + (void) stopScan
 {
     [centralManager stopScan];
 }
++ (CBPeripheral *) getPeripheral
+{
+    return hm10Peripheral;
+}
++ (void) connectToPeripheral:(CBPeripheral *) peripheral
+{
+    hm10Peripheral = peripheral;
+    peripheral.delegate = self;
+    [centralManager connectPeripheral:hm10Peripheral options:nil];
+}
 
 // Peripheral methods
 
 // method called whenever you have successfully connected to the BLE peripheral
-- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
++ (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
+    connected = peripheral.state == CBPeripheralStateConnected;
     [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
     
-    connected = peripheral.state == CBPeripheralStateConnected;
-    // VIEW CONTROLLER THAT STATUS HAS CHANGED
-//    [self setConnectionButton];
-//    
-//    if (connected) {
-//        foundDevice = YES;
-//        NSLog(@"Connected to a peripheral. Current date set: %@", dateSet);
-//        if (dateSet != nil) {
-//            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-//            
-//            NSDate * result = [currentDate earlierDate:dateSet];
-//            if (result == currentDate ) {
-//                NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
-//                [self turnOffWakeableNotifications];
-//                [self scheduleLocalNotification:dateSet];
-//            }
-//            else{
-//                NSLog(@"Failsafe notifications already went off. Let's just reset");
-//                dateSet = nil;
-//                [self setAlarmButton:NO];
-//            }
-//        }
-//    }
+//    ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
+//    [viewController setConnectionButton];
+    
+    if (address == nil) {
+        NSLog(@"Connected to the HM10. Redirect to main view.");
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
+        [defaults synchronize];
+        address = peripheral.identifier.UUIDString;
+        
+//        SHOULD be done in setup
+    }
+    else{
+//        [viewController resetPreviousNotifications];
+    }
 }
 
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
++ (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    
-    if ([peripheral.identifier.UUIDString isEqualToString:address]) {
-        [centralManager stopScan];
-        hm10Peripheral = peripheral;
-        peripheral.delegate = self;
-        [centralManager connectPeripheral:peripheral options:nil];
+    if (address == nil) {
+        NSString *deviceName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+        if ([deviceName length] > 0) {
+            NSLog(@"Found the HM 10!: %@", deviceName);
+            if ([[deviceName lowercaseString] isEqualToString:@"wakeable"]) {
+                [centralManager stopScan];
+                
+//                SetupViewController *setupViewController = [self getViewControllerInstance:@"SetupViewController"];
+                hm10Peripheral = peripheral;
+            }
+            else{
+                NSLog(@"Found a device with non-wakeable name: %@", deviceName);
+                return;
+            }
+        }
     }
     else{
-        NSLog(@"Found a device with non-wakeable name");
+        if ([peripheral.identifier.UUIDString isEqualToString:address]) {
+            [centralManager stopScan];
+            
+            [self connectToPeripheral:peripheral];
+            hm10Peripheral = peripheral;
+            peripheral.delegate = self;
+            [centralManager connectPeripheral:peripheral options:nil];
+        }
+        else{
+            NSLog(@"Found a device with non-wakeable name");
+            return;
+        }
     }
+    
 }
 
-- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error{
++ (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error{
     if ([peripheral.identifier.UUIDString isEqualToString:address]) {
         
         connected = peripheral.state == CBPeripheralStateConnected;
-        
-        // VIEW CONTROLLER CALL
-//        [self setConnectionButton];
-//        NSLog(@"Disconnected from our wakeable.");
-//        
-//        [self turnOffWakeableNotifications];
-//        
-//        if (dateSet != nil) {
-//            NSLog(@"We had a date set, cancelling all notifications.");
-//            [self scheduleLocalNotification:dateSet];
-//        }
-//        [centralManager connectPeripheral:peripheral options:nil];
+        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
+        [viewController setConnectionButton];
+        NSLog(@"Disconnected from our wakeable.");
+        // TODO: Pretty sure these should be combined
+        [viewController turnOffWakeableNotifications];
+        [viewController cancelCurrentNotifications];
+        [centralManager connectPeripheral:peripheral options:nil];
     }
     
 }
 
 // method called whenever the device state changes.
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
++ (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     // Determine the state of the peripheral
     if ([central state] == CBCentralManagerStatePoweredOff) {
@@ -161,7 +184,7 @@ static NSString   *hm10Device;
 #pragma mark - CBPeripheralDelegate
 
 // CBPeripheralDelegate - Invoked when you discover the peripheral's available services.
-- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
++ (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
     for (CBService *service in peripheral.services) {
         [peripheral discoverCharacteristics:nil forService:service];
@@ -169,7 +192,7 @@ static NSString   *hm10Device;
 }
 
 // Invoked when you discover the characteristics of a specified service.
-- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
++ (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
 {
     
     // Retrieve Device Information Services for the Manufacturer Name
@@ -185,7 +208,7 @@ static NSString   *hm10Device;
 }
 
 // Invoked when you retrieve a specified characteristic's value, or when the peripheral device notifies your app that the characteristic's value has changed.
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
++ (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FFE1"]]) {
         [self getStringPackage:characteristic];
@@ -193,35 +216,24 @@ static NSString   *hm10Device;
 }
 
 // Instance method to get the string from the device
-- (void) getStringPackage:(CBCharacteristic *)characteristic
++ (void) getStringPackage:(CBCharacteristic *)characteristic
 {
     NSString *packageContents = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
     NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);
 
-    // VIEW CONTROLLER SHOULD KNOW ABOUT PACKAGE UPDATE
-//    if ([packageContents containsString:@"1"]) {
-//        if (dateSet != nil) {
-//            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-//            NSDate * result = [currentDate laterDate:dateSet];
-//            if (result == currentDate ) {
-//                NSLog(@"Got a one. cancelling all notifications");
-//                [self turnOffWakeableNotifications];
-//                dateSet = nil;
-//                [self setAlarmButton:NO];
-//            }
-//            else{
-//                NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
-//            }
-//        }
-//        else{
-//            // Turn off notifications in case of a kill/reconnect situation..
-//            [self turnOffWakeableNotifications];
-//            NSLog(@"Got a one, but there's no date set. Likely just connecting");
-//        }
-//    }
-//    else{
-//        NSLog(@"Package did not contain a one: %@", packageContents);
-//    }
-//    return;
+    if ([packageContents containsString:@"1"]) {
+        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
+        [viewController handlePhysicalButtonPress];
+    }
+    else{
+        NSLog(@"Package did not contain a one: %@", packageContents);
+    }
+}
+
++ (ViewController *) getViewControllerInstance:(NSString *) viewName{
+    // Is this really the way to do this?
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ViewController *viewController = [sb instantiateViewControllerWithIdentifier:viewName];
+    return viewController;
 }
 @end

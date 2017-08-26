@@ -7,6 +7,7 @@
 //
 
 #import "SetupViewController.h"
+#import "BluetoothManager.h"
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -59,8 +60,8 @@
     //    BLUETOOTH SETUP
     
     
-    CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    self.centralManager = centralManager;
+//    CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+//    self.centralManager = centralManager;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,6 +80,8 @@
 */
 
 - (IBAction)DismissView:(id)sender {
+    [BluetoothManager connect];
+    
     self.foundDevice = NO;
     NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
     [self.centralManager scanForPeripheralsWithServices:services options:nil];
@@ -88,7 +91,7 @@
 }
 
 - (void) alertNoDevices {
-    if (!self.foundDevice) {
+    if (![BluetoothManager hasPeripheral]) {
         [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
@@ -105,6 +108,9 @@
         
         
     }
+    else{
+        [self onWakeableDeviceFound:[BluetoothManager getPeripheral]];
+    }
     
     self.foundDevice = NO;
 }
@@ -114,84 +120,90 @@
     [self.centralManager connectPeripheral:peripheral options:nil];
 }
 
+- (void) onWakeableDeviceFound:(CBPeripheral *) peripheral{
+//    self.foundDevice = YES;
+    
+    UIAlertController* alert = [UIAlertController
+                                alertControllerWithTitle:@"Wakeable Found"
+                                message: [NSString stringWithFormat:@"Found a Wakeable with identifier %@, want to connect?", peripheral.identifier.UUIDString]
+                                preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    // TODO: Figure out how this worked and ensure screen change still happens..
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [BluetoothManager connectToPeripheral:peripheral];
+                                                              [self dismissViewControllerAnimated:YES completion:NULL];
+
+                                                          }];
+    [alert addAction:defaultAction];
+    
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No thanks" style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {}];
+    [alert addAction:cancelAction];
+    
+    [self presentViewController:alert animated:NO completion:^{}];
+}
+
 // BLUETOOTH METHODS BEGIN
 
 #pragma mark - CBCentralManagerDelegate
 
 // method called whenever you have successfully connected to the BLE peripheral
-- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
-{
-    bool connected = peripheral.state == CBPeripheralStateConnected;
-    
-    if (connected) {
-        NSLog(@"Connected to the HM10. Redirect to main view.");
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
-        [defaults synchronize];
-
-        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-}
+//- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+//{
+//    bool connected = peripheral.state == CBPeripheralStateConnected;
+//    
+//    if (connected) {
+//        NSLog(@"Connected to the HM10. Redirect to main view.");
+//        
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
+//        [defaults synchronize];
+//
+//        [self.delegate addPeripheralViewController:self foundPeripheral:self.hm10Peripheral];
+//        [self dismissViewControllerAnimated:YES completion:NULL];
+//    }
+//}
 
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
-    NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
-    if ([localName length] > 0) {
-        NSLog(@"Found the HM 10!: %@", localName);
-        if ([[localName lowercaseString] isEqualToString:@"wakeable"]) {
-            [self.centralManager stopScan];
-            self.foundDevice = YES;
-            
-            UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"Wakeable Found"
-                                        message: [NSString stringWithFormat:@"Found a Wakeable with identifier %@, want to connect?", [peripheral.identifier UUIDString]]
-                                        preferredStyle:UIAlertControllerStyleAlert];
-            
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      [self handleWakeableConnection:peripheral];
-                                                                  }];
-            [alert addAction:defaultAction];
-            
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No thanks" style:UIAlertActionStyleCancel
-                                                                 handler:^(UIAlertAction * action) {}];
-            [alert addAction:cancelAction];
-            
-            [self presentViewController:alert animated:NO completion:^{}];
-        }
-        else{
-            NSLog(@"Found a device with non-wakeable name: %@", localName);
-        }
-    }
-    else{
-        NSLog(@"Found device with name of length less than 0");
-    }
-}
+//- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+//{
+//    NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+//    if ([localName length] > 0) {
+//        NSLog(@"Found the HM 10!: %@", localName);
+//        if ([[localName lowercaseString] isEqualToString:@"wakeable"]) {
+//            [self.centralManager stopScan];
+//        }
+//        else{
+//            NSLog(@"Found a device with non-wakeable name: %@", localName);
+//        }
+//    }
+//    else{
+//        NSLog(@"Found device with name of length less than 0");
+//    }
+//}
 
-// method called whenever the device state changes.
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    // TODO: Take action if anything but POWERED ON happens
-    // Determine the state of the peripheral
-    if ([central state] == CBCentralManagerStatePoweredOff) {
-        NSLog(@"CoreBluetooth BLE hardware is powered off");
-    }
-    else if ([central state] == CBCentralManagerStatePoweredOn) {
-        NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
-    }
-    else if ([central state] == CBCentralManagerStateUnauthorized) {
-        NSLog(@"CoreBluetooth BLE state is unauthorized");
-    }
-    else if ([central state] == CBCentralManagerStateUnknown) {
-        NSLog(@"CoreBluetooth BLE state is unknown");
-    }
-    else if ([central state] == CBCentralManagerStateUnsupported) {
-        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
-    }
-}
+//// method called whenever the device state changes.
+//- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+//{
+//    // TODO: Take action if anything but POWERED ON happens
+//    // Determine the state of the peripheral
+//    if ([central state] == CBCentralManagerStatePoweredOff) {
+//        NSLog(@"CoreBluetooth BLE hardware is powered off");
+//    }
+//    else if ([central state] == CBCentralManagerStatePoweredOn) {
+//        NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+//    }
+//    else if ([central state] == CBCentralManagerStateUnauthorized) {
+//        NSLog(@"CoreBluetooth BLE state is unauthorized");
+//    }
+//    else if ([central state] == CBCentralManagerStateUnknown) {
+//        NSLog(@"CoreBluetooth BLE state is unknown");
+//    }
+//    else if ([central state] == CBCentralManagerStateUnsupported) {
+//        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+//    }
+//}
 
 @end

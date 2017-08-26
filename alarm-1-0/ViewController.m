@@ -155,7 +155,7 @@
 
 
 - (IBAction)Reconnect:(id)sender {
-    
+    // Checks if bluetooth is turned on?
     CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
     [testBluetooth state];
     
@@ -182,10 +182,10 @@
         
         // Base things off the current date just to be sure..
         NSDateComponents *currentComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:self.dateSet];
+        NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:self.dateSet];
         
-        [currentComponents setHour:[components hour]];
-        [currentComponents setMinute:[components minute]];
+        [currentComponents setHour:[timeComponents hour]];
+        [currentComponents setMinute:[timeComponents minute]];
         [currentComponents setSecond:0];
         
         self.dateSet = [theCalendar dateFromComponents:currentComponents];
@@ -383,6 +383,27 @@
     [self dismissViewControllerAnimated:NO completion:^{}];
 }
 
+- (void) handlePhysicalButtonPress {
+    if (self.dateSet != nil) {
+        NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSDate * result = [currentDate laterDate:self.dateSet];
+        if (result == currentDate ) {
+            NSLog(@"Got a one. cancelling all notifications");
+            [self turnOffWakeableNotifications];
+            self.dateSet = nil;
+            [self setAlarmButton:NO];
+        }
+        else{
+            NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
+        }
+    }
+    else{
+        // Turn off notifications in case of a kill/reconnect situation..
+        [self turnOffWakeableNotifications];
+        NSLog(@"Got a one, but there's no date set. Likely just connecting");
+    }
+}
+
 // BLUETOOTH METHODS BEGIN HERE:
 
 #pragma mark - CBCentralManagerDelegate
@@ -395,26 +416,34 @@
 //    
 //    self.connected = peripheral.state == CBPeripheralStateConnected;
 //    [self setConnectionButton];
-//    
-//    if (self.connected) {
-//        self.foundDevice = YES;
-//        NSLog(@"Connected to a peripheral. Current date set: %@", self.dateSet);
-//        if (self.dateSet != nil) {
-//            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-//            
-//            NSDate * result = [currentDate earlierDate:self.dateSet];
-//            if (result == currentDate ) {
-//                NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
-//                [self turnOffWakeableNotifications];
-//                [self scheduleLocalNotification:self.dateSet];
-//            }
-//            else{
-//                NSLog(@"Failsafe notifications already went off. Let's just reset");
-//                self.dateSet = nil;
-//                [self setAlarmButton:NO];
-//            }
-//        }
-//    }
+//
+- (void) resetPreviousNotifications {
+    if ([BluetoothManager isConnected]) {
+        self.foundDevice = YES;
+        NSLog(@"Connected to a peripheral. Current date set: %@", self.dateSet);
+        if (self.dateSet != nil) {
+            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+            
+            NSDate * earlierDate = [currentDate earlierDate:self.dateSet];
+            if (earlierDate == currentDate ) {
+                NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
+                [self turnOffWakeableNotifications];
+                [self scheduleLocalNotification:self.dateSet];
+            }
+            else{
+                NSLog(@"Failsafe notifications already went off. Let's just reset");
+                self.dateSet = nil;
+                [self setAlarmButton:NO];
+            }
+        }
+    }
+}
+- (void) cancelCurrentNotifications {
+    if (self.dateSet != nil) {
+        NSLog(@"We had a date set, cancelling all notifications.");
+        [self scheduleLocalNotification:self.dateSet];
+    }
+}
 //}
 //
 //// CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.

@@ -8,6 +8,7 @@
 
 @import CoreBluetooth;
 @import QuartzCore;
+#import "ViewController.h"
 
 #ifndef BluetoothManager_h
 #define BluetoothManager_h
@@ -24,6 +25,10 @@
 + (BOOL) isBluetoothCapable;
 + (BOOL) hasPeripheral;
 + (void) stopScan;
++ (void) connectToPeripheral:(CBPeripheral *) peripheral;
++ (CBPeripheral *) getPeripheral;
+
++ (ViewController *) getViewControllerInstance;
 
 
 @end

@@ -68,6 +68,10 @@
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error;
 - (IBAction)PlaySound:(id)sender;
+- (void) setConnectionButton;
+- (void) resetPreviousNotifications;
+- (void) cancelCurrentNotifications;
+- (void) handlePhysicalButtonPress;
 
 @property (weak, nonatomic) IBOutlet UIImageView *StatusImage;
 @property (weak, nonatomic) IBOutlet UIButton *AlarmSetButton;

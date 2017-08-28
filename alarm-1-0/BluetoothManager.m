@@ -83,6 +83,7 @@ static NSString   *hm10Device;
     
 //    ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
 //    [viewController setConnectionButton];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
     
     if (address == nil) {
         NSLog(@"Connected to the HM10. Redirect to main view.");
@@ -103,7 +104,9 @@ static NSString   *hm10Device;
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
 + (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    if (address == nil) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *storedAddress = [defaults objectForKey:@"address"];
+    if (storedAddress == nil) {
         NSString *deviceName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
         if ([deviceName length] > 0) {
             NSLog(@"Found the HM 10!: %@", deviceName);
@@ -121,7 +124,7 @@ static NSString   *hm10Device;
         }
     }
     else{
-        if ([peripheral.identifier.UUIDString isEqualToString:address]) {
+        if ([peripheral.identifier.UUIDString isEqualToString:storedAddress]) {
             [centralManager stopScan];
             
             [self connectToPeripheral:peripheral];
@@ -142,7 +145,9 @@ static NSString   *hm10Device;
         
         connected = peripheral.state == CBPeripheralStateConnected;
         ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
-        [viewController setConnectionButton];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
+
+//        [viewController setConnectionButton];
         NSLog(@"Disconnected from our wakeable.");
         // TODO: Pretty sure these should be combined
         [viewController turnOffWakeableNotifications];
@@ -162,6 +167,8 @@ static NSString   *hm10Device;
         connected = NO;
         // SET BUTTON ON VIEW CONTROLLER
 //        [self setConnectionButton];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
+
     }
     else if ([central state] == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");

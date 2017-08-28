@@ -83,6 +83,12 @@
      name:@"ForegroundNotification"
      object:nil];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(setConnectionButton)
+     name:@"ConnectionChanged"
+     object:nil];
+    
     [self.StatusButton setEnabled:NO];
     [self.StatusButton.layer setBorderWidth:2.0];
     [self.StatusButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];

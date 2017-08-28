@@ -32,21 +32,21 @@
 
 - (void)viewDidLayoutSubviews {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.address = [defaults objectForKey:@"address"];
-    if (self.address == nil ) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
-        setupController.delegate = self;
-        [self presentViewController:setupController animated:NO completion:NULL];
-    }
-    else{
+//    self.address = [defaults objectForKey:@"address"];
+    if ([BluetoothManager hasAddress]) {
         if ([BluetoothManager isBluetoothCapable] && [BluetoothManager hasPeripheral]) {
             NSLog(@"We have an address, bluetooth is on, and we're not currently connected. Let's scan for devices.");
             
             [BluetoothManager connect];
-//            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-//            [self.centralManager scanForPeripheralsWithServices:services options:nil];
+            //            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
+            //            [self.centralManager scanForPeripheralsWithServices:services options:nil];
         }
+    }
+    else{
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
+        setupController.delegate = self;
+        [self presentViewController:setupController animated:NO completion:NULL];
     }
 
 }

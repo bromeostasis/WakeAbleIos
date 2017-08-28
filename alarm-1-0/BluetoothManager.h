@@ -24,6 +24,7 @@
 + (void) setConnected:(BOOL) connectedValue;
 + (BOOL) isBluetoothCapable;
 + (BOOL) hasPeripheral;
++ (BOOL) hasAddress;
 + (void) stopScan;
 + (void) connectToPeripheral:(CBPeripheral *) peripheral;
 + (CBPeripheral *) getPeripheral;

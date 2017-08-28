@@ -57,6 +57,18 @@
     self.ConnectButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.ConnectButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(onWakeableDeviceFound)
+     name:@"FoundWakeable"
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(onWakeableConnected)
+     name:@"ConnectedWakeable"
+     object:nil];
+    
     //    BLUETOOTH SETUP
     
     
@@ -91,7 +103,7 @@
 }
 
 - (void) alertNoDevices {
-    if (![BluetoothManager hasPeripheral]) {
+    if (!self.foundDevice) {
         [self.centralManager stopScan];
         UIAlertController* alert = [UIAlertController
                                     alertControllerWithTitle:@"Oh dear"
@@ -108,9 +120,6 @@
         
         
     }
-    else{
-        [self onWakeableDeviceFound:[BluetoothManager getPeripheral]];
-    }
     
     self.foundDevice = NO;
 }
@@ -120,8 +129,9 @@
     [self.centralManager connectPeripheral:peripheral options:nil];
 }
 
-- (void) onWakeableDeviceFound:(CBPeripheral *) peripheral{
-//    self.foundDevice = YES;
+- (void) onWakeableDeviceFound {
+    CBPeripheral *peripheral = [BluetoothManager getPeripheral];
+    self.foundDevice = YES;
     
     UIAlertController* alert = [UIAlertController
                                 alertControllerWithTitle:@"Wakeable Found"
@@ -133,8 +143,6 @@
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               [BluetoothManager connectToPeripheral:peripheral];
-                                                              [self dismissViewControllerAnimated:YES completion:NULL];
-
                                                           }];
     [alert addAction:defaultAction];
     
@@ -143,6 +151,10 @@
     [alert addAction:cancelAction];
     
     [self presentViewController:alert animated:NO completion:^{}];
+}
+
+- (void) onWakeableConnected {
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 // BLUETOOTH METHODS BEGIN

@@ -28,7 +28,8 @@
 @interface SetupViewController : UIViewController <CBCentralManagerDelegate>
 
 - (IBAction)DismissView:(id)sender;
-- (void)onWakeableDeviceFound:(CBPeripheral *)peripheral;
+- (void)onWakeableDeviceFound;
+- (void)onWakeableConnected;
 
 @property (weak, nonatomic) IBOutlet UILabel *TwoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *OneLabel;

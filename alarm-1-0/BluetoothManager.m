@@ -56,10 +56,6 @@ static NSString   *hm10Device;
 {
     return hm10Peripheral != nil;
 }
-+ (BOOL) hasAddress
-{
-    return address != nil;
-}
 
 + (void) stopScan
 {
@@ -91,13 +87,13 @@ static NSString   *hm10Device;
     if (address == nil) {
         NSLog(@"Connected to the HM10. Redirect to main view.");
         
-//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
-//        [defaults synchronize];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:peripheral.identifier.UUIDString forKey:@"address"];
+        [defaults synchronize];
+        
         address = peripheral.identifier.UUIDString;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectedWakeable" object:nil];
         
-//        SHOULD be done in setup
     }
     else{
 //        [viewController resetPreviousNotifications];

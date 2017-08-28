@@ -81,8 +81,6 @@ static NSString   *hm10Device;
     [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
     
-//    ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
-//    [viewController setConnectionButton];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
     
     if (address == nil) {
@@ -146,8 +144,7 @@ static NSString   *hm10Device;
         connected = peripheral.state == CBPeripheralStateConnected;
         ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
-
-//        [viewController setConnectionButton];
+        
         NSLog(@"Disconnected from our wakeable.");
         // TODO: Pretty sure these should be combined
         [viewController turnOffWakeableNotifications];
@@ -165,8 +162,6 @@ static NSString   *hm10Device;
         NSLog(@"CoreBluetooth BLE hardware is powered off");
         bluetoothCapable = NO;
         connected = NO;
-        // SET BUTTON ON VIEW CONTROLLER
-//        [self setConnectionButton];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
 
     }

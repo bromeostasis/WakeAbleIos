@@ -226,8 +226,7 @@ static NSString   *hm10Device;
     NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);
 
     if ([packageContents containsString:@"1"]) {
-        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
-        [viewController handlePhysicalButtonPress];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceivedOne" object:nil];
     }
     else{
         NSLog(@"Package did not contain a one: %@", packageContents);

@@ -85,7 +85,7 @@
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(setConnectionButton)
+     selector:@selector(handleConnectionChange)
      name:@"ConnectionChanged"
      object:nil];
     
@@ -415,6 +415,18 @@
         [self turnOffWakeableNotifications];
         NSLog(@"Got a one, but there's no date set. Likely just connecting");
     }
+}
+
+- (void) handleConnectionChange {
+    [self setConnectionButton];
+    if ([BluetoothManager isConnected]){
+        [self resetPreviousNotifications];
+    }
+    else{
+        [self turnOffWakeableNotifications];
+        [self cancelCurrentNotifications];
+    }
+
 }
 
 // BLUETOOTH METHODS BEGIN HERE:

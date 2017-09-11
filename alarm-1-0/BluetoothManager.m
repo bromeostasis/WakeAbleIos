@@ -142,13 +142,13 @@ static NSString   *hm10Device;
     if ([peripheral.identifier.UUIDString isEqualToString:address]) {
         
         connected = peripheral.state == CBPeripheralStateConnected;
-        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
+//        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
         
         NSLog(@"Disconnected from our wakeable.");
         // TODO: Pretty sure these should be combined
-        [viewController turnOffWakeableNotifications];
-        [viewController cancelCurrentNotifications];
+//        [viewController turnOffWakeableNotifications];
+//        [viewController cancelCurrentNotifications];
         [centralManager connectPeripheral:peripheral options:nil];
     }
     

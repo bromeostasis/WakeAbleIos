@@ -21,8 +21,6 @@
 
 @protocol SetupViewControllerDelegate <NSObject>
 
-- (void)addPeripheralViewController:(SetupViewController *)controller foundPeripheral:(CBPeripheral *)peripheral;
-
 @end
 
 @interface SetupViewController : UIViewController <CBCentralManagerDelegate>

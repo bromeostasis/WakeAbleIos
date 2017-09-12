@@ -97,9 +97,6 @@
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
         [alert addAction:defaultAction];
-        
-        //            UIViewController *vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        //
         [self presentViewController:alert animated:NO completion:^{}];
         
         
@@ -123,7 +120,6 @@
                                 preferredStyle:UIAlertControllerStyleAlert];
     
     
-    // TODO: Figure out how this worked and ensure screen change still happens..
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               [BluetoothManager connectToPeripheral:peripheral];

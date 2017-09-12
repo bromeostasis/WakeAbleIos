@@ -18,8 +18,6 @@ static NSString *address;
 static NSString   *bodyData;
 static NSString   *manufacturer;
 static NSString   *hm10Device;
-// Possible??
-//static ViewController *viewController = [getViewControllerInstance];
 
 @implementation BluetoothManager
 
@@ -78,7 +76,7 @@ static NSString   *hm10Device;
 + (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     connected = peripheral.state == CBPeripheralStateConnected;
-    [peripheral setDelegate:self];
+//    [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
@@ -94,9 +92,6 @@ static NSString   *hm10Device;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectedWakeable" object:nil];
         
     }
-    else{
-//        [viewController resetPreviousNotifications];
-    }
 }
 
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
@@ -110,8 +105,6 @@ static NSString   *hm10Device;
             NSLog(@"Found the HM 10!: %@", deviceName);
             if ([[deviceName lowercaseString] isEqualToString:@"wakeable"]) {
                 [centralManager stopScan];
-                
-//                SetupViewController *setupViewController = [self getViewControllerInstance:@"SetupViewController"];
                 hm10Peripheral = peripheral;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"FoundWakeable" object:nil];
             }
@@ -142,13 +135,8 @@ static NSString   *hm10Device;
     if ([peripheral.identifier.UUIDString isEqualToString:address]) {
         
         connected = peripheral.state == CBPeripheralStateConnected;
-//        ViewController *viewController = [self getViewControllerInstance:@"ViewController"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
-        
         NSLog(@"Disconnected from our wakeable.");
-        // TODO: Pretty sure these should be combined
-//        [viewController turnOffWakeableNotifications];
-//        [viewController cancelCurrentNotifications];
         [centralManager connectPeripheral:peripheral options:nil];
     }
     

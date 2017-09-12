@@ -44,8 +44,6 @@
             NSLog(@"We have an address, bluetooth is on, and we're not currently connected. Let's scan for devices.");
             
             [BluetoothManager connect];
-            //            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-            //            [self.centralManager scanForPeripheralsWithServices:services options:nil];
         }
         
     }
@@ -151,9 +149,6 @@
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
     dateTimePicker.datePickerMode = UIDatePickerModeTime;
     
-//    BLUETOOTH SETUP
-//    CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-//    self.centralManager = centralManager;
     [BluetoothManager connect];
 
     [self setConnectionButton];
@@ -174,8 +169,6 @@
     
     if ([BluetoothManager isBluetoothCapable]) {
         [BluetoothManager connect];
-//        NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-//        [self.centralManager scanForPeripheralsWithServices:services options:nil];
     }
     
     self.foundDevice = NO;
@@ -415,19 +408,6 @@
 
 }
 
-// BLUETOOTH METHODS BEGIN HERE:
-
-#pragma mark - CBCentralManagerDelegate
-
-// method called whenever you have successfully connected to the BLE peripheral
-//- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
-//{
-//    [peripheral setDelegate:self];
-//    [peripheral discoverServices:nil];
-//    
-//    self.connected = peripheral.state == CBPeripheralStateConnected;
-//    [self setConnectionButton];
-//
 - (void) resetPreviousNotifications {
     if ([BluetoothManager isConnected]) {
         self.foundDevice = YES;
@@ -455,148 +435,8 @@
         [self scheduleLocalNotification:self.dateSet];
     }
 }
-//}
-//
-//// CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter. This contains most of the information there is to know about a BLE peripheral.
-//- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-//{
-//    
-//    if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
-//        [self.centralManager stopScan];
-//        self.hm10Peripheral = peripheral;
-//        peripheral.delegate = self;
-//        [self.centralManager connectPeripheral:peripheral options:nil];
-//    }
-//    else{
-//        NSLog(@"Found a device with non-wakeable name");
-//    }
-//}
-//
-//- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(nonnull CBPeripheral *)peripheral error:(nullable NSError *)error{
-//    if ([peripheral.identifier.UUIDString isEqualToString:self.address]) {
-//        
-//        self.connected = peripheral.state == CBPeripheralStateConnected;
-//        [self setConnectionButton];
-//        NSLog(@"Disconnected from our wakeable.");
-//        
-//        [self turnOffWakeableNotifications];
-//        
-//        if (self.dateSet != nil) {
-//            NSLog(@"We had a date set, cancelling all notifications.");
-//            [self scheduleLocalNotification:self.dateSet];
-//        }
-//        [self.centralManager connectPeripheral:peripheral options:nil];
-//    }
-//    
-//}
-//
-//// method called whenever the device state changes.
-//- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-//{
-//    // Determine the state of the peripheral
-//    if ([central state] == CBCentralManagerStatePoweredOff) {
-//        NSLog(@"CoreBluetooth BLE hardware is powered off");
-//        self.bluetoothCapable = NO;
-//        self.connected = NO;
-//        [self setConnectionButton];
-//    }
-//    else if ([central state] == CBCentralManagerStatePoweredOn) {
-//        NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
-//        self.bluetoothCapable = YES;
-//        if (self.address != nil && self.hm10Peripheral == nil) {
-//            NSLog(@"We have an address stored, but we're not connected. Let's scan for our device.");
-//            NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-//            [self.centralManager scanForPeripheralsWithServices:services options:nil];
-//        }
-//    }
-//    else if ([central state] == CBCentralManagerStateUnauthorized) {
-//        NSLog(@"CoreBluetooth BLE state is unauthorized");
-//    }
-//    else if ([central state] == CBCentralManagerStateUnknown) {
-//        NSLog(@"CoreBluetooth BLE state is unknown");
-//    }
-//    else if ([central state] == CBCentralManagerStateUnsupported) {
-//        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
-//    }
-//}
-//
-//#pragma mark - CBPeripheralDelegate
-//
-//// CBPeripheralDelegate - Invoked when you discover the peripheral's available services.
-//- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
-//{
-//    for (CBService *service in peripheral.services) {
-//        [peripheral discoverCharacteristics:nil forService:service];
-//    }
-//}
-//
-//// Invoked when you discover the characteristics of a specified service.
-//- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
-//{
-//    
-//    // Retrieve Device Information Services for the Manufacturer Name
-//    if ([service.UUID isEqual:[CBUUID UUIDWithString:@"FFE0"]])  {
-//        for (CBCharacteristic *aChar in service.characteristics)
-//        {
-//            if ([aChar.UUID isEqual:[CBUUID UUIDWithString:@"FFE1"]]) {
-//                [self.hm10Peripheral readValueForCharacteristic:aChar];
-//                [self.hm10Peripheral setNotifyValue:YES forCharacteristic:aChar];
-//            }
-//        }
-//    }
-//}
-//
-//// Invoked when you retrieve a specified characteristic's value, or when the peripheral device notifies your app that the characteristic's value has changed.
-//- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-//{
-//    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FFE1"]]) {
-//        [self getStringPackage:characteristic];
-//    }
-//}
-//
-//// Instance method to get the string from the device
-//- (void) getStringPackage:(CBCharacteristic *)characteristic
-//{
-//    NSString *packageContents = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", [NSString stringWithFormat:@"Data from arduino: %@", packageContents]);
-//    
-//    if ([packageContents containsString:@"1"]) {
-//        if (self.dateSet != nil) {
-//            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-//            NSDate * result = [currentDate laterDate:self.dateSet];
-//            if (result == currentDate ) {
-//                NSLog(@"Got a one. cancelling all notifications");
-//                [self turnOffWakeableNotifications];
-//                self.dateSet = nil;
-//                [self setAlarmButton:NO];
-//            }
-//            else{
-//                NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
-//            }
-//        }
-//        else{
-//            // Turn off notifications in case of a kill/reconnect situation..
-//            [self turnOffWakeableNotifications];
-//            NSLog(@"Got a one, but there's no date set. Likely just connecting");
-//        }
-//    }
-//    else{
-//        NSLog(@"Package did not contain a one: %@", packageContents);
-//    }
-//    return;
-//}
 
-// Non-BT helper functions
-
-- (void)addPeripheralViewController:(SetupViewController *)controller foundPeripheral:(CBPeripheral *)peripheral
-{
-    NSLog(@"This was returned from Setup %@", peripheral.name);
-    [BluetoothManager setConnected:(peripheral.state == CBPeripheralStateConnected)];
-    [self setConnectionButton];
-    [BluetoothManager connect];
-//    NSArray *services = @[ [CBUUID UUIDWithString:@"FFE0"] ];
-//    [self.centralManager scanForPeripheralsWithServices:services options:nil];
-}
+// Helper functions
 
 - (void) checkForFailsafe {
     

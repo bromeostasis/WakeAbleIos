@@ -23,7 +23,7 @@
 
 @end
 
-@interface SetupViewController : UIViewController <CBCentralManagerDelegate>
+@interface SetupViewController : UIViewController
 
 - (IBAction)DismissView:(id)sender;
 - (void)onWakeableDeviceFound;

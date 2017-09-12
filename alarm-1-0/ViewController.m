@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "BluetoothManager.h"
+#import "RMUniversalAlert/RMUniversalAlert.h"
 
 @interface ViewController ()
 
@@ -21,11 +22,8 @@
 - (id) initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle {
     self = [super initWithNibName:aNibName bundle:aBundle]; // The UIViewController's version of init
     if (self) {
-//        _bluetoothCapable = NO;
         _notificationCount = 0;
-//        _hm10Peripheral = nil;
         _soundPlaying = NO;
-//        _connected = NO;
     }
     return self;
 }
@@ -128,16 +126,10 @@
     self.muteChecker = [[MuteChecker alloc] initWithCompletionBlk:^(NSTimeInterval lapse, BOOL muted) {
         
         if(muted){
-            UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"Your phone is silenced!"
-                                        message: @"Please turn off the silence switch to hear notifications in the morning."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-            
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Thanks!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
-            [alert addAction:defaultAction];
-            
-            [self presentViewController:alert animated:NO completion:^{}];
+            [RMUniversalAlert showAlertInViewController:self
+                  withTitle:@"Your phone is silenced"
+                  message:@"Please turn off the silence switch to hear notifications."
+                  cancelButtonTitle:@"Thanks!" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
         }
     }];
     // Get the first one out of the way.
@@ -178,7 +170,6 @@
 - (IBAction)SetAlarm:(id)sender {
     
     if(!self.alarmSet){
-        [_muteChecker check];
         // Get the minute/hour components
         self.dateSet = dateTimePicker.date;
         
@@ -212,6 +203,7 @@
         
         NSString *dtString = [dateFormatter stringFromDate:self.dateSet];
         if ([BluetoothManager isConnected]) {
+            [_muteChecker check];
         
             NSLog(@"The switch is on:  %@", dtString);
             [self scheduleLocalNotification:self.dateSet];
@@ -219,30 +211,23 @@
             [self setAlarmButton:YES];
         }
         else{
-            UIAlertController* alert = [UIAlertController
-                                        alertControllerWithTitle:@"Head's up!"
-                                        message: @"You're not connected to Wakeable, but you just turned on your alarm."
-                                        preferredStyle:UIAlertControllerStyleAlert];
-            
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Got it, I will try to reconnect first" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      [self setAlarmButton:NO];
-                                                                      self.dateSet = nil;
-                                                                      
-                                                                  }];
-            [alert addAction:defaultAction];
-            
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Set my alarm anyway, I'll connect later." style:UIAlertActionStyleCancel
-                                                                 handler:^(UIAlertAction * action) {
-                                                                     [self scheduleLocalNotification:self.dateSet];
-                                                                     NSLog(@"The switch is on:  %@", dtString);
-                                                                     [_muteChecker check];
-                                                                     [self setAlarmButton:YES];
-                                                                 }];
-            [alert addAction:cancelAction];
-            
-            [self presentViewController:alert animated:NO completion:^{}];
+            [RMUniversalAlert showAlertInViewController:self
+                      withTitle:@"Head's up!"
+                      message:@"You're not connected to Wakeable, but you just turned on your alarm."
+                      cancelButtonTitle:@"Got it, I will try to reconnect first"
+                      destructiveButtonTitle:@"Set my alarm anyway, I'll connect later" otherButtonTitles:nil
+                      tapBlock: ^(RMUniversalAlert *alert, NSInteger buttonIndex){
+                          if (buttonIndex == alert.cancelButtonIndex) {
+                              [self setAlarmButton:NO];
+                              self.dateSet = nil;
+                          } else if (buttonIndex == alert.destructiveButtonIndex) {
+                              [self scheduleLocalNotification:self.dateSet];
+                              NSLog(@"The switch is on:  %@", dtString);
+                              [_muteChecker check];
+                              [self setAlarmButton:YES];
+                          }
+                      }
+             ];
         }
     
     }
@@ -470,15 +455,8 @@
 }
 
 - (void) foregroundNotification {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Time to wake up!"
-                                                                   message:self.notificationText
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    [alert addAction:defaultAction];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:^{}];
+    [RMUniversalAlert showAlertInViewController:self withTitle:@"Time to wake up" message:self.notificationText cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
     
     if (!soundId) {
         NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
@@ -505,18 +483,10 @@
 - (void) alertNoDevices {
     [BluetoothManager stopScan];
     if (!self.foundDevice) {
-        UIAlertController* alert = [UIAlertController
-                                    alertControllerWithTitle:@"Oh dear"
-                                    message: [NSString stringWithFormat:@"It looks like Wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."]
-                                    preferredStyle:UIAlertControllerStyleAlert];
-        
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
-        [alert addAction:defaultAction];
-        
-        [self presentViewController:alert animated:NO completion:^{}];
-        
-        
+        [RMUniversalAlert showAlertInViewController:self
+              withTitle:@"Oh dear"
+              message:@"It looks like Wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."
+              cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
     }
     
     self.foundDevice = NO;

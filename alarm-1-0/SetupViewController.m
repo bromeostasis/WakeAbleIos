@@ -8,6 +8,7 @@
 
 #import "SetupViewController.h"
 #import "BluetoothManager.h"
+#import "RMUniversalAlert/RMUniversalAlert.h"
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -89,17 +90,7 @@
 - (void) alertNoDevices {
     if (!self.foundDevice) {
         [self.centralManager stopScan];
-        UIAlertController* alert = [UIAlertController
-                                    alertControllerWithTitle:@"Oh dear"
-                                    message: [NSString stringWithFormat:@"It looks like Wakeable had a problem connecting. try moving closer to the device and confirming that the bluetooth on your phone is on."]
-                                    preferredStyle:UIAlertControllerStyleAlert];
-        
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:NO completion:^{}];
-        
-        
+        [RMUniversalAlert showAlertInViewController:self withTitle:@"Oh dear" message:@"It looks like Wakeable had a problem connecting. try moving closer to the device and confirming that the bluetooth on your phone is on." cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
     }
     
     self.foundDevice = NO;
@@ -114,23 +105,17 @@
     CBPeripheral *peripheral = [BluetoothManager getPeripheral];
     self.foundDevice = YES;
     
-    UIAlertController* alert = [UIAlertController
-                                alertControllerWithTitle:@"Wakeable Found"
-                                message: [NSString stringWithFormat:@"Found a Wakeable with identifier %@, want to connect?", peripheral.identifier.UUIDString]
-                                preferredStyle:UIAlertControllerStyleAlert];
-    
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              [BluetoothManager connectToPeripheral:peripheral];
-                                                          }];
-    [alert addAction:defaultAction];
-    
-    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No thanks" style:UIAlertActionStyleCancel
-                                                         handler:^(UIAlertAction * action) {}];
-    [alert addAction:cancelAction];
-    
-    [self presentViewController:alert animated:NO completion:^{}];
+    [RMUniversalAlert showAlertInViewController:self
+                  withTitle:@"Wakeable Found"
+                  message:[NSString stringWithFormat:@"Found a Wakeable with identifier %@, want to connect?", peripheral.identifier.UUIDString]
+                  cancelButtonTitle:@"OK"
+                  destructiveButtonTitle:@"No thanks" otherButtonTitles:nil
+                  tapBlock: ^(RMUniversalAlert *alert, NSInteger buttonIndex){
+                      if (buttonIndex == alert.cancelButtonIndex) {
+                          [BluetoothManager connectToPeripheral:peripheral];
+                      }
+                  }
+     ];
 }
 
 - (void) onWakeableConnected {

@@ -40,7 +40,7 @@
         [self presentViewController:setupController animated:NO completion:NULL];
     }
     else{
-        if ([BluetoothManager isBluetoothCapable] && [BluetoothManager hasPeripheral]) {
+        if ([BluetoothManager isBluetoothCapable]) {
             NSLog(@"We have an address, bluetooth is on, and we're not currently connected. Let's scan for devices.");
             
             [BluetoothManager connect];
@@ -346,20 +346,6 @@
     }
     
     
-}
-
-- (IBAction)PlaySound:(id)sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"address"];
-    [defaults synchronize];
-    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
-        AudioServicesPlaySystemSoundWithCompletion(soundId, ^{
-            AudioServicesDisposeSystemSoundID(soundId);
-        });
-    }
-    else{
-        AudioServicesPlaySystemSound(soundId);
-    }
 }
 
 - (void) setConnectionButton {

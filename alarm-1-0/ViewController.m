@@ -56,7 +56,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self setupConstants];
+    [self setupInternalNotifications];
+    [self setupVisualElements];
+    [self setupMuteChecker];
+    [self setupSoundURL];
+    [BluetoothManager connect];
+
+    [self setConnectionButton];
     
+}
+
+- (void)setupConstants {
     self.notificationInterval = 5;
     self.standardNotificationNumber = 60;
     self.failsafeNotificationNumber = 12;
@@ -66,7 +77,9 @@
     self.standardMessage = @"Press the physical Wakeable button to turn off your alarm.";
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
-    
+}
+
+- (void)setupInternalNotifications {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(checkForFailsafe)
@@ -90,61 +103,53 @@
      selector:@selector(handlePhysicalButtonPress)
      name:@"ReceivedOne"
      object:nil];
+}
+
+- (void)setupVisualElements {
+    dateTimePicker.datePickerMode = UIDatePickerModeTime;
     
+    [self setupStandardButton:self.StatusButton];
     [self.StatusButton setEnabled:NO];
-    [self.StatusButton.layer setBorderWidth:2.0];
-    [self.StatusButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [self.StatusButton.layer setCornerRadius:3.0];
-    [self.StatusButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
     self.StatusButton.titleLabel.numberOfLines = 1;
-    self.StatusButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
-    [self.AlarmSetButton.layer setBorderWidth:2.0];
-    [self.AlarmSetButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [self.AlarmSetButton.layer setCornerRadius:3.0];
-    [self.AlarmSetButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    [self setupStandardButton:self.AlarmSetButton];
     [self.AlarmSetButton.titleLabel setBaselineAdjustment:UIBaselineAdjustmentAlignCenters];
     self.AlarmSetButton.titleLabel.numberOfLines = 1;
-    self.AlarmSetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.AlarmSetButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
     
-    [self.LogButton.layer setBorderWidth:2.0];
-    [self.LogButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [self.LogButton.layer setCornerRadius:3.0];
-    [self.LogButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    [self setupStandardButton:self.LogButton];
     self.LogButton.titleLabel.numberOfLines = 1;
-    self.LogButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
+    [self setupStandardButton:self.ReconnectButton];
     [self.ReconnectButton setHidden:YES];
-    [self.ReconnectButton.layer setBorderWidth:2.0];
-    [self.ReconnectButton.layer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [self.ReconnectButton.layer setCornerRadius:3.0];
-    [self.ReconnectButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
-    self.ReconnectButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.ReconnectButton.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    
+}
+
+- (void) setupStandardButton:(UIButton *)button {
+    [button.layer setBorderWidth:2.0];
+    [button.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [button.layer setCornerRadius:3.0];
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 10.0, 0.0, 10.0)];
+    button.titleLabel.adjustsFontSizeToFitWidth = YES;
+}
+
+- (void)setupMuteChecker {
     self.muteChecker = [[MuteChecker alloc] initWithCompletionBlk:^(NSTimeInterval lapse, BOOL muted) {
         
         if(muted){
             [RMUniversalAlert showAlertInViewController:self
-                  withTitle:@"Your phone is silenced"
-                  message:@"Please turn off the silence switch to hear notifications."
-                  cancelButtonTitle:@"Thanks!" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
+                                              withTitle:@"Your phone is silenced"
+                                                message:@"Please turn off the silence switch to hear notifications."
+                                      cancelButtonTitle:@"Thanks!" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
         }
     }];
     // Get the first one out of the way.
     [_muteChecker check];
-    
+}
 
-    
+- (void) setupSoundURL {
     NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
-    dateTimePicker.datePickerMode = UIDatePickerModeTime;
-    
-    [BluetoothManager connect];
-
-    [self setConnectionButton];
-    
 }
 
 - (void)didReceiveMemoryWarning {

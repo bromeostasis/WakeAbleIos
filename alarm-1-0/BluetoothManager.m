@@ -14,9 +14,9 @@ static CBPeripheral *hm10Peripheral;
 static BOOL connected;
 static BOOL bluetoothCapable;
 static NSString *address;
-static NSString   *bodyData;
-static NSString   *manufacturer;
-static NSString   *hm10Device;
+static NSString *bodyData;
+static NSString *manufacturer;
+static NSString *hm10Device;
 
 @implementation BluetoothManager
 
@@ -141,7 +141,7 @@ static NSString   *hm10Device;
 }
 
 // method called whenever the device state changes.
-+ (void)centralManagerDidUpdateState:(CBCentralManager *)central
++ (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central
 {
     // Determine the state of the peripheral
     if ([central state] == CBCentralManagerStatePoweredOff) {
@@ -218,4 +218,5 @@ static NSString   *hm10Device;
         NSLog(@"Package did not contain a one: %@", packageContents);
     }
 }
+
 @end

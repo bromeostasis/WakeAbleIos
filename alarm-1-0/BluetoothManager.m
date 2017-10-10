@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "BluetoothManager.h"
-#import "ViewController.h"
 
 static CBCentralManager *centralManager;
 static CBPeripheral *hm10Peripheral;
@@ -76,7 +75,6 @@ static NSString   *hm10Device;
 + (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     connected = peripheral.state == CBPeripheralStateConnected;
-//    [peripheral setDelegate:self];
     [peripheral discoverServices:nil];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ConnectionChanged" object:nil];
@@ -219,12 +217,5 @@ static NSString   *hm10Device;
     else{
         NSLog(@"Package did not contain a one: %@", packageContents);
     }
-}
-
-+ (ViewController *) getViewControllerInstance:(NSString *) viewName{
-    // Is this really the way to do this?
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ViewController *viewController = [sb instantiateViewControllerWithIdentifier:viewName];
-    return viewController;
 }
 @end

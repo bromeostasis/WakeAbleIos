@@ -37,28 +37,13 @@
 @property BOOL alarmSet;
 @property BOOL foundDevice;
 @property BOOL soundPlaying;
-@property int notificationCount;
-@property int failsafeNotificationNumber;
-@property int standardNotificationNumber;
-@property int notificationInterval;
-@property (nonatomic, strong) NSString   *failsafeMessage;
-@property (nonatomic, strong) NSString   *failsafeTitle;
-@property (nonatomic, strong) NSString   *standardMessage;
-@property (nonatomic, strong) NSString   *standardTitle;
-@property (nonatomic, strong) NSString *notificationText;
-@property (nonatomic, strong) NSString *notificationTitle;
 @property (nonatomic, strong) NSDate *dateSet;
 
 - (IBAction)Reconnect:(id)sender;
 - (IBAction)SendLogs:(id)sender;
 - (IBAction)SetAlarm:(id)sender;
-- (void) scheduleLocalNotification: (NSDate *)fireDate;
-- (void) getStringPackage:(CBCharacteristic *)characteristic;
-- (void) turnOffWakeableNotifications;
 
 - (void) setConnectionButton;
-- (void) resetPreviousNotifications;
-- (void) cancelCurrentNotifications;
 - (void) handlePhysicalButtonPress;
 - (void) handleConnectionChange;
 

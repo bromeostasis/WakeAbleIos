@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "BluetoothManager.h"
 #import "MailController.h"
+#import "NotificationController.h"
 #import "RMUniversalAlert/RMUniversalAlert.h"
 
 @interface ViewController ()
@@ -23,7 +24,6 @@
 - (id) initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle {
     self = [super initWithNibName:aNibName bundle:aBundle]; // The UIViewController's version of init
     if (self) {
-        _notificationCount = 0;
         _soundPlaying = NO;
     }
     return self;
@@ -75,13 +75,7 @@
 }
 
 - (void)setupConstants {
-    self.notificationInterval = 5;
-    self.standardNotificationNumber = 60;
-    self.failsafeNotificationNumber = 12;
-    self.failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
-    self.failsafeTitle = @"Disconnected!";
-    self.standardTitle = @"Time to get up!";
-    self.standardMessage = @"Press the physical Wakeable button to turn off your alarm.";
+    [NotificationController setupConstants];
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
 }
@@ -109,6 +103,12 @@
      addObserver:self
      selector:@selector(handlePhysicalButtonPress)
      name:@"ReceivedOne"
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(turnOffAlarm)
+     name:@"TurnOffAlarm"
      object:nil];
 }
 
@@ -260,75 +260,23 @@
     NSString *dtString = [self getDateString];
     
     [_muteChecker check];
-    [self scheduleLocalNotification:self.dateSet];
+    [NotificationController scheduleLocalNotification:self.dateSet];
     NSLog(@"The switch is on:  %@", dtString);
     [self setAlarmButton:YES];
 }
 
 - (void) turnOffAlarm {
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [NotificationController turnOffWakeableNotifications];
     self.dateSet = nil;
     NSLog(@"The switch is off");
     [self setAlarmButton:NO];
+    
+    AudioServicesDisposeSystemSoundID(soundId);
+    [self dismissViewControllerAnimated:NO completion:^{}];
 }
 
 - (IBAction)SendLogs:(id)sender {
     [MailController sendWakeableEmail];
-}
-
-- (void) scheduleLocalNotification: (NSDate *) fireDate{
-    int numberOfNotifications = 0;
-    if ([BluetoothManager isConnected]) {
-        self.notificationText = self.standardMessage;
-        self.notificationTitle = self.standardTitle;
-        numberOfNotifications = self.standardNotificationNumber;
-    }
-    else{
-        self.notificationText = self.failsafeMessage;
-        self.notificationTitle = self.failsafeTitle;
-        numberOfNotifications = self.failsafeNotificationNumber;
-        
-    }
-    
-    if (SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")) {
-        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-        content.title = [NSString localizedUserNotificationStringForKey:self.notificationTitle arguments:nil];
-        content.body = [NSString localizedUserNotificationStringForKey:self.notificationText
-                                                             arguments:nil];
-        content.sound = [UNNotificationSound soundNamed:@"alarm_beep.wav"];
-        
-        for (int i=0; i<numberOfNotifications; i++){
-            self.notificationCount = self.notificationCount + 1;
-            
-            NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*i];
-            NSCalendar *gregorian = [[NSCalendar alloc]
-                                     initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-            NSDateComponents *dateComponents = [gregorian components:(NSCalendarUnitSecond | NSCalendarUnitMinute |
-                                                                      NSCalendarUnitHour| NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:modDate];
-            UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dateComponents repeats:NO];
-            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[NSString stringWithFormat:@"notification%d", self.notificationCount]
-                                                                                  content:content trigger:trigger];
-            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {}];
-
-        }
-        
-    }
-    else {
-        UILocalNotification *notification = [[UILocalNotification alloc] init];
-        notification.alertBody = self.notificationText;
-        notification.alertTitle = self.notificationTitle;
-        notification.soundName = @"alarm_beep.wav";
-        
-        for (int i=0; i<numberOfNotifications; i++){
-            NSDate *modDate = [fireDate dateByAddingTimeInterval:self.notificationInterval*(i+1)];
-            notification.fireDate = modDate;
-            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-            
-        }
-    }
-    
-    
 }
 
 - (void) setConnectionButton {
@@ -352,18 +300,6 @@
     [self.AlarmSetButton setTitle:buttonText forState:UIControlStateNormal];
 }
 
-- (void) turnOffWakeableNotifications {
-    if(SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(@"10.0")){
-        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-        [center removeAllDeliveredNotifications];
-        [center removeAllPendingNotificationRequests];
-    }
-    else{
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        AudioServicesDisposeSystemSoundID(soundId);
-    }
-    [self dismissViewControllerAnimated:NO completion:^{}];
-}
 
 - (void) handlePhysicalButtonPress {
     if (self.dateSet != nil) {
@@ -371,9 +307,7 @@
         NSDate * result = [currentDate laterDate:self.dateSet];
         if (result == currentDate ) {
             NSLog(@"Got a one. cancelling all notifications");
-            [self turnOffWakeableNotifications];
-            self.dateSet = nil;
-            [self setAlarmButton:NO];
+            [self turnOffAlarm];
         }
         else{
             NSLog(@"Got a one, but it's before the scheduled alarm. Don't cancel anything just yet.");
@@ -381,7 +315,7 @@
     }
     else{
         // Turn off notifications in case of a kill/reconnect situation..
-        [self turnOffWakeableNotifications];
+        [NotificationController turnOffWakeableNotifications];
         NSLog(@"Got a one, but there's no date set. Likely just connecting");
     }
 }
@@ -389,41 +323,19 @@
 - (void) handleConnectionChange {
     [self setConnectionButton];
     if ([BluetoothManager isConnected]){
-        [self resetPreviousNotifications];
-    }
-    else{
-        [self turnOffWakeableNotifications];
-        [self resetCurrentNotifications];
-    }
-
-}
-
-- (void) resetPreviousNotifications {
-    if ([BluetoothManager isConnected]) {
+        // Temporary!!!
         self.foundDevice = YES;
         NSLog(@"Connected to a peripheral. Current date set: %@", self.dateSet);
+        [NotificationController resetPreviousNotifications:self.dateSet];
+    }
+    else{
+        [NotificationController turnOffWakeableNotifications];
         if (self.dateSet != nil) {
-            NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-            
-            NSDate * earlierDate = [currentDate earlierDate:self.dateSet];
-            if (earlierDate == currentDate ) {
-                NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
-                [self turnOffWakeableNotifications];
-                [self scheduleLocalNotification:self.dateSet];
-            }
-            else{
-                NSLog(@"Failsafe notifications already went off. Let's just reset");
-                self.dateSet = nil;
-                [self setAlarmButton:NO];
-            }
+            NSLog(@"We had a date set, cancelling all notifications.");
+            [NotificationController scheduleLocalNotification:self.dateSet];
         }
     }
-}
-- (void) resetCurrentNotifications {
-    if (self.dateSet != nil) {
-        NSLog(@"We had a date set, cancelling all notifications.");
-        [self scheduleLocalNotification:self.dateSet];
-    }
+
 }
 
 // Helper functions
@@ -432,7 +344,8 @@
     
     if (self.dateSet != nil && ![BluetoothManager isConnected]) {
         NSDateComponents *secondComponent = [[NSDateComponents alloc] init];
-        secondComponent.second = self.notificationInterval * self.failsafeNotificationNumber;
+        // HALP TMP
+        secondComponent.second = 60 * 5;
         
         NSCalendar *theCalendar = [NSCalendar currentCalendar];
         NSDate *failsafeDate = [theCalendar dateByAddingComponents:secondComponent toDate:self.dateSet options:0];
@@ -450,9 +363,7 @@
         NSDate * result = [currentDate laterDate:failsafeDate];
         if (result == currentDate ) {
             NSLog(@"Failsafe should have gone off. Turning button off.");
-            self.dateSet = nil;
-            [self setAlarmButton:NO];
-            [self turnOffWakeableNotifications];
+            [self turnOffAlarm];
         }
         
     }
@@ -461,7 +372,7 @@
 
 - (void) foregroundNotification {
     [self dismissViewControllerAnimated:NO completion:^{}];
-    [RMUniversalAlert showAlertInViewController:self withTitle:@"Time to wake up" message:self.notificationText cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
+    [RMUniversalAlert showAlertInViewController:self withTitle:@"Time to wake up" message:[NotificationController getNotificationText] cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
     
     if (!soundId) {
         NSURL *soundURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"alarm_beep" ofType:@"wav"]];

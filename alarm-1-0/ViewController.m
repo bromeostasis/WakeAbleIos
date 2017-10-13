@@ -28,14 +28,16 @@
     return self;
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidLayoutSubviews {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *address = [defaults objectForKey:@"address"];
     if (address == nil) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
-        setupController.delegate = self;
-        [self presentViewController:setupController animated:NO completion:NULL];
+        [self showSetupView];
     }
     else{
         if ([BluetoothManager isBluetoothCapable]) {
@@ -43,19 +45,23 @@
             
             [BluetoothManager connect];
         }
-        
     }
+}
 
+- (void) showSetupView {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SetupViewController *setupController = [sb instantiateViewControllerWithIdentifier:@"SetupViewController"];
+    setupController.delegate = self;
+    [self presentViewController:setupController animated:NO completion:NULL];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
-    [testBluetooth state];
+    [self checkIfBluetoothIsOn];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
     [self setupConstants];
     [self setupInternalNotifications];
     [self setupVisualElements];
@@ -152,17 +158,10 @@
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 
 - (IBAction)Reconnect:(id)sender {
-    // Checks if bluetooth is turned on?
-    CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
-    [testBluetooth state];
+    [self checkIfBluetoothIsOn];
     
     if ([BluetoothManager isBluetoothCapable]) {
         [BluetoothManager connect];
@@ -172,48 +171,29 @@
     [self performSelector:@selector(alertNoDevices) withObject:nil afterDelay:5.0];
 }
 
+- (void) checkIfBluetoothIsOn {
+    CBCentralManager* testBluetooth = [[CBCentralManager alloc] initWithDelegate:nil queue: nil];
+    [testBluetooth state];
+}
+
+- (void) alertNoDevices {
+    [BluetoothManager stopScan];
+    if (!self.foundDevice) {
+        [RMUniversalAlert showAlertInViewController:self withTitle:@"Oh dear" message:@"It looks like Wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on." cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
+    }
+    
+    self.foundDevice = NO;
+}
+
 - (IBAction)SetAlarm:(id)sender {
     
     if(!self.alarmSet){
         // Get the minute/hour components
-        self.dateSet = dateTimePicker.date;
+        [self setDateUsingComponents];
+        [self setForTomorrowIfNecessary];
         
-        NSCalendar *theCalendar = [NSCalendar currentCalendar];
-        NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-        
-        
-        // Base things off the current date just to be sure..
-        NSDateComponents *currentComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
-        NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:self.dateSet];
-        
-        [currentComponents setHour:[timeComponents hour]];
-        [currentComponents setMinute:[timeComponents minute]];
-        [currentComponents setSecond:0];
-        
-        self.dateSet = [theCalendar dateFromComponents:currentComponents];
-        
-        NSDate * result = [currentDate laterDate:self.dateSet];
-        if (result == currentDate ) {
-            NSLog(@"Current date is later than selected. Set for tomorrow");
-            NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
-            dayComponent.day = 1;
-            
-            self.dateSet = [theCalendar dateByAddingComponents:dayComponent toDate:self.dateSet options:0];
-        }
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-        dateFormatter.timeStyle = NSDateFormatterMediumStyle;
-        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-        
-        NSString *dtString = [dateFormatter stringFromDate:self.dateSet];
         if ([BluetoothManager isConnected]) {
-            [_muteChecker check];
-        
-            NSLog(@"The switch is on:  %@", dtString);
-            [self scheduleLocalNotification:self.dateSet];
-            
-            [self setAlarmButton:YES];
+            [self turnOnAlarm];
         }
         else{
             [RMUniversalAlert showAlertInViewController:self
@@ -223,13 +203,9 @@
                       destructiveButtonTitle:@"Set my alarm anyway, I'll connect later" otherButtonTitles:nil
                       tapBlock: ^(RMUniversalAlert *alert, NSInteger buttonIndex){
                           if (buttonIndex == alert.cancelButtonIndex) {
-                              [self setAlarmButton:NO];
-                              self.dateSet = nil;
+                              [self turnOffAlarm];
                           } else if (buttonIndex == alert.destructiveButtonIndex) {
-                              [self scheduleLocalNotification:self.dateSet];
-                              NSLog(@"The switch is on:  %@", dtString);
-                              [_muteChecker check];
-                              [self setAlarmButton:YES];
+                              [self turnOnAlarm];
                           }
                       }
              ];
@@ -237,11 +213,62 @@
     
     }
     else{
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        self.dateSet = nil;
-        NSLog(@"The switch is off");
-        [self setAlarmButton:NO];
+        [self turnOffAlarm];
     }
+}
+
+- (NSString *)getDateString {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+    dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    
+    return [dateFormatter stringFromDate:self.dateSet];
+}
+
+- (void) setDateUsingComponents {
+    NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSCalendar *theCalendar = [NSCalendar currentCalendar];
+
+    // Base things off the current date just to be sure..
+    NSDateComponents *currentComponents = [theCalendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:currentDate];
+    NSDateComponents *timeComponents = [theCalendar components:NSCalendarUnitMinute | NSCalendarUnitHour fromDate:dateTimePicker.date];
+    
+    [currentComponents setHour:[timeComponents hour]];
+    [currentComponents setMinute:[timeComponents minute]];
+    [currentComponents setSecond:0];
+    
+    self.dateSet = [theCalendar dateFromComponents:currentComponents];
+}
+
+- (void) setForTomorrowIfNecessary {
+    NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
+    
+    NSDate * result = [currentDate laterDate:self.dateSet];
+    if (result == currentDate ) {
+        NSLog(@"Current date is later than selected. Set for tomorrow");
+        NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+        dayComponent.day = 1;
+        
+        self.dateSet = [[NSCalendar currentCalendar] dateByAddingComponents:dayComponent toDate:self.dateSet options:0];
+    }
+}
+
+
+- (void) turnOnAlarm {
+    NSString *dtString = [self getDateString];
+    
+    [_muteChecker check];
+    [self scheduleLocalNotification:self.dateSet];
+    NSLog(@"The switch is on:  %@", dtString);
+    [self setAlarmButton:YES];
+}
+
+- (void) turnOffAlarm {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    self.dateSet = nil;
+    NSLog(@"The switch is off");
+    [self setAlarmButton:NO];
 }
 
 - (IBAction)SendLogs:(id)sender {
@@ -393,7 +420,7 @@
     }
     else{
         [self turnOffWakeableNotifications];
-        [self cancelCurrentNotifications];
+        [self resetCurrentNotifications];
     }
 
 }
@@ -419,7 +446,7 @@
         }
     }
 }
-- (void) cancelCurrentNotifications {
+- (void) resetCurrentNotifications {
     if (self.dateSet != nil) {
         NSLog(@"We had a date set, cancelling all notifications.");
         [self scheduleLocalNotification:self.dateSet];
@@ -485,16 +512,5 @@
 
 }
 
-- (void) alertNoDevices {
-    [BluetoothManager stopScan];
-    if (!self.foundDevice) {
-        [RMUniversalAlert showAlertInViewController:self
-              withTitle:@"Oh dear"
-              message:@"It looks like Wakeable had a problem connecting. Try moving closer to the device and confirm that the bluetooth on your phone is on."
-              cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
-    }
-    
-    self.foundDevice = NO;
-}
 
 @end

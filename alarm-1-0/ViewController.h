@@ -14,7 +14,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import <MessageUI/MFMailComposeViewController.h>
 #import "SetupViewController.h"
 #import "MuteChecker.h"
 
@@ -25,7 +24,7 @@
 
 @import CoreBluetooth;
 
-@interface ViewController : UIViewController<MFMailComposeViewControllerDelegate, SetupViewControllerDelegate>
+@interface ViewController : UIViewController<SetupViewControllerDelegate>
 {
     
     IBOutlet UIDatePicker *dateTimePicker;
@@ -56,9 +55,7 @@
 - (void) scheduleLocalNotification: (NSDate *)fireDate;
 - (void) getStringPackage:(CBCharacteristic *)characteristic;
 - (void) turnOffWakeableNotifications;
-- (void)mailComposeController:(MFMailComposeViewController *)controller
-          didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError *)error;
+
 - (void) setConnectionButton;
 - (void) resetPreviousNotifications;
 - (void) cancelCurrentNotifications;

@@ -23,8 +23,9 @@
 @property (nonatomic, strong) NSString *notificationText;
 @property (nonatomic, strong) NSString *notificationTitle;
 
++ (int) getFailsafeNumber;
++ (int) getNotificationInterval;
 + (NSString *) getNotificationText;
-+ (void) setupConstants;
 + (void) resetPreviousNotifications:(NSDate *) dateSet;
 + (void) turnOffWakeableNotifications;
 + (void) scheduleLocalNotification: (NSDate *)fireDate;

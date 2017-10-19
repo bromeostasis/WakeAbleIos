@@ -25,15 +25,11 @@ static NSString *notificationTitle;
 @implementation NotificationController
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
-+ (void) setupConstants {
-//    notificationInterval = 5;
-//    standardNotificationNumber = 60;
-//    failsafeNotificationNumber = 12;
-//    failsafeMessage = @"You're disconnected from your Wakeable device. We'll shut off the alarm for you after one minute!";
-//    failsafeTitle = @"Disconnected!";
-//    standardTitle = @"Time to get up!";
-//    standardMessage = @"Press the physical Wakeable button to turn off your alarm.";
++ (int) getFailsafeNumber {
+    return failsafeNotificationNumber;
+}
++ (int) getNotificationInterval {
+    return notificationInterval;
 }
 + (NSString *) getNotificationText {
     return notificationText;

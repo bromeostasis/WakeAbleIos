@@ -21,6 +21,8 @@
 
 #define SYSTEM_VERSION_GREATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
+// SETUP FUNCTIONS START HERE
+
 - (id) initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle {
     self = [super initWithNibName:aNibName bundle:aBundle]; // The UIViewController's version of init
     if (self) {
@@ -31,7 +33,10 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self checkIfBluetoothIsOn];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -56,10 +61,6 @@
     [self presentViewController:setupController animated:NO completion:NULL];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-    [self checkIfBluetoothIsOn];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -75,7 +76,6 @@
 }
 
 - (void)setupConstants {
-    [NotificationController setupConstants];
     self.btImage = [UIImage imageNamed:@"bluetooth.png"];
     self.exclamationImage = [UIImage imageNamed:@"exclamation.png"];
 }
@@ -159,7 +159,7 @@
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &soundId);
 }
 
-
+// BUTTON HANDLERS START HERE
 
 - (IBAction)Reconnect:(id)sender {
     [self checkIfBluetoothIsOn];
@@ -189,7 +189,6 @@
 - (IBAction)SetAlarm:(id)sender {
     
     if(!self.alarmSet){
-        // Get the minute/hour components
         [self setDateUsingComponents];
         [self setForTomorrowIfNecessary];
         
@@ -218,15 +217,6 @@
     }
 }
 
-- (NSString *)getDateString {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-    dateFormatter.timeStyle = NSDateFormatterMediumStyle;
-    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    
-    return [dateFormatter stringFromDate:self.dateSet];
-}
-
 - (void) setDateUsingComponents {
     NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
     NSCalendar *theCalendar = [NSCalendar currentCalendar];
@@ -244,7 +234,6 @@
 
 - (void) setForTomorrowIfNecessary {
     NSDate * currentDate = [NSDate dateWithTimeIntervalSinceNow:0];
-    
     NSDate * result = [currentDate laterDate:self.dateSet];
     if (result == currentDate ) {
         NSLog(@"Current date is later than selected. Set for tomorrow");
@@ -257,12 +246,21 @@
 
 
 - (void) turnOnAlarm {
-    NSString *dtString = [self getDateString];
+    NSString *dtString = [self getDateString:self.dateSet];
     
     [_muteChecker check];
     [NotificationController scheduleLocalNotification:self.dateSet];
     NSLog(@"The switch is on:  %@", dtString);
     [self setAlarmButton:YES];
+}
+
+- (NSString *) getDateString:(NSDate *) inputDate {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
+    dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    
+    return [dateFormatter stringFromDate:inputDate];
 }
 
 - (void) turnOffAlarm {
@@ -300,6 +298,7 @@
     [self.AlarmSetButton setTitle:buttonText forState:UIControlStateNormal];
 }
 
+// EVENT HANDLER FUNCTIONS START HERE
 
 - (void) handlePhysicalButtonPress {
     if (self.dateSet != nil) {
@@ -323,7 +322,6 @@
 - (void) handleConnectionChange {
     [self setConnectionButton];
     if ([BluetoothManager isConnected]){
-        // Temporary!!!
         self.foundDevice = YES;
         NSLog(@"Connected to a peripheral. Current date set: %@", self.dateSet);
         [NotificationController resetPreviousNotifications:self.dateSet];
@@ -338,24 +336,15 @@
 
 }
 
-// Helper functions
-
 - (void) checkForFailsafe {
     
     if (self.dateSet != nil && ![BluetoothManager isConnected]) {
         NSDateComponents *secondComponent = [[NSDateComponents alloc] init];
-        // HALP TMP
-        secondComponent.second = 60 * 5;
+        secondComponent.second = [NotificationController getFailsafeNumber] * [NotificationController getNotificationInterval];
         
         NSCalendar *theCalendar = [NSCalendar currentCalendar];
         NSDate *failsafeDate = [theCalendar dateByAddingComponents:secondComponent toDate:self.dateSet options:0];
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.timeZone = [NSTimeZone defaultTimeZone];
-        dateFormatter.timeStyle = NSDateFormatterMediumStyle;
-        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-        
-        NSString *dtString = [dateFormatter stringFromDate:failsafeDate];
+        NSString *dtString = [self getDateString:failsafeDate];
         
         NSLog(@"Looking for this date as failsafe: %@", dtString);
         
@@ -372,6 +361,7 @@
 
 - (void) foregroundNotification {
     [self dismissViewControllerAnimated:NO completion:^{}];
+    [NSThread sleepForTimeInterval:1.0f];
     [RMUniversalAlert showAlertInViewController:self withTitle:@"Time to wake up" message:[NotificationController getNotificationText] cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:nil tapBlock:nil];
     
     if (!soundId) {

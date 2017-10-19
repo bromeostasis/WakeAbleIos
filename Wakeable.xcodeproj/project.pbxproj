@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B7F9883813694060B02CFE3 /* libPods-Wakeable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D5EF0FD2546E2E11661DAF /* libPods-Wakeable.a */; };
+		23033EF71F90559E007C2B9A /* MailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23033EF61F90559E007C2B9A /* MailController.m */; };
+		23033EFB1F9059FA007C2B9A /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23033EFA1F9059FA007C2B9A /* NotificationController.m */; };
 		230920D11E2ABDAC0033BC4B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230920D01E2ABDAC0033BC4B /* AVFoundation.framework */; };
 		237D530D1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */; };
 		237D530F1DD805040053AC81 /* wakaeable_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 237D530E1DD805040053AC81 /* wakaeable_small.png */; };
@@ -27,6 +30,7 @@
 		23E986D41CB1EC7E006CE69B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23E986D21CB1EC7E006CE69B /* Main.storyboard */; };
 		23E986D61CB1EC7E006CE69B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23E986D51CB1EC7E006CE69B /* Images.xcassets */; };
 		23E986E51CB1EC7E006CE69B /* alarm_1_0Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E986E41CB1EC7E006CE69B /* alarm_1_0Tests.m */; };
+		7114FC26FEE949BAA80432C1 /* libPods-WakeableTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4FB494A2893A78076C25F27 /* libPods-WakeableTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		23033EF61F90559E007C2B9A /* MailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MailController.m; sourceTree = "<group>"; };
+		23033EF81F9055B0007C2B9A /* MailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MailController.h; sourceTree = "<group>"; };
+		23033EF91F9059E4007C2B9A /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		23033EFA1F9059FA007C2B9A /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
 		230920D01E2ABDAC0033BC4B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		237D530C1DD8011E0053AC81 /* wakeable_logo_large_edit1_GRAPHIC_logo_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakeable_logo_large_edit1_GRAPHIC_logo_large.png; sourceTree = "<group>"; };
 		237D530E1DD805040053AC81 /* wakaeable_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wakaeable_small.png; sourceTree = "<group>"; };
@@ -71,6 +79,12 @@
 		23E986DE1CB1EC7E006CE69B /* WakeableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E986E31CB1EC7E006CE69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23E986E41CB1EC7E006CE69B /* alarm_1_0Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = alarm_1_0Tests.m; sourceTree = "<group>"; };
+		326DB8D20B24531029C967BF /* Pods-Wakeable.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wakeable.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wakeable/Pods-Wakeable.release.xcconfig"; sourceTree = "<group>"; };
+		50B7113C940850623743C59C /* Pods-WakeableTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeableTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WakeableTests/Pods-WakeableTests.release.xcconfig"; sourceTree = "<group>"; };
+		84D5EF0FD2546E2E11661DAF /* libPods-Wakeable.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Wakeable.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A652C6B16C19E91D8CCE3186 /* Pods-WakeableTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeableTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WakeableTests/Pods-WakeableTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D7B4E39B3F84B68F9D52ABB2 /* Pods-Wakeable.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wakeable.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wakeable/Pods-Wakeable.debug.xcconfig"; sourceTree = "<group>"; };
+		F4FB494A2893A78076C25F27 /* libPods-WakeableTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WakeableTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +94,7 @@
 			files = (
 				230920D11E2ABDAC0033BC4B /* AVFoundation.framework in Frameworks */,
 				23C0536A1CBB30780074846C /* AudioToolbox.framework in Frameworks */,
+				1B7F9883813694060B02CFE3 /* libPods-Wakeable.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7114FC26FEE949BAA80432C1 /* libPods-WakeableTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				230920D01E2ABDAC0033BC4B /* AVFoundation.framework */,
+				84D5EF0FD2546E2E11661DAF /* libPods-Wakeable.a */,
+				F4FB494A2893A78076C25F27 /* libPods-WakeableTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -126,6 +144,7 @@
 				23E986E11CB1EC7E006CE69B /* alarm-1-0Tests */,
 				23E986C61CB1EC7E006CE69B /* Products */,
 				230920CF1E2ABDAB0033BC4B /* Frameworks */,
+				3A58470B5908A414621383CA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,8 +163,12 @@
 				23A9231E1DBD224D00544595 /* Library */,
 				23E986CC1CB1EC7E006CE69B /* AppDelegate.h */,
 				23E986CD1CB1EC7E006CE69B /* AppDelegate.m */,
+				23033EF61F90559E007C2B9A /* MailController.m */,
+				23033EF81F9055B0007C2B9A /* MailController.h */,
 				23E986CF1CB1EC7E006CE69B /* ViewController.h */,
 				23E986D01CB1EC7E006CE69B /* ViewController.m */,
+				23033EF91F9059E4007C2B9A /* NotificationController.h */,
+				23033EFA1F9059FA007C2B9A /* NotificationController.m */,
 				23E5EDF71DD2A16B00A62610 /* SetupViewController.h */,
 				23E5EDF81DD2A16B00A62610 /* SetupViewController.m */,
 				237D53151DD8DC880053AC81 /* MuteChecker.h */,
@@ -195,6 +218,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		3A58470B5908A414621383CA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D7B4E39B3F84B68F9D52ABB2 /* Pods-Wakeable.debug.xcconfig */,
+				326DB8D20B24531029C967BF /* Pods-Wakeable.release.xcconfig */,
+				A652C6B16C19E91D8CCE3186 /* Pods-WakeableTests.debug.xcconfig */,
+				50B7113C940850623743C59C /* Pods-WakeableTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -202,9 +236,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23E986E81CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "Wakeable" */;
 			buildPhases = (
+				003B6915F155B516273E1B99 /* [CP] Check Pods Manifest.lock */,
 				23E986C11CB1EC7E006CE69B /* Sources */,
 				23E986C21CB1EC7E006CE69B /* Frameworks */,
 				23E986C31CB1EC7E006CE69B /* Resources */,
+				E6784FBFDC8A5EE7DB02AD2F /* [CP] Embed Pods Frameworks */,
+				01CD168D4E613AF97676A214 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -219,9 +256,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23E986EB1CB1EC7E006CE69B /* Build configuration list for PBXNativeTarget "WakeableTests" */;
 			buildPhases = (
+				64AE587E24F33F866A427B59 /* [CP] Check Pods Manifest.lock */,
 				23E986DA1CB1EC7E006CE69B /* Sources */,
 				23E986DB1CB1EC7E006CE69B /* Frameworks */,
 				23E986DC1CB1EC7E006CE69B /* Resources */,
+				B30566ECB7161AB85E65D330 /* [CP] Embed Pods Frameworks */,
+				22EB4A96BA40750ED5F8884E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -303,6 +343,105 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		003B6915F155B516273E1B99 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Wakeable-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		01CD168D4E613AF97676A214 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wakeable/Pods-Wakeable-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		22EB4A96BA40750ED5F8884E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WakeableTests/Pods-WakeableTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64AE587E24F33F866A427B59 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WakeableTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B30566ECB7161AB85E65D330 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WakeableTests/Pods-WakeableTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6784FBFDC8A5EE7DB02AD2F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wakeable/Pods-Wakeable-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		23E986C11CB1EC7E006CE69B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -312,7 +451,9 @@
 				23E5EDF91DD2A16B00A62610 /* SetupViewController.m in Sources */,
 				23E986D11CB1EC7E006CE69B /* ViewController.m in Sources */,
 				23E986CE1CB1EC7E006CE69B /* AppDelegate.m in Sources */,
+				23033EF71F90559E007C2B9A /* MailController.m in Sources */,
 				23A2C59E1F2FF78300333DD3 /* BluetoothManager.m in Sources */,
+				23033EFB1F9059FA007C2B9A /* NotificationController.m in Sources */,
 				23E986CB1CB1EC7E006CE69B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,6 +575,7 @@
 		};
 		23E986E91CB1EC7E006CE69B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7B4E39B3F84B68F9D52ABB2 /* Pods-Wakeable.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -453,25 +595,27 @@
 		};
 		23E986EA1CB1EC7E006CE69B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 326DB8D20B24531029C967BF /* Pods-Wakeable.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Evan Snyder (77XJDAX9D3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "20187ff5-54c3-449b-8741-f63a45cd1cb5";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc 2017-2018";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		23E986EC1CB1EC7E006CE69B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A652C6B16C19E91D8CCE3186 /* Pods-WakeableTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -492,6 +636,7 @@
 		};
 		23E986ED1CB1EC7E006CE69B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50B7113C940850623743C59C /* Pods-WakeableTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -28,7 +28,7 @@
 + (NSString *) getNotificationText;
 + (void) resetPreviousNotifications:(NSDate *) dateSet;
 + (void) turnOffWakeableNotifications;
-+ (void) scheduleLocalNotification: (NSDate *)fireDate;
++ (void) scheduleLocalNotifications: (NSDate *)fireDate;
 
 #endif /* NotificationController_h */
 

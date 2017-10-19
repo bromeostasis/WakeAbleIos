@@ -249,7 +249,7 @@
     NSString *dtString = [self getDateString:self.dateSet];
     
     [_muteChecker check];
-    [NotificationController scheduleLocalNotification:self.dateSet];
+    [NotificationController scheduleLocalNotifications:self.dateSet];
     NSLog(@"The switch is on:  %@", dtString);
     [self setAlarmButton:YES];
 }
@@ -330,7 +330,7 @@
         [NotificationController turnOffWakeableNotifications];
         if (self.dateSet != nil) {
             NSLog(@"We had a date set, cancelling all notifications.");
-            [NotificationController scheduleLocalNotification:self.dateSet];
+            [NotificationController scheduleLocalNotifications:self.dateSet];
         }
     }
 

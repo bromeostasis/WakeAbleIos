@@ -43,7 +43,7 @@ static NSString *notificationTitle;
         if (earlierDate == currentDate ) {
             NSLog(@"We had an alarm set that hasn't gone off yet. Reschedule notifications now that we're connected.");
             [self turnOffWakeableNotifications];
-            [self scheduleLocalNotification:dateSet];
+            [self scheduleLocalNotifications:dateSet];
         }
         else{
             NSLog(@"Failsafe notifications already went off. Let's just reset");

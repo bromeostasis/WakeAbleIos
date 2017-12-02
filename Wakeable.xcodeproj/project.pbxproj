@@ -580,15 +580,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Evan Snyder (RELYY2K468)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 77XJDAX9D3;
 				INFOPLIST_FILE = "alarm-1-0/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.avengers.wakeable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1c37bc8b-7540-476c-8c0b-e173d0814e3c";
-				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Development";
+				PROVISIONING_PROFILE = "2c7f3c62-352f-4687-a5b5-c1bbceb43d04";
+				PROVISIONING_PROFILE_SPECIFIER = "Wakeable Adhoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
